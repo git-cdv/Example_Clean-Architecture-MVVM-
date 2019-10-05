@@ -27,7 +27,6 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModel()
 
     private val beersAdapter: BeersAdapter by inject()
-
     private var recyclerView: RecyclerView? = null
 
     private var savedInstanceState: Bundle? = null
