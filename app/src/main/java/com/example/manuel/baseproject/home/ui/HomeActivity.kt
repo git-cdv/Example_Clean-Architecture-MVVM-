@@ -18,11 +18,9 @@ import kotlinx.android.synthetic.main.activity_beers_results.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeActivity : AppCompatActivity() {
+private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
 
-    companion object {
-        private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
-    }
+class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
 
