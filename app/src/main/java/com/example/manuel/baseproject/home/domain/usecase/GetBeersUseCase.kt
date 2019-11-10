@@ -27,8 +27,6 @@ class GetBeersUseCase(private val beersRepository: BeersRepository) {
     }
 
     private fun getSortedAscendingBeers(beersEntity: BeersEntity): BeersEntity {
-        return BeersEntity(
-                beersEntity.beers.sortedBy { it.abv }
-        )
+        return BeersEntity(beersEntity.beers.sortedBy { it.abv })
     }
 }
