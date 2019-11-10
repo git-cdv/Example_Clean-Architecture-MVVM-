@@ -52,7 +52,7 @@ class HandleNetworkExceptionExtensionBDD : BehaviorSpec({
         }
     }
 
-    Given("an Exception with code 400") {
+    Given("a HttpException with code 400") {
         val responseBody: ResponseBody = mock()
         val responseHttpException = Response.error<HttpException>(400, responseBody)
         val httpExceptionCode400 = HttpException(responseHttpException)
@@ -66,7 +66,7 @@ class HandleNetworkExceptionExtensionBDD : BehaviorSpec({
         }
     }
 
-    Given("an Exception with random error code") {
+    Given("a HttpException with random error code") {
         val responseBody: ResponseBody = mock()
         val randomErrorCode = (401..599).random()
         val responseHttpException = Response.error<HttpException>(randomErrorCode, responseBody)
