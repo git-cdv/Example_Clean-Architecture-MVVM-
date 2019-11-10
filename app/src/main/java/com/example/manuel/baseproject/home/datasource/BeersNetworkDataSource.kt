@@ -23,9 +23,11 @@ class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
                 val request = beersApiService.getAllBeers(page, MAX_RESULTS_PER_PAGE.toString())
                 val response: List<BeerResponse>? = request?.execute()?.body()
 
-                request?.let {
-                    if (it.isExecuted) result = Result.success(BeersNetworkMapper.ResponseToApiMapper.map(response))
-                    else if (it.isCanceled) result = Result.error(CancelledFetchDataException())
+                withContext(Dispatchers.Main) {
+                    request?.let {
+                        if (it.isExecuted) result = Result.success(BeersNetworkMapper.ResponseToApiMapper.map(response))
+                        else if (it.isCanceled) result = Result.error(CancelledFetchDataException())
+                    }
                 }
             } catch (ex: Exception) {
                 result = Result.error(ex.handleNetworkException())
