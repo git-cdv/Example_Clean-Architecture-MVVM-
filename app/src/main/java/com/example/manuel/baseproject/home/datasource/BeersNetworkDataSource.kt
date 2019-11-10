@@ -11,7 +11,6 @@ import com.example.manuel.baseproject.home.datasource.mapper.BeersNetworkMapper
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.datasource.model.response.BeerResponse
 
-@ExperimentalCoroutinesApi
 class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
 
     companion object {

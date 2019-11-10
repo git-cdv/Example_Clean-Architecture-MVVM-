@@ -10,16 +10,13 @@ import com.example.manuel.baseproject.home.datasource.BeersNetworkDataSource
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.repository.mapper.BeersRepositoryMapper
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class BeersRepositoryImpl constructor(
         private val beersNetworkDataSource: BeersNetworkDataSource
 ) : BeersRepository {
 
     private val beers = mutableListOf<BeerEntity>()
 
-    @ExperimentalCoroutinesApi
     override suspend fun getAllBeers(): Result<BeersEntity>? {
         var page = -1
 

@@ -7,12 +7,10 @@ import com.example.manuel.baseproject.home.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.repository.BeersRepositoryImpl
 import com.example.manuel.baseproject.home.ui.adapterlist.BeersAdapter
 import com.example.manuel.baseproject.home.vm.HomeViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
-@ExperimentalCoroutinesApi
 object HomeModule {
 
     val mainModule = module {
