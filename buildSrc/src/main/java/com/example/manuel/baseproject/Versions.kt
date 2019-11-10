@@ -8,7 +8,7 @@ object Versions {
     }
 
     object Asynchronous {
-        const val COROUTINES = "1.1.1"
+        const val COROUTINES = "1.3.2"
     }
 
     object DependencyInversion {

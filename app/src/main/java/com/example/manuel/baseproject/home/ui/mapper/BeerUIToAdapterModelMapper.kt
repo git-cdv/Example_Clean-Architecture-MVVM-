@@ -6,7 +6,7 @@ import com.example.manuel.baseproject.home.ui.adapterlist.model.BeerAdapterModel
 import com.example.manuel.baseproject.home.vm.model.AbvColorType
 import com.example.manuel.baseproject.home.vm.model.BeerUI
 
-object BeerUIMapper : BaseMapper<List<BeerUI>, List<BeerAdapterModel>> {
+object BeerUIToAdapterModelMapper : BaseMapper<List<BeerUI>, List<BeerAdapterModel>> {
 
     override fun map(type: List<BeerUI>?): List<BeerAdapterModel> {
         return type?.map {
