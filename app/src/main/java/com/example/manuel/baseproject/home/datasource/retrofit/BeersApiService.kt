@@ -9,5 +9,6 @@ interface BeersApiService {
 
     @GET("beers?")
     fun getAllBeers(@Query("page") page: String,
-                    @Query("per_page") perPage: String): Call<List<BeerResponse>>?
+                    @Query("per_page") perPage: String
+    ): Call<List<BeerResponse>>?
 }
