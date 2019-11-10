@@ -26,6 +26,7 @@ object Versions {
         const val ESPRESSO = "3.2.0-beta01"
         const val GOOGLE_TRUTH = "0.44"
         const val JUNIT = "4.12"
+        const val JUNIT5 = "3.4.2"
         const val MOCKITO = "2.0.0"
         const val MOCKITO_INLINE = "2.13.0"
         const val RUNNER = "1.2.0-beta01"

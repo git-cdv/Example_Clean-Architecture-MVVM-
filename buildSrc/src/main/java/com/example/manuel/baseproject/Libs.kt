@@ -32,6 +32,7 @@ object Libs {
         const val CORE = "androidx.arch.core:core-testing:${Versions.Testing.CORE_TESTING}"
         const val ESPRESSO = "androidx.test.espresso:espresso-core:${Versions.Testing.ESPRESSO}"
         const val JUNIT = "junit:junit:${Versions.Testing.JUNIT}"
+        const val JUNIT5 = "io.kotlintest:kotlintest-runner-junit5:${Versions.Testing.JUNIT5}"
         const val MOCKITO = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Testing.MOCKITO}"
         const val MOCKITO_INLINE = "org.mockito:mockito-inline:${Versions.Testing.MOCKITO_INLINE}"
         const val RUNNER = "androidx.test:runner:${Versions.Testing.RUNNER}"

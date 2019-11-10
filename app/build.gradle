@@ -30,7 +30,6 @@ dependencies {
     // Android
     implementation Libs.Android.APP_COMPAT
     implementation Libs.Android.KOTLIN
-
     implementation Libs.Android.LIFECYCLE
     implementation Libs.Android.LIFECYCLE_VIEWMODEL
 
@@ -52,23 +51,19 @@ dependencies {
     testImplementation Libs.Testing.JUNIT
     androidTestImplementation Libs.Testing.RUNNER
     androidTestImplementation Libs.Testing.ESPRESSO
-
     testImplementation Libs.Testing.CORE
     testImplementation Libs.Testing.TRUTH
-
     testImplementation Libs.Testing.MOCKITO
     testImplementation Libs.Testing.MOCKITO_INLINE
-
     testImplementation Libs.Testing.COROUTINES
+    // TODO Migrate from JUnit4 to JUnit5
+    testImplementation Libs.Testing.JUNIT5
 
     // UI
     implementation Libs.UI.CARD_VIEW
     implementation Libs.UI.CONSTRAINT_LAYOUT
-
     implementation Libs.UI.GLIDE
     kapt Libs.UI.GLIDE_COMPILER
-
     implementation Libs.UI.RECYCLER_VIEW
-
     implementation Libs.UI.SUPPORT_DESIGN
 }
