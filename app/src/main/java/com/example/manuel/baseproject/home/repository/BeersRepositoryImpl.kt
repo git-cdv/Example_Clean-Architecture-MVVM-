@@ -12,7 +12,7 @@ import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.repository.mapper.ApiToEntityMapper
 
-class BeersRepositoryImpl constructor(
+class BeersRepositoryImpl(
         private val beersNetworkDataSource: BeersNetworkDataSource
 ) : BeersRepository {
 
@@ -20,7 +20,6 @@ class BeersRepositoryImpl constructor(
 
     override suspend fun getAllBeers(): Result<BeersEntity>? {
         var page = -1
-
         var result: Result<BeersEntity>?
 
         do {
