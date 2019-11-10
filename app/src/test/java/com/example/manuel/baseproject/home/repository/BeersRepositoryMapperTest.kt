@@ -3,11 +3,9 @@ package com.example.manuel.baseproject.home.repository
 import com.example.manuel.baseproject.home.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.repository.mapper.ApiToEntityMapper
 import com.example.manuel.baseproject.home.repository.utils.RepositoryBeersGenerator
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class BeersRepositoryMapperTest {
 
     @Test
