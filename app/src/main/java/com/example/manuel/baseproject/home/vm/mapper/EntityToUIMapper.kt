@@ -19,12 +19,12 @@ object EntityToUIMapper : BaseMapper<List<BeerEntity>, List<BeerUI>> {
             )
         } ?: listOf()
     }
-}
 
-private fun mapAbvType(abvRangeType: AbvRangeType): AbvColorType {
-    return when (abvRangeType) {
-        AbvRangeType.LOW -> AbvColorType.GREEN
-        AbvRangeType.NORMAL -> AbvColorType.ORANGE
-        AbvRangeType.HIGH -> AbvColorType.RED
+    private fun mapAbvType(abvRangeType: AbvRangeType): AbvColorType {
+        return when (abvRangeType) {
+            AbvRangeType.LOW -> AbvColorType.GREEN
+            AbvRangeType.NORMAL -> AbvColorType.ORANGE
+            AbvRangeType.HIGH -> AbvColorType.RED
+        }
     }
 }
