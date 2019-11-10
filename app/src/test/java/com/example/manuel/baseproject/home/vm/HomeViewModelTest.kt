@@ -14,17 +14,15 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import java.lang.Exception
 
+private const val EXPECTED_IS_LOADING_TRUE = true
+private const val EXPECTED_IS_LOADING_FALSE = false
+
 /**
  *  https://codelabs.developers.google.com/codelabs/android-testing/#7
  * */
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
 class HomeViewModelTest {
-
-    companion object {
-        private const val EXPECTED_IS_LOADING_TRUE = true
-        private const val EXPECTED_IS_LOADING_FALSE = false
-    }
 
     @Rule
     @JvmField

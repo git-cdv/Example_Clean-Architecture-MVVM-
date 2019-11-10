@@ -7,6 +7,7 @@ import com.example.manuel.baseproject.home.commons.exceptions.BadRequestExceptio
 import com.example.manuel.baseproject.home.domain.BeersRepository
 import com.example.manuel.baseproject.home.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.datasource.BeersNetworkDataSource
+import com.example.manuel.baseproject.home.datasource.MAX_RESULTS_PER_PAGE
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.repository.mapper.BeersRepositoryMapper
@@ -49,7 +50,7 @@ class BeersRepositoryImpl constructor(
     private fun hasBeers() = beers.size > 0
 
     private fun isNecessaryFetchMoreBeers(page: Int): Boolean {
-        return (beers.size / page) == BeersNetworkDataSource.MAX_RESULTS_PER_PAGE
+        return (beers.size / page) == MAX_RESULTS_PER_PAGE
     }
 
     private fun addAllBeersUntilLastPage(beersApiResult: Result<BeersApi>) {

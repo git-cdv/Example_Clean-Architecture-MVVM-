@@ -11,11 +11,9 @@ import com.example.manuel.baseproject.home.datasource.mapper.BeersNetworkMapper
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.datasource.model.response.BeerResponse
 
-class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
+const val MAX_RESULTS_PER_PAGE: Int = 80
 
-    companion object {
-        const val MAX_RESULTS_PER_PAGE: Int = 80
-    }
+class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
 
     suspend fun getAllBeers(page: String): Result<BeersApi> {
         var result: Result<BeersApi> = Result.success(BeersApi(listOf()))
