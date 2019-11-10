@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.home.vm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,16 +19,16 @@ class HomeViewModel(private val getMealsByBeersUseCase: GetBeersUseCase) : ViewM
     private val isErrorLiveData: MutableLiveData<Boolean> = MutableLiveData()
     private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-    val beers: MutableLiveData<List<BeerUI>>
+    val beers: LiveData<List<BeerUI>>
         get() = beersLiveData
 
-    val areEmptyBeers: MutableLiveData<Boolean>
+    val areEmptyBeers: LiveData<Boolean>
         get() = areEmptyBeersLiveData
 
-    val isError: MutableLiveData<Boolean>
+    val isError: LiveData<Boolean>
         get() = isErrorLiveData
 
-    val isLoading: MutableLiveData<Boolean>
+    val isLoading: LiveData<Boolean>
         get() = isLoadingLiveData
 
     init {
