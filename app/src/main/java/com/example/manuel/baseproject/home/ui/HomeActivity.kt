@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.home.ui.adapterlist.BeersAdapter
-import com.example.manuel.baseproject.home.ui.mapper.BeerUIMapper
+import com.example.manuel.baseproject.home.ui.mapper.BeerUIToAdapterModelMapper
 import com.example.manuel.baseproject.home.ui.adapterlist.model.BeerAdapterModel
 import com.example.manuel.baseproject.home.vm.HomeViewModel
 import com.example.manuel.baseproject.home.vm.model.BeerUI
@@ -56,7 +56,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showBeers(beersUI: List<BeerUI>?) {
         beersUI?.let {
-            populateRecyclerView(BeerUIMapper.map(it))
+            populateRecyclerView(BeerUIToAdapterModelMapper.map(it))
             restorePreviousUIState()
             animateRecyclerViewOnlyInTheBeginning()
         }

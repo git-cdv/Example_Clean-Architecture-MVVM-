@@ -7,7 +7,7 @@ import java.lang.Exception
 
 import com.example.manuel.baseproject.home.commons.datatype.Result
 import com.example.manuel.baseproject.home.commons.exceptions.CancelledFetchDataException
-import com.example.manuel.baseproject.home.datasource.mapper.BeersNetworkMapper
+import com.example.manuel.baseproject.home.datasource.mapper.ResponseToApiMapper
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.datasource.model.response.BeerResponse
 
@@ -25,13 +25,12 @@ class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
 
                 withContext(Dispatchers.Main) {
                     request?.let {
-                        if (it.isExecuted) result = Result.success(BeersNetworkMapper.ResponseToApiMapper.map(response))
+                        if (it.isExecuted) result = Result.success(ResponseToApiMapper.map(response))
                         else if (it.isCanceled) result = Result.error(CancelledFetchDataException())
                     }
                 }
             } catch (ex: Exception) {
                 result = Result.error(ex.handleNetworkException())
-
             }
         }
 

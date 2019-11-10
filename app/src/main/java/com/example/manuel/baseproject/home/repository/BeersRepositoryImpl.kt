@@ -10,7 +10,7 @@ import com.example.manuel.baseproject.home.datasource.BeersNetworkDataSource
 import com.example.manuel.baseproject.home.datasource.MAX_RESULTS_PER_PAGE
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.domain.model.BeersEntity
-import com.example.manuel.baseproject.home.repository.mapper.BeersRepositoryMapper
+import com.example.manuel.baseproject.home.repository.mapper.ApiToEntityMapper
 
 class BeersRepositoryImpl constructor(
         private val beersNetworkDataSource: BeersNetworkDataSource
@@ -54,7 +54,7 @@ class BeersRepositoryImpl constructor(
     }
 
     private fun addAllBeersUntilLastPage(beersApiResult: Result<BeersApi>) {
-        BeersRepositoryMapper.ApiToEntityMapper.map(beersApiResult.data).let { beersEntity ->
+        ApiToEntityMapper.map(beersApiResult.data).let { beersEntity ->
             beersEntity.beers.forEach { beerEntity ->
                 beers.add(beerEntity)
             }

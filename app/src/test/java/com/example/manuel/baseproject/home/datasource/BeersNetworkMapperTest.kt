@@ -1,10 +1,10 @@
 package com.example.manuel.baseproject.home.datasource
 
+import com.example.manuel.baseproject.home.commons.datasource.handleNetworkException
 import com.example.manuel.baseproject.home.commons.exceptions.BadRequestException
 import com.example.manuel.baseproject.home.commons.exceptions.GenericNetworkException
 import com.example.manuel.baseproject.home.commons.exceptions.NetworkConnectionException
-import com.example.manuel.baseproject.home.datasource.mapper.BeersNetworkMapper
-import com.example.manuel.baseproject.home.datasource.mapper.handleNetworkException
+import com.example.manuel.baseproject.home.datasource.mapper.ResponseToApiMapper
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.datasource.utils.DataSourceBeersGenerator
 import com.nhaarman.mockitokotlin2.mock
@@ -23,7 +23,7 @@ class BeersNetworkMapperTest {
         val givenBeersResponse = DataSourceBeersGenerator.getBeersResponse()
 
         val expectedResult: BeersApi = DataSourceBeersGenerator.getBeersApi()
-        val realResult: BeersApi = BeersNetworkMapper.ResponseToApiMapper.map(givenBeersResponse)
+        val realResult: BeersApi = ResponseToApiMapper.map(givenBeersResponse)
 
         Assert.assertEquals(expectedResult, realResult)
     }
