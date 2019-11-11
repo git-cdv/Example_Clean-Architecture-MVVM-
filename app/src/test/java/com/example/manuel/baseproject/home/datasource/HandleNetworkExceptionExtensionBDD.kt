@@ -19,8 +19,8 @@ class HandleNetworkExceptionExtensionBDD : BehaviorSpec({
     Given("an IOException") {
         val exception = IOException()
 
-        When("is mapped to handle it") {
-            val result = exception.handleNetworkException()
+        When("the handleNetworkException method is executed") {
+            val result = handleNetworkException(exception)
 
             Then("the result must be a NetworkConnectionException") {
                 result.shouldBeInstanceOf<NetworkConnectionException>()
@@ -31,8 +31,8 @@ class HandleNetworkExceptionExtensionBDD : BehaviorSpec({
     Given("an UnknownHostException") {
         val exception = UnknownHostException()
 
-        When("is mapped to handle it") {
-            val result = exception.handleNetworkException()
+        When("the handleNetworkException method is executed") {
+            val result = handleNetworkException(exception)
 
             Then("the result must be a NetworkConnectionException") {
                 result.shouldBeInstanceOf<NetworkConnectionException>()
@@ -43,8 +43,8 @@ class HandleNetworkExceptionExtensionBDD : BehaviorSpec({
     Given("an another exception") {
         val exception = Exception()
 
-        When("is mapped to handle it") {
-            val result = exception.handleNetworkException()
+        When("the handleNetworkException method is executed") {
+            val result = handleNetworkException(exception)
 
             Then("the result must be a GenericNetworkException") {
                 result.shouldBeInstanceOf<GenericNetworkException>()
@@ -57,8 +57,8 @@ class HandleNetworkExceptionExtensionBDD : BehaviorSpec({
         val responseHttpException = Response.error<HttpException>(400, responseBody)
         val httpExceptionCode400 = HttpException(responseHttpException)
 
-        When("is mapped to handle it") {
-            val realResult = httpExceptionCode400.handleNetworkException()
+        When("the handleNetworkException method is executed") {
+            val realResult = handleNetworkException(httpExceptionCode400)
 
             Then("the result must be a BadRequestException") {
                 realResult.shouldBeInstanceOf<BadRequestException>()
@@ -72,8 +72,8 @@ class HandleNetworkExceptionExtensionBDD : BehaviorSpec({
         val responseHttpException = Response.error<HttpException>(randomErrorCode, responseBody)
         val httpExceptionRandomErrorCode = HttpException(responseHttpException)
 
-        When("is mapped to handle it") {
-            val realResult = httpExceptionRandomErrorCode.handleNetworkException()
+        When("the handleNetworkException method is executed") {
+            val realResult = handleNetworkException(httpExceptionRandomErrorCode)
 
             Then("the result must be a GenericNetworkException") {
                 realResult.shouldBeInstanceOf<GenericNetworkException>()

@@ -86,7 +86,7 @@ class BeersNetworkMapperTest {
             expectedException: Exception
     ) {
         val expectedResult: Exception = expectedException
-        val realResult: Exception = givenException.handleNetworkException()
+        val realResult: Exception = handleNetworkException(givenException)
 
         Assert.assertEquals(expectedResult::class, realResult::class)
     }

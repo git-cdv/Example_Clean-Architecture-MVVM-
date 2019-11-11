@@ -30,7 +30,7 @@ class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
                     }
                 }
             } catch (ex: Exception) {
-                result = Result.error(ex.handleNetworkException())
+                result = Result.error(handleNetworkException(ex))
             }
         }
 
