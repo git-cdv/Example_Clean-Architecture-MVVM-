@@ -6,10 +6,8 @@ import kotlinx.coroutines.*
 import java.lang.Exception
 
 import com.example.manuel.baseproject.home.commons.datatype.Result
-import com.example.manuel.baseproject.home.commons.exceptions.CancelledFetchDataException
 import com.example.manuel.baseproject.home.datasource.mapper.ResponseToApiMapper
 import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
-import com.example.manuel.baseproject.home.datasource.model.response.BeerResponse
 
 const val MAX_RESULTS_PER_PAGE: Int = 80
 
@@ -20,14 +18,10 @@ class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
 
         withContext(Dispatchers.IO) {
             try {
-                val request = beersApiService.getAllBeers(page, MAX_RESULTS_PER_PAGE.toString())
-                val response: List<BeerResponse>? = request?.execute()?.body()
+                val beers = beersApiService.getAllBeers(page, MAX_RESULTS_PER_PAGE.toString())
 
                 withContext(Dispatchers.Main) {
-                    request?.let {
-                        if (it.isExecuted) result = Result.success(ResponseToApiMapper.map(response))
-                        else if (it.isCanceled) result = Result.error(CancelledFetchDataException())
-                    }
+                    result = Result.success(ResponseToApiMapper.map(beers))
                 }
             } catch (ex: Exception) {
                 result = Result.error(handleNetworkException(ex))

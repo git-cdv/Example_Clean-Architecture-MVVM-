@@ -18,7 +18,7 @@ object Versions {
     object Network {
         const val COROUTINES = "0.9.2"
         const val GSON = "2.4.0"
-        const val RETROFIT = "retrofit:2.5.0"
+        const val RETROFIT = "retrofit:2.6.2"
     }
 
     object Testing {
