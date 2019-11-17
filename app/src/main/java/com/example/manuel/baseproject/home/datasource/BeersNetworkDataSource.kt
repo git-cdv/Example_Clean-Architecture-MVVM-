@@ -2,7 +2,6 @@ package com.example.manuel.baseproject.home.datasource
 
 import com.example.manuel.baseproject.home.commons.datasource.handleNetworkException
 import com.example.manuel.baseproject.home.datasource.retrofit.BeersApiService
-import kotlinx.coroutines.*
 import java.lang.Exception
 
 import com.example.manuel.baseproject.home.commons.datatype.Result
@@ -14,20 +13,11 @@ const val MAX_RESULTS_PER_PAGE: Int = 80
 class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
 
     suspend fun getAllBeers(page: String): Result<BeersApi> {
-        var result: Result<BeersApi> = Result.success(BeersApi(listOf()))
-
-        withContext(Dispatchers.IO) {
-            try {
-                val beers = beersApiService.getAllBeers(page, MAX_RESULTS_PER_PAGE.toString())
-
-                withContext(Dispatchers.Main) {
-                    result = Result.success(ResponseToApiMapper.map(beers))
-                }
-            } catch (ex: Exception) {
-                result = Result.error(handleNetworkException(ex))
-            }
+        return try {
+            val beers = beersApiService.getAllBeers(page, MAX_RESULTS_PER_PAGE.toString())
+            Result.success(ResponseToApiMapper.map(beers))
+        } catch (ex: Exception) {
+            Result.error(handleNetworkException(ex))
         }
-
-        return result
     }
 }
