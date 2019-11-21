@@ -1,6 +1,6 @@
 package com.example.manuel.baseproject.home.datasource
 
-import com.example.manuel.baseproject.home.commons.datasource.handleNetworkException
+import com.example.manuel.baseproject.home.commons.datasource.handleNetworkExceptions
 import com.example.manuel.baseproject.home.datasource.retrofit.BeersApiService
 import java.lang.Exception
 
@@ -17,7 +17,7 @@ class BeersNetworkDataSource(private val beersApiService: BeersApiService) {
             val beers = beersApiService.getAllBeers(page, MAX_RESULTS_PER_PAGE.toString())
             Result.success(ResponseToApiMapper.map(beers))
         } catch (ex: Exception) {
-            Result.error(handleNetworkException(ex))
+            Result.error(handleNetworkExceptions(ex))
         }
     }
 }

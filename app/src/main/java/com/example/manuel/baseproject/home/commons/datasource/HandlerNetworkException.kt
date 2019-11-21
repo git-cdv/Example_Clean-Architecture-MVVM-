@@ -8,7 +8,7 @@ import java.io.IOException
 import java.lang.Exception
 import java.net.UnknownHostException
 
-fun handleNetworkException(ex: Exception): Exception {
+fun handleNetworkExceptions(ex: Exception): Exception {
     return when (ex) {
         is IOException -> NetworkConnectionException()
         is UnknownHostException -> NetworkConnectionException()

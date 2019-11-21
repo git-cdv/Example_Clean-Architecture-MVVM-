@@ -1,6 +1,6 @@
 package com.example.manuel.baseproject.home.datasource
 
-import com.example.manuel.baseproject.home.commons.datasource.handleNetworkException
+import com.example.manuel.baseproject.home.commons.datasource.handleNetworkExceptions
 import com.example.manuel.baseproject.home.commons.exceptions.BadRequestException
 import com.example.manuel.baseproject.home.commons.exceptions.GenericNetworkException
 import com.example.manuel.baseproject.home.commons.exceptions.NetworkConnectionException
@@ -86,7 +86,7 @@ class BeersNetworkMapperTest {
             expectedException: Exception
     ) {
         val expectedResult: Exception = expectedException
-        val realResult: Exception = handleNetworkException(givenException)
+        val realResult: Exception = handleNetworkExceptions(givenException)
 
         Assert.assertEquals(expectedResult::class, realResult::class)
     }
