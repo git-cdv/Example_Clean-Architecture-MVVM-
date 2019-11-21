@@ -14,7 +14,10 @@ import com.example.manuel.baseproject.home.commons.extensions.loadImage
 import com.example.manuel.baseproject.home.ui.adapterlist.model.BeerAdapterModel
 import kotlinx.android.synthetic.main.item_list_beer.view.*
 
-class BeersAdapter(private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class BeersAdapter(
+        private val context: Context,
+        private val doOnFavoriteBeerSelected: ((Int) -> Unit)? = null
+) : RecyclerView.Adapter<ViewHolder>() {
 
     private var beers: List<BeerAdapterModel>? = null
 
@@ -45,6 +48,9 @@ class BeersAdapter(private val context: Context) : RecyclerView.Adapter<ViewHold
                 beerTaglineTextView.text = it[position].tagline
                 beerImageImageView.loadImage(it[position].image)
                 beerAbvTextView.applyBackgroundColor(it[position].abvColor)
+                itemView.setOnClickListener {
+                    doOnFavoriteBeerSelected?.invoke(position)
+                }
             }
         }
     }

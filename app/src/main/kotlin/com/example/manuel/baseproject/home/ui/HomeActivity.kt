@@ -2,6 +2,7 @@ package com.example.manuel.baseproject.home.ui
 
 import androidx.lifecycle.Observer
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -17,6 +18,7 @@ import com.example.manuel.baseproject.home.vm.model.BeerUI
 import kotlinx.android.synthetic.main.activity_beers_results.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
 
@@ -24,7 +26,12 @@ class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
 
-    private val beersAdapter: BeersAdapter by inject()
+    private val doOnFavoriteBeerSelected: ((Int) -> Unit)? = {
+        Log.i("test", "position $it")
+    }
+
+    private val beersAdapter: BeersAdapter by inject { parametersOf(this, doOnFavoriteBeerSelected) }
+
     private var recyclerView: RecyclerView? = null
 
     private var savedInstanceState: Bundle? = null
