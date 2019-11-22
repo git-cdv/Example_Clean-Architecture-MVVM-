@@ -1,7 +1,9 @@
 package com.example.manuel.baseproject.home.commons.extensions
 
 import android.graphics.drawable.GradientDrawable
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -18,4 +20,8 @@ fun AppCompatImageView.loadImage(imageUri: String) {
 fun View.applyBackgroundColor(color: Int) {
     val backgroundColor = ContextCompat.getColor(context, color)
     (this.background as GradientDrawable).setColor(backgroundColor)
+}
+
+fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
+    return LayoutInflater.from(this.context).inflate(layoutId, this, attachToRoot)
 }

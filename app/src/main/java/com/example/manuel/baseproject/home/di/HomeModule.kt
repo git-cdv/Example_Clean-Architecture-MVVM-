@@ -1,6 +1,5 @@
 package com.example.manuel.baseproject.home.di
 
-import android.content.Context
 import com.example.manuel.baseproject.home.datasource.BeersNetworkDataSource
 import com.example.manuel.baseproject.home.datasource.retrofit.BeersApiService
 import com.example.manuel.baseproject.home.domain.BeersRepository
@@ -21,9 +20,7 @@ object HomeModule {
         factory { BeersRepositoryImpl(beersNetworkDataSource = get()) as BeersRepository }
         factory { GetBeersUseCase(beersRepository = get()) }
         viewModel { HomeViewModel(getMealsByBeersUseCase = get()) }
-        factory { (context: Context, lambda: ((BeerAdapterModel) -> Unit)?) ->
-            BeersAdapter(context = context, doOnFavoriteBeerSelected = lambda)
-        }
+        factory { (lambda: ((BeerAdapterModel) -> Unit)?) -> BeersAdapter(lambda) }
     }
 
     private fun provideBeersApiService(retrofit: Retrofit): BeersApiService {

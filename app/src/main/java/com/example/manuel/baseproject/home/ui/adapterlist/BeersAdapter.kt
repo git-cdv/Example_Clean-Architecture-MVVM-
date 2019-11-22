@@ -1,31 +1,23 @@
 package com.example.manuel.baseproject.home.ui.adapterlist
 
-import android.content.Context
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
+import com.example.manuel.baseproject.home.commons.extensions.inflate
 import com.example.manuel.baseproject.home.ui.adapterlist.model.BeerAdapterModel
 
 class BeersAdapter(
-        private val context: Context,
         private val doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)? = null
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private var beers: List<BeerAdapterModel>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-                LayoutInflater
-                        .from(context)
-                        .inflate(R.layout.item_list_beer, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+            ViewHolder(parent.inflate(R.layout.item_list_beer))
 
     override fun getItemCount(): Int {
         var itemCount = 0
-
         beers?.let { itemCount = it.size }
 
         return itemCount
@@ -43,7 +35,6 @@ class BeersAdapter(
     fun updateAdapter(updatedList: List<BeerAdapterModel>) {
         beers?.let {
             val result = DiffUtil.calculateDiff(BeersDiffCallback(it, updatedList))
-
             this.beers = updatedList.toMutableList()
             result.dispatchUpdatesTo(this)
         }

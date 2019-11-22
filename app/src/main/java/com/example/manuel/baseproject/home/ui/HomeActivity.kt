@@ -1,18 +1,18 @@
 package com.example.manuel.baseproject.home.ui
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.home.ui.adapterlist.BeersAdapter
-import com.example.manuel.baseproject.home.ui.mapper.BeerUIToAdapterModelMapper
 import com.example.manuel.baseproject.home.ui.adapterlist.model.BeerAdapterModel
+import com.example.manuel.baseproject.home.ui.mapper.BeerUIToAdapterModelMapper
 import com.example.manuel.baseproject.home.vm.HomeViewModel
 import com.example.manuel.baseproject.home.vm.model.BeerUI
 import kotlinx.android.synthetic.main.activity_beers_results.*
@@ -25,15 +25,9 @@ private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
-
-    private val doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)? = {
-        Log.i("test", "position $it")
-    }
-
-    private val beersAdapter: BeersAdapter by inject { parametersOf(this, doOnFavoriteBeerSelected) }
-
+    private var doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)? = null
+    private val beersAdapter: BeersAdapter by inject { parametersOf(doOnFavoriteBeerSelected) }
     private var recyclerView: RecyclerView? = null
-
     private var savedInstanceState: Bundle? = null
 
     // TODO Create an ItemDecorator and refactor the CardView
@@ -42,8 +36,15 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_beers_results)
 
         this.savedInstanceState = savedInstanceState
+        initDoOnFavoriteBeerSelected()
         bindViews()
         observerLiveData()
+    }
+
+    private fun initDoOnFavoriteBeerSelected() {
+        doOnFavoriteBeerSelected = {
+            Log.i("test", "position $it")
+        }
     }
 
     private fun bindViews() {
@@ -70,13 +71,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun populateRecyclerView(beersAdapterModel: List<BeerAdapterModel>) {
-        recyclerView?.layoutManager = LinearLayoutManager(this)
-
-        beersAdapter.setData(beersAdapterModel)
-        recyclerView?.adapter = beersAdapter
-        beersAdapter.updateAdapter(beersAdapterModel)
-
-        recyclerView?.setHasFixedSize(true)
+        recyclerView?.apply {
+            layoutManager = LinearLayoutManager(this@HomeActivity)
+            beersAdapter.setData(beersAdapterModel)
+            adapter = beersAdapter.apply { updateAdapter(beersAdapterModel) }
+            setHasFixedSize(true)
+        }
     }
 
     /**
