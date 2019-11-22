@@ -26,7 +26,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
 
-    private val doOnFavoriteBeerSelected: ((Int) -> Unit)? = {
+    private val doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)? = {
         Log.i("test", "position $it")
     }
 
