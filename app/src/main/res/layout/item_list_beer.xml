@@ -17,6 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/black900"
             android:padding="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -25,7 +26,7 @@
                 android:layout_height="48dp"
                 android:background="@drawable/shape_circle_item_list_beer_abv"
                 android:gravity="center"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black900"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/item_list_beer_favorite_button"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,15 +38,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:src="@drawable/selector_background_favorites_beer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/item_list_beer_abv"
-                app:layout_constraintStart_toStartOf="@id/item_list_beer_abv" />
+                app:layout_constraintStart_toStartOf="@id/item_list_beer_abv"
+                tools:src="@drawable/ic_star_orange_24dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/item_list_beer_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black400"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="20sp"
@@ -69,6 +71,7 @@
                 android:id="@+id/item_list_beer_tagline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black400"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="8dp"
                 android:textSize="16sp"
