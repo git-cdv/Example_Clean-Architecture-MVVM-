@@ -27,16 +27,17 @@
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/item_list_bee_favorite_button"
+                app:layout_constraintBottom_toTopOf="@+id/item_list_beer_favorite_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/item_list_beer_image"
                 tools:text="4.5" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/item_list_bee_favorite_button"
+                android:id="@+id/item_list_beer_favorite_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_background_favorites_beer"
+                android:focusable="false"
+                android:src="@drawable/selector_background_favorites_beer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/item_list_beer_abv"
                 app:layout_constraintStart_toStartOf="@id/item_list_beer_abv" />
