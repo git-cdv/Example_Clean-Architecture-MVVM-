@@ -19,7 +19,8 @@ class BaseProjectApplication : Application() {
             androidContext(this@BaseProjectApplication)
             modules(
                     listOf(
-                            HomeModule.mainModule,
+                            HomeModule.beersModule,
+                            HomeModule.favoritesModule,
                             NetworkModule.retrofitModule
                     )
             )
