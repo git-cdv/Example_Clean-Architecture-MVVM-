@@ -12,6 +12,7 @@ import com.example.manuel.baseproject.home.beers.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.repository.mapper.ApiToEntityMapper
 import com.example.manuel.baseproject.home.beers.datasource.FavoritesCacheDataSource
+import com.example.manuel.baseproject.home.beers.repository.mapper.EntityToCacheMapper
 
 class BeersRepositoryImpl(
         private val beersNetworkDataSource: BeersNetworkDataSource,
@@ -78,11 +79,16 @@ class BeersRepositoryImpl(
         return beers.isNotEmpty() && error == BadRequestException()
     }
 
-    override suspend fun saveBeer(beerEntity: BeerEntity): Result<Boolean> {
-        return Result.success(true)
+    override suspend fun saveBeer(beerEntity: BeerEntity): Boolean {
+        val beerCache = EntityToCacheMapper.map(beerEntity)
+        return favoritesCacheDataSource.saveBeer(beerCache)
     }
 
-    override suspend fun removeBeer(beerEntity: BeerEntity): Result<Boolean> {
-        return Result.success(true)
+    override suspend fun removeBeer(beerEntity: BeerEntity): Boolean {
+        return true
+    }
+
+    override suspend fun getFavoriteBeers(): Result<BeersEntity>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

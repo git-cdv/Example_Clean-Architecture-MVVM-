@@ -6,6 +6,5 @@ data class BeerCacheModel(
         val tagline: String,
         val image: String,
         val abv: Double,
-        val abvColor: Int,
         var isFavorite: Boolean = false
 )
