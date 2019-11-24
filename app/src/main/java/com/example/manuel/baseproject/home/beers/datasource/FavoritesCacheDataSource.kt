@@ -1,6 +1,5 @@
 package com.example.manuel.baseproject.home.beers.datasource
 
-import android.util.Log
 import com.example.manuel.baseproject.home.beers.datasource.model.cache.BeerCacheModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -23,29 +22,18 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
         return isBeerSaved(beerCacheModel.id)
     }
 
+    // TODO Use generics
     private fun isBeerSaved(beerId: Int): Boolean {
-        var isBeerSaved = false
-
-        getBeers().apply {
-            isBeerSaved = any { savedBeer -> savedBeer.id == beerId }
-        }
-
-        if (isBeerSaved) Log.i("test", "Beer saved id = $beerId")
-
-        return isBeerSaved
+        return getBeers().any { savedBeer -> savedBeer.id == beerId }
     }
 
     fun removeBeer(id: Int): Boolean {
         if (favoritesBeersFile.isFile) {
-            Log.i("test", "favorites beers size = ${getBeers().size}")
-
             val beerToRemove = getBeers().filter { it.id == id }[0]
             val updatedList = getBeers().toMutableList().apply {
                 remove(beerToRemove)
                 toList()
             }
-
-            Log.i("test", "updatedList beers size = ${updatedList.size}")
 
             favoritesBeersFile.writeText(serializeObjectToJSON(updatedList))
         }
@@ -54,15 +42,7 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
     }
 
     private fun isBeerRemoved(beerId: Int): Boolean {
-        var isBeerRemoved = false
-
-        getBeers().apply {
-            isBeerRemoved = any { savedBeer -> savedBeer.id == beerId }
-        }
-
-        if (isBeerRemoved) Log.i("test", "Beer removed id = $beerId")
-
-        return isBeerRemoved
+        return getBeers().any { savedBeer -> savedBeer.id == beerId }
     }
 
     private fun serializeObjectToJSON(beersCacheModel: List<BeerCacheModel>): String {
