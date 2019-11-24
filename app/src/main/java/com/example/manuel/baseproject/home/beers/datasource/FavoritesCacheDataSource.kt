@@ -30,12 +30,11 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
     fun removeBeer(id: Int): Boolean {
         if (favoritesBeersFile.isFile) {
             val beerToRemove = getBeers().filter { it.id == id }[0]
-            val updatedList = getBeers().toMutableList().apply {
+            val mutableUpdatedList = getBeers().toMutableList().apply {
                 remove(beerToRemove)
-                toList()
             }
 
-            favoritesBeersFile.writeText(serializeObjectToJSON(updatedList))
+            favoritesBeersFile.writeText(serializeObjectToJSON(mutableUpdatedList.toList()))
         }
 
         return isBeerRemoved(id)

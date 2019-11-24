@@ -53,10 +53,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun observerLiveData() {
-        viewModel.beers.observe(this, Observer(::onBeersReceived))
-        viewModel.isError.observe(this, Observer { onErrorReceived() })
-        viewModel.areEmptyBeers.observe(this, Observer { onEmptyBeersReceived() })
-        viewModel.isLoading.observe(this, Observer(::onLoadingStateReceived))
+        viewModel.beersLiveData.observe(this, Observer(::onBeersReceived))
+        viewModel.isErrorLiveData.observe(this, Observer { onErrorReceived() })
+        viewModel.areEmptyBeersLiveData.observe(this, Observer { onEmptyBeersReceived() })
+        viewModel.isLoadingLiveData.observe(this, Observer(::onLoadingStateReceived))
     }
 
     private fun onBeersReceived(beers: List<BeerUI>) {

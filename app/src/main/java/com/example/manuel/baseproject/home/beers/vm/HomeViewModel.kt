@@ -1,6 +1,5 @@
 package com.example.manuel.baseproject.home.beers.vm
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +13,9 @@ import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
 import com.example.manuel.baseproject.home.beers.vm.mapper.BeerAdapterModelToEntityMapper
 import com.example.manuel.baseproject.home.beers.vm.mapper.BeersEntityToUIMapper
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
         private val getMealsByBeersUseCase: GetBeersUseCase,
@@ -22,22 +23,21 @@ class HomeViewModel(
         private val removeBeerUseCase: RemoveBeerUseCase
 ) : ViewModel() {
 
-    private val beersLiveData: MutableLiveData<List<BeerUI>> = MutableLiveData()
-    private val areEmptyBeersLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    private val isErrorLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val beersMutableLiveData: MutableLiveData<List<BeerUI>> = MutableLiveData()
+    val beersLiveData: LiveData<List<BeerUI>>
+        get() = beersMutableLiveData
 
-    val beers: LiveData<List<BeerUI>>
-        get() = beersLiveData
+    private val areEmptyBeersMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val areEmptyBeersLiveData: LiveData<Boolean>
+        get() = areEmptyBeersMutableLiveData
 
-    val areEmptyBeers: LiveData<Boolean>
-        get() = areEmptyBeersLiveData
+    private val isErrorMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val isErrorLiveData: LiveData<Boolean>
+        get() = isErrorMutableLiveData
 
-    val isError: LiveData<Boolean>
-        get() = isErrorLiveData
-
-    val isLoading: LiveData<Boolean>
-        get() = isLoadingLiveData
+    private val isLoadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoadingLiveData: LiveData<Boolean>
+        get() = isLoadingMutableLiveData
 
     init {
         handleBeersLoad()
@@ -52,12 +52,6 @@ class HomeViewModel(
 
     private fun updateAppropriateLiveData(result: Result<BeersEntity>) {
         if (isResultSuccess(result.resultType)) {
-
-
-            // Hasta aquí el resul es ok, hay cuatro favoritos
-            val updateAppropriateLiveData = result.data?.beers?.filter { it.isFavorite }
-            Log.i("test", "updateAppropriateLiveData size = ${updateAppropriateLiveData?.size}")
-
             onResultSuccess(result.data)
         } else {
             onResultError()
@@ -72,15 +66,9 @@ class HomeViewModel(
         val beers = BeersEntityToUIMapper.map(beersEntity?.beers)
 
         if (beers.isEmpty()) {
-            areEmptyBeersLiveData.postValue(true)
+            areEmptyBeersMutableLiveData.postValue(true)
         } else {
-
-
-            val onResultSuccessViewModel = beers.filter { it.isFavorite }
-            Log.i("test", "onResultSuccessViewModel size = ${onResultSuccessViewModel.size}")
-
-
-            beersLiveData.postValue(beers)
+            beersMutableLiveData.postValue(beers)
         }
 
         isLoadingLiveData(false)
@@ -94,12 +82,12 @@ class HomeViewModel(
             delay(300)
             isLoadingLiveData(false)
         }.invokeOnCompletion {
-            isErrorLiveData.postValue(true)
+            isErrorMutableLiveData.postValue(true)
         }
     }
 
     private fun isLoadingLiveData(isLoading: Boolean) {
-        this.isLoadingLiveData.postValue(isLoading)
+        this.isLoadingMutableLiveData.postValue(isLoading)
     }
 
     fun handleFavoriteButton(beerUI: BeerUI) {

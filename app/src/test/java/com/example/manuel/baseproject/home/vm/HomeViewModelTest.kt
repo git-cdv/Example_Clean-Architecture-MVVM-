@@ -97,10 +97,10 @@ class HomeViewModelTest {
             isErrorExpected: Boolean? = null,
             areEmptyBeersExpected: Boolean? = null
     ) {
-        Assert.assertEquals(beersExpected, viewModel.beers.value?.isNotEmpty())
-        Assert.assertEquals(isErrorExpected, viewModel.isError.value)
-        Assert.assertEquals(areEmptyBeersExpected, viewModel.areEmptyBeers.value)
-        Assert.assertEquals(EXPECTED_IS_LOADING_FALSE, viewModel.isLoading.value)
+        Assert.assertEquals(beersExpected, viewModel.beersLiveData.value?.isNotEmpty())
+        Assert.assertEquals(isErrorExpected, viewModel.isErrorLiveData.value)
+        Assert.assertEquals(areEmptyBeersExpected, viewModel.areEmptyBeersLiveData.value)
+        Assert.assertEquals(EXPECTED_IS_LOADING_FALSE, viewModel.isLoadingLiveData.value)
     }
 
     @Test
@@ -127,7 +127,7 @@ class HomeViewModelTest {
     }
 
     private fun assertIsLoadingLiveData(expectedResult: Boolean) {
-        val realResult = viewModel.isLoading.value
+        val realResult = viewModel.isLoadingLiveData.value
         Assert.assertEquals(expectedResult, realResult)
     }
 }
