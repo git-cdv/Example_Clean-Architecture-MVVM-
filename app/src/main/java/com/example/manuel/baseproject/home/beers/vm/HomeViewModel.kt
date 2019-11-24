@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.home.beers.vm
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -51,6 +52,12 @@ class HomeViewModel(
 
     private fun updateAppropriateLiveData(result: Result<BeersEntity>) {
         if (isResultSuccess(result.resultType)) {
+
+
+            // Hasta aquí el resul es ok, hay cuatro favoritos
+            val updateAppropriateLiveData = result.data?.beers?.filter { it.isFavorite }
+            Log.i("test", "updateAppropriateLiveData size = ${updateAppropriateLiveData?.size}")
+
             onResultSuccess(result.data)
         } else {
             onResultError()
@@ -67,6 +74,12 @@ class HomeViewModel(
         if (beers.isEmpty()) {
             areEmptyBeersLiveData.postValue(true)
         } else {
+
+
+            val onResultSuccessViewModel = beers.filter { it.isFavorite }
+            Log.i("test", "onResultSuccessViewModel size = ${onResultSuccessViewModel.size}")
+
+
             beersLiveData.postValue(beers)
         }
 

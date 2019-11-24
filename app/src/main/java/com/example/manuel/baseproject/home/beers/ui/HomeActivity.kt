@@ -65,6 +65,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showBeers(beersUI: List<BeerUI>?) {
         beersUI?.let {
+            val showBeersMethod = beersUI.filter { it.isFavorite }
+            Log.i("test", "showBeersMethod size = ${showBeersMethod.size}")
+
+
             populateRecyclerView(BeerUIToAdapterModelMapper.map(it))
             restorePreviousUIState()
             animateRecyclerViewOnlyInTheBeginning()

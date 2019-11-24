@@ -34,3 +34,20 @@ object EntityToCacheMapper : BaseMapper<BeerEntity, BeerCacheModel> {
         )
     }
 }
+
+object CacheToEntityMapper : BaseMapper<List<BeerCacheModel>, BeersEntity> {
+    override fun map(type: List<BeerCacheModel>?): BeersEntity {
+        return BeersEntity(
+                beers = type?.map {
+                    BeerEntity(
+                            id = it.id,
+                            name = it.name,
+                            tagline = it.tagline,
+                            image = it.image,
+                            abv = it.abv,
+                            isFavorite = it.isFavorite
+                    )
+                } ?: listOf()
+        )
+    }
+}

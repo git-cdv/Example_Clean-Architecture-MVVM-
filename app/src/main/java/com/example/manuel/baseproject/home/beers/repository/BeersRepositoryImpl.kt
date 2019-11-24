@@ -12,6 +12,7 @@ import com.example.manuel.baseproject.home.beers.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.repository.mapper.ApiToEntityMapper
 import com.example.manuel.baseproject.home.beers.datasource.FavoritesCacheDataSource
+import com.example.manuel.baseproject.home.beers.repository.mapper.CacheToEntityMapper
 import com.example.manuel.baseproject.home.beers.repository.mapper.EntityToCacheMapper
 
 class BeersRepositoryImpl(
@@ -89,7 +90,7 @@ class BeersRepositoryImpl(
         return favoritesCacheDataSource.removeBeer(beerCache)
     }
 
-    override suspend fun getFavoriteBeers(): Result<BeersEntity>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getFavoriteBeers(): BeersEntity {
+        return CacheToEntityMapper.map(favoritesCacheDataSource.getBeers())
     }
 }

@@ -15,7 +15,8 @@ object BeersEntityToUIMapper : BaseMapper<List<BeerEntity>, List<BeerUI>> {
                     tagline = it.tagline,
                     image = it.image,
                     abv = it.abv,
-                    abvColorType = mapAbvType(it.getAbvRange(it.abv))
+                    abvColorType = mapAbvType(it.getAbvRange(it.abv)),
+                    isFavorite = it.isFavorite
             )
         } ?: listOf()
     }
