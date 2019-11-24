@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.manuel.baseproject.commons.datatype.Result
 import com.example.manuel.baseproject.commons.datatype.ResultType
-import com.example.manuel.baseproject.home.beers.datasource.model.cache.BeerCacheModel
-import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
@@ -15,10 +13,7 @@ import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
 import com.example.manuel.baseproject.home.beers.vm.mapper.BeerAdapterModelToEntityMapper
 import com.example.manuel.baseproject.home.beers.vm.mapper.BeersEntityToUIMapper
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class HomeViewModel(
         private val getMealsByBeersUseCase: GetBeersUseCase,

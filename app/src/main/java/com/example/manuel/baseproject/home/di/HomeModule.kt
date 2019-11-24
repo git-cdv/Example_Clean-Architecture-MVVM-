@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.home.di
 
+import android.content.Context
 import com.example.manuel.baseproject.home.beers.datasource.BeersNetworkDataSource
 import com.example.manuel.baseproject.home.beers.datasource.retrofit.BeersApiService
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
@@ -15,11 +16,14 @@ import com.google.gson.GsonBuilder
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import java.io.File
+
+private const val FILE_FAVORITES_BEERS = "FavoritesBeers.txt"
 
 object HomeModule {
 
     val beersModule = module {
-        factory { provideBeersApiService(get()) }
+        factory { provideBeersApiService(retrofit = get()) }
         factory { BeersNetworkDataSource(beersApiService = get()) }
         single {
             BeersRepositoryImpl(
@@ -37,7 +41,7 @@ object HomeModule {
                     removeBeerUseCase = get()
             )
         }
-        factory { (lambda: ((BeerAdapterModel) -> Unit)?) -> BeersAdapter(lambda) }
+        factory { (lambda: ((BeerAdapterModel) -> Unit)?) -> BeersAdapter(doOnFavoriteBeerSelected = lambda) }
     }
 
     private fun provideBeersApiService(retrofit: Retrofit): BeersApiService {
@@ -45,7 +49,13 @@ object HomeModule {
     }
 
     val favoritesModule = module {
+        factory { provideFavoritesBeersFile(context = get()) }
         factory { GsonBuilder().setPrettyPrinting().create() }
-        factory { FavoritesCacheDataSource(gson = get()) }
+        factory { FavoritesCacheDataSource(gson = get(), favoritesBeersFile = get()) }
+    }
+
+    private fun provideFavoritesBeersFile(context: Context): File {
+        val filePath: String = context.filesDir.path.toString() + "/$FILE_FAVORITES_BEERS"
+        return File(filePath)
     }
 }
