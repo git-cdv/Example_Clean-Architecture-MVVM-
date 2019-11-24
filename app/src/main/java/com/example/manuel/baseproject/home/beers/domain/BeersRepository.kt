@@ -8,6 +8,6 @@ interface BeersRepository {
 
     suspend fun getAllBeers(): Result<BeersEntity>?
     suspend fun saveBeer(beerEntity: BeerEntity): Boolean
-    suspend fun removeBeer(beerEntity: BeerEntity): Boolean
+    suspend fun removeBeer(id: Int): Boolean
     suspend fun getFavoriteBeers(): BeersEntity
 }

@@ -31,7 +31,6 @@ object BeersEntityToUIMapper : BaseMapper<List<BeerEntity>, List<BeerUI>> {
 }
 
 object BeerAdapterModelToEntityMapper : BaseMapper<BeerUI, BeerEntity> {
-
     override fun map(type: BeerUI?): BeerEntity {
         return BeerEntity(
                 id = type!!.id,

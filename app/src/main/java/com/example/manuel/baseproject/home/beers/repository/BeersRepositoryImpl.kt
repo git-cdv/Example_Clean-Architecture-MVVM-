@@ -85,9 +85,8 @@ class BeersRepositoryImpl(
         return favoritesCacheDataSource.saveBeer(beerCache)
     }
 
-    override suspend fun removeBeer(beerEntity: BeerEntity): Boolean {
-        val beerCache = EntityToCacheMapper.map(beerEntity)
-        return favoritesCacheDataSource.removeBeer(beerCache)
+    override suspend fun removeBeer(id: Int): Boolean {
+        return favoritesCacheDataSource.removeBeer(id)
     }
 
     override suspend fun getFavoriteBeers(): BeersEntity {

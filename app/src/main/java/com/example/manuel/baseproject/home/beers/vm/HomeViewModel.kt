@@ -109,7 +109,7 @@ class HomeViewModel(
                     // Si ocurre un error, modificar el beerUI con isFavorite al estado anterior
                     // Y actualizar el livedata
                 }
-                else removeBeerUseCase.execute(it).apply {
+                else removeBeerUseCase.execute(it.id).apply {
 
                 }
             }
