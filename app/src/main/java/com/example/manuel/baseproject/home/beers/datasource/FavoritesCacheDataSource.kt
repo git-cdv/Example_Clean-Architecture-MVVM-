@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
-
 class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeersFile: File) {
 
     fun saveBeer(beerCacheModel: BeerCacheModel): Boolean {
@@ -42,6 +41,7 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
                 remove(beerCacheModel)
                 toList()
             }
+
             favoritesBeersFile.writeText(serializeObjectToJSON(updatedList))
         }
 
