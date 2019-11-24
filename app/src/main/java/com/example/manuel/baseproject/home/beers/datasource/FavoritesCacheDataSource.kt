@@ -10,15 +10,16 @@ import java.io.File
 class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeersFile: File) {
 
     fun saveBeer(beerCacheModel: BeerCacheModel): Boolean {
-        if (favoritesBeersFile.isFile) {
-            val json: String = favoritesBeersFile.readText(Charsets.UTF_8)
-            val favoriteBeers = deserializeJsonToObject(json)
-            val mutableFavoriteBeers = favoriteBeers.toMutableList()
+        val listToSave = if (favoritesBeersFile.isFile) {
+            val mutableFavoriteBeers = getBeers().toMutableList()
             mutableFavoriteBeers.add(beerCacheModel)
-            favoritesBeersFile.writeText(serializeObjectToJSON(mutableFavoriteBeers))
+            mutableFavoriteBeers
         } else {
-            favoritesBeersFile.writeText(serializeObjectToJSON(listOf(beerCacheModel)))
+            val firstBeerWhenFileIsEmpty = listOf(beerCacheModel)
+            firstBeerWhenFileIsEmpty
         }
+
+        favoritesBeersFile.writeText(serializeObjectToJSON(listToSave))
 
         return isBeerSaved(beerCacheModel.id)
     }
@@ -26,7 +27,7 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
     private fun isBeerSaved(beerId: Int): Boolean {
         var isBeerSaved = false
 
-        getBeers()?.apply {
+        getBeers().apply {
             isBeerSaved = any { savedBeer -> savedBeer.id == beerId }
         }
 
@@ -37,15 +38,12 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
 
     fun removeBeer(beerCacheModel: BeerCacheModel): Boolean {
         if (favoritesBeersFile.isFile) {
-            val json: String = favoritesBeersFile.readText(Charsets.UTF_8)
-            val mutableFavoritesBeers = deserializeJsonToObject(json).toMutableList()
-
-            mutableFavoritesBeers.let {
-                it.remove(beerCacheModel)
-                favoritesBeersFile.writeText(serializeObjectToJSON(mutableFavoritesBeers.toList()))
+            val updatedList = getBeers().toMutableList().apply {
+                remove(beerCacheModel)
+                toList()
             }
+            favoritesBeersFile.writeText(serializeObjectToJSON(updatedList))
         }
-
 
         return isBeerRemoved(beerCacheModel.id)
     }
@@ -53,7 +51,7 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
     private fun isBeerRemoved(beerId: Int): Boolean {
         var isBeerRemoved = false
 
-        getBeers()?.apply {
+        getBeers().apply {
             isBeerRemoved = any { savedBeer -> savedBeer.id == beerId }
         }
 
@@ -66,16 +64,14 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
         return gson.toJson(beersCacheModel)
     }
 
-    fun getBeers(): List<BeerCacheModel>? {
+    fun getBeers(): List<BeerCacheModel> {
         val json: String = favoritesBeersFile.readText(Charsets.UTF_8)
-
         return deserializeJsonToObject(json)
     }
 
     // TODO Use generics
     private fun deserializeJsonToObject(beerJson: String): List<BeerCacheModel> {
         val listType = object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
-
-        return gson.fromJson(beerJson, listType) ?: listOf()
+        return gson.fromJson(beerJson, listType) ?: mutableListOf()
     }
 }
