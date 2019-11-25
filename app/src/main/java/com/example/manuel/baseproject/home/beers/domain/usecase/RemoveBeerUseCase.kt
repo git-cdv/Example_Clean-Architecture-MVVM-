@@ -4,7 +4,7 @@ import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 
 class RemoveBeerUseCase(private val beersRepository: BeersRepository) {
 
-    suspend fun execute(id: Int): Boolean {
+    fun execute(id: Int): Boolean {
         return beersRepository.removeBeer(id)
     }
 }

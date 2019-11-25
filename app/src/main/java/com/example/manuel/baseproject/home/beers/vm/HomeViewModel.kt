@@ -45,7 +45,7 @@ class HomeViewModel(
 
     fun handleBeersLoad() {
         isLoadingLiveData(true)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             updateAppropriateLiveData(getMealsByBeersUseCase.execute())
         }
     }

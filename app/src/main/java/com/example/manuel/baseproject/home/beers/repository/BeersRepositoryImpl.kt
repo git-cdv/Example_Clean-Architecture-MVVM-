@@ -80,16 +80,16 @@ class BeersRepositoryImpl(
         return beers.isNotEmpty() && error == BadRequestException()
     }
 
-    override suspend fun saveBeer(beerEntity: BeerEntity): Boolean {
+    override fun saveBeer(beerEntity: BeerEntity): Boolean {
         val beerCache = EntityToCacheMapper.map(beerEntity)
         return favoritesCacheDataSource.saveBeer(beerCache)
     }
 
-    override suspend fun removeBeer(id: Int): Boolean {
+    override fun removeBeer(id: Int): Boolean {
         return favoritesCacheDataSource.removeBeer(id)
     }
 
-    override suspend fun getFavoriteBeers(): BeersEntity {
+    override fun getFavoriteBeers(): BeersEntity {
         return CacheToEntityMapper.map(favoritesCacheDataSource.getBeers())
     }
 }

@@ -11,4 +11,6 @@
 
     <color name="black900">#212121</color>
     <color name="black400">#BDBDBD</color>
+
+    <color name="violet">#673ab7</color>
 </resources>

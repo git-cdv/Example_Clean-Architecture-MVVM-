@@ -7,7 +7,7 @@ import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 interface BeersRepository {
 
     suspend fun getAllBeers(): Result<BeersEntity>?
-    suspend fun saveBeer(beerEntity: BeerEntity): Boolean
-    suspend fun removeBeer(id: Int): Boolean
-    suspend fun getFavoriteBeers(): BeersEntity
+    fun saveBeer(beerEntity: BeerEntity): Boolean
+    fun removeBeer(id: Int): Boolean
+    fun getFavoriteBeers(): BeersEntity
 }
