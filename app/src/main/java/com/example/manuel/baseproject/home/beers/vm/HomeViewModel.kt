@@ -93,12 +93,15 @@ class HomeViewModel(
     fun handleFavoriteButton(beerUI: BeerUI) {
         viewModelScope.launch(Dispatchers.IO) {
             BeerAdapterModelToEntityMapper.map(beerUI).let {
-                if (it.isFavorite) saveBeerUseCase.execute(it).apply {
-                    // Si ocurre un error, modificar el beerUI con isFavorite al estado anterior
-                    // Y actualizar el livedata
+                if (it.isFavorite) saveBeerUseCase.execute(it).let { isBeerSaved ->
+                    if (!isBeerSaved) {
+                        // TODO Si ocurre un error, modificar el beerUI con isFavorite al estado anterior y actualizar el livedata
+                    }
                 }
-                else removeBeerUseCase.execute(it.id).apply {
-
+                else removeBeerUseCase.execute(it.id).let { isBeerRemoved ->
+                    if (!isBeerRemoved) {
+                        // TODO Si ocurre un error, modificar el beerUI con isFavorite al estado anterior y actualizar el livedata
+                    }
                 }
             }
         }
