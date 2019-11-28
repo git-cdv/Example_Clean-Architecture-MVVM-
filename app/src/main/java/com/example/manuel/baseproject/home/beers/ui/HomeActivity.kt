@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_beers_results.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+
 
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
 

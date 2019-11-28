@@ -8,7 +8,6 @@ import java.io.File
 class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeersFile: File) {
 
     // TODO Gestionar los permisos de lectura, escritura si no se dan, al pulsar favoritos, se le indicará que se necesitan permisos y abrir settings
-    // TODO Borrar los suspend no necesarios, el viewmodel ya está ejecutando las operaciones en background
     // TODO Por último para cerrar la feature, añadie el icono de favoritos en la UI
     // TODO Queda para otra PR un refactor sobre posibles usos de extensions con delegates para los modelos Cache, hacer operaciones IO y genéricos
     fun saveBeer(beerCacheModel: BeerCacheModel): Boolean {
@@ -62,7 +61,6 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
         return deserializeJsonToObject(json)
     }
 
-    // TODO Use generics
     private fun deserializeJsonToObject(beerJson: String): List<BeerCacheModel> {
         val listType = object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
         return gson.fromJson(beerJson, listType) ?: mutableListOf()

@@ -45,7 +45,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 else -> itemView.context.getDrawable(R.drawable.ic_star_red_24dp)
             }
         } else {
-            itemView.context.getDrawable(R.drawable.ic_star_border_black_400_24dp)
+            itemView.context.getDrawable(R.drawable.ic_star_border_white_24dp)
         }
     }
 }
