@@ -16,12 +16,7 @@ class BeersAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(parent.inflate(R.layout.item_list_beer))
 
-    override fun getItemCount(): Int {
-        var itemCount = 0
-        beers?.let { itemCount = it.size }
-
-        return itemCount
-    }
+    override fun getItemCount(): Int = beers?.size ?: 0
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         beers?.let {
