@@ -20,42 +20,39 @@ import java.io.File
 
 private const val FILE_FAVORITES_BEERS = "FavoritesBeers.txt"
 
-object HomeModule {
-
-    val beersModule = module {
-        factory { provideBeersApiService(retrofit = get()) }
-        factory { BeersNetworkDataSource(beersApiService = get()) }
-        single {
-            BeersRepositoryImpl(
-                    beersNetworkDataSource = get(),
-                    favoritesCacheDataSource = get()
-            ) as BeersRepository
-        }
-        factory { GetBeersUseCase(beersRepository = get()) }
-        factory { SaveBeerUseCase(beersRepository = get()) }
-        factory { RemoveBeerUseCase(beersRepository = get()) }
-        viewModel {
-            HomeViewModel(
-                    getMealsByBeersUseCase = get(),
-                    saveBeerUseCase = get(),
-                    removeBeerUseCase = get()
-            )
-        }
-        factory { (lambda: ((BeerAdapterModel) -> Unit)?) -> BeersAdapter(doOnFavoriteBeerSelected = lambda) }
+val beersModule = module {
+    factory { provideBeersApiService(retrofit = get()) }
+    factory { BeersNetworkDataSource(beersApiService = get()) }
+    single {
+        BeersRepositoryImpl(
+                beersNetworkDataSource = get(),
+                favoritesCacheDataSource = get()
+        ) as BeersRepository
     }
-
-    private fun provideBeersApiService(retrofit: Retrofit): BeersApiService {
-        return retrofit.create(BeersApiService::class.java)
+    factory { GetBeersUseCase(beersRepository = get()) }
+    factory { SaveBeerUseCase(beersRepository = get()) }
+    factory { RemoveBeerUseCase(beersRepository = get()) }
+    viewModel {
+        HomeViewModel(
+                getMealsByBeersUseCase = get(),
+                saveBeerUseCase = get(),
+                removeBeerUseCase = get()
+        )
     }
+    factory { (lambda: ((BeerAdapterModel) -> Unit)?) -> BeersAdapter(doOnFavoriteBeerSelected = lambda) }
+}
 
-    val favoritesModule = module {
-        factory { provideFavoritesBeersFile(context = get()) }
-        factory { GsonBuilder().setPrettyPrinting().create() }
-        factory { FavoritesCacheDataSource(gson = get(), favoritesBeersFile = get()) }
-    }
+private fun provideBeersApiService(retrofit: Retrofit): BeersApiService {
+    return retrofit.create(BeersApiService::class.java)
+}
 
-    private fun provideFavoritesBeersFile(context: Context): File {
-        val filePath: String = context.filesDir.path.toString() + "/$FILE_FAVORITES_BEERS"
-        return File(filePath)
-    }
+val favoritesModule = module {
+    factory { provideFavoritesBeersFile(context = get()) }
+    factory { GsonBuilder().setPrettyPrinting().create() }
+    factory { FavoritesCacheDataSource(gson = get(), favoritesBeersFile = get()) }
+}
+
+private fun provideFavoritesBeersFile(context: Context): File {
+    val filePath: String = context.filesDir.path.toString() + "/$FILE_FAVORITES_BEERS"
+    return File(filePath)
 }
