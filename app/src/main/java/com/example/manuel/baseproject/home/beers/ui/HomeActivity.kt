@@ -22,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
-
+// TODO Create a new activity to show the favorites beers
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
