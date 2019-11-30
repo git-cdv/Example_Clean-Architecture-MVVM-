@@ -1,6 +1,5 @@
 package com.example.manuel.baseproject.home.beers.ui.mapper
 
-import android.util.Log
 import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.commons.BaseMapper
 import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
@@ -10,9 +9,6 @@ import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
 object BeerUIToAdapterModelMapper : BaseMapper<List<BeerUI>, List<BeerAdapterModel>> {
 
     override fun map(type: List<BeerUI>?): List<BeerAdapterModel> {
-        val favoritesInMapUI = type?.filter { it.isFavorite }
-        Log.i("test", "favoritesInMapUi size = ${favoritesInMapUI?.size}")
-
         return type?.map {
             BeerAdapterModel(
                     id = it.id,
