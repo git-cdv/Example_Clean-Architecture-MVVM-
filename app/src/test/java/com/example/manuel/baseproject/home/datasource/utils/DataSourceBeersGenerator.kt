@@ -1,8 +1,8 @@
 package com.example.manuel.baseproject.home.datasource.utils
 
-import com.example.manuel.baseproject.home.datasource.model.api.BeerApi
-import com.example.manuel.baseproject.home.datasource.model.api.BeersApi
-import com.example.manuel.baseproject.home.datasource.model.response.BeerResponse
+import com.example.manuel.baseproject.home.beers.datasource.model.api.BeerApi
+import com.example.manuel.baseproject.home.beers.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.home.beers.datasource.model.response.BeerResponse
 
 object DataSourceBeersGenerator {
 

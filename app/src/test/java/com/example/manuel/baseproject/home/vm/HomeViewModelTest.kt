@@ -1,9 +1,10 @@
 package com.example.manuel.baseproject.home.vm
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.manuel.baseproject.home.commons.datatype.Result
-import com.example.manuel.baseproject.home.domain.model.BeersEntity
-import com.example.manuel.baseproject.home.domain.usecase.GetBeersUseCase
+import com.example.manuel.baseproject.commons.datatype.Result
+import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
+import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
+import com.example.manuel.baseproject.home.beers.vm.HomeViewModel
 import com.example.manuel.baseproject.home.domain.utils.DomainBeersGenerator
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
@@ -96,10 +97,10 @@ class HomeViewModelTest {
             isErrorExpected: Boolean? = null,
             areEmptyBeersExpected: Boolean? = null
     ) {
-        Assert.assertEquals(beersExpected, viewModel.beers.value?.isNotEmpty())
-        Assert.assertEquals(isErrorExpected, viewModel.isError.value)
-        Assert.assertEquals(areEmptyBeersExpected, viewModel.areEmptyBeers.value)
-        Assert.assertEquals(EXPECTED_IS_LOADING_FALSE, viewModel.isLoading.value)
+        Assert.assertEquals(beersExpected, viewModel.beersLiveData.value?.isNotEmpty())
+        Assert.assertEquals(isErrorExpected, viewModel.isErrorLiveData.value)
+        Assert.assertEquals(areEmptyBeersExpected, viewModel.areEmptyBeersLiveData.value)
+        Assert.assertEquals(EXPECTED_IS_LOADING_FALSE, viewModel.isLoadingLiveData.value)
     }
 
     @Test
@@ -126,7 +127,7 @@ class HomeViewModelTest {
     }
 
     private fun assertIsLoadingLiveData(expectedResult: Boolean) {
-        val realResult = viewModel.isLoading.value
+        val realResult = viewModel.isLoadingLiveData.value
         Assert.assertEquals(expectedResult, realResult)
     }
 }

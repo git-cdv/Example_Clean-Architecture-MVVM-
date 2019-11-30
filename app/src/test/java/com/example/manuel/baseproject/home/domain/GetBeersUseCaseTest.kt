@@ -1,12 +1,13 @@
 package com.example.manuel.baseproject.home.domain
 
-import com.example.manuel.baseproject.home.domain.usecase.GetBeersUseCase
+import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
-import com.example.manuel.baseproject.home.commons.datatype.Result
-import com.example.manuel.baseproject.home.commons.exceptions.NetworkConnectionException
-import com.example.manuel.baseproject.home.domain.model.BeersEntity
+import com.example.manuel.baseproject.commons.datatype.Result
+import com.example.manuel.baseproject.commons.exceptions.NetworkConnectionException
+import com.example.manuel.baseproject.home.beers.domain.BeersRepository
+import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.domain.utils.DomainBeersGenerator
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
