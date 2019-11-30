@@ -7,9 +7,8 @@ import java.io.File
 
 class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeersFile: File) {
 
-    // TODO Gestionar los permisos de lectura, escritura si no se dan, al pulsar favoritos, se le indicará que se necesitan permisos y abrir settings
-    // TODO Por último para cerrar la feature, añadie el icono de favoritos en la UI
-    // TODO Queda para otra PR un refactor sobre posibles usos de extensions con delegates para los modelos Cache, hacer operaciones IO y genéricos
+    // TODO Handle the permissions to read and write in storage and redirect to settings if is necessary
+    // TODO Refactor the class to reutilize the way to read and update a file
     fun saveBeer(beerCacheModel: BeerCacheModel): Boolean {
         val listToSave = if (favoritesBeersFile.isFile) {
             val mutableFavoriteBeers = getBeers().toMutableList()
