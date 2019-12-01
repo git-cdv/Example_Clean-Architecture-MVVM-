@@ -1,18 +1,17 @@
 package com.example.manuel.baseproject.home.beers.repository
 
-import android.util.Log
 import com.example.manuel.baseproject.commons.datatype.Result
 import com.example.manuel.baseproject.commons.datatype.ResultType
-import com.example.manuel.baseproject.commons.exceptions.NetworkConnectionException
 import com.example.manuel.baseproject.commons.exceptions.BadRequestException
-import com.example.manuel.baseproject.home.beers.domain.BeersRepository
-import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
+import com.example.manuel.baseproject.commons.exceptions.NetworkConnectionException
 import com.example.manuel.baseproject.home.beers.datasource.BeersNetworkDataSource
+import com.example.manuel.baseproject.home.beers.datasource.FavoritesCacheDataSource
 import com.example.manuel.baseproject.home.beers.datasource.MAX_RESULTS_PER_PAGE
 import com.example.manuel.baseproject.home.beers.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.home.beers.domain.BeersRepository
+import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.repository.mapper.ApiToEntityMapper
-import com.example.manuel.baseproject.home.beers.datasource.FavoritesCacheDataSource
 import com.example.manuel.baseproject.home.beers.repository.mapper.CacheToEntityMapper
 import com.example.manuel.baseproject.home.beers.repository.mapper.EntityToCacheMapper
 

@@ -12,6 +12,8 @@ import com.example.manuel.baseproject.home.beers.ui.adapterlist.BeersAdapter
 import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
 import com.example.manuel.baseproject.home.beers.vm.HomeViewModel
 import com.example.manuel.baseproject.home.beers.datasource.FavoritesCacheDataSource
+import com.example.manuel.baseproject.home.favorites.domain.GetFavoritesBeersUseCase
+import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
 import com.google.gson.GsonBuilder
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -50,6 +52,8 @@ val favoritesModule = module {
     factory { provideFavoritesBeersFile(context = get()) }
     factory { GsonBuilder().setPrettyPrinting().create() }
     factory { FavoritesCacheDataSource(gson = get(), favoritesBeersFile = get()) }
+    factory { GetFavoritesBeersUseCase(repository = get()) }
+    factory { FavoritesBeersViewModel(getFavoritesBeersUseCase = get()) }
 }
 
 private fun provideFavoritesBeersFile(context: Context): File {
