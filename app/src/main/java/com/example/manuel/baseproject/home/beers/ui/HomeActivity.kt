@@ -1,9 +1,9 @@
 package com.example.manuel.baseproject.home.beers.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -21,6 +21,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
 
 // TODO Create a new activity to show the favorites beers
@@ -37,9 +38,13 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_beers_results)
 
         this.savedInstanceState = savedInstanceState
+        //setSupportActionBar(findViewById<Toolbar>(R.id.main_activity_toolbar).apply { title = "" })
         initDoOnFavoriteBeerSelected()
         bindViews()
         observerLiveData()
+
+
+        favorite_floating_button.setOnClickListener { Toast.makeText(this, "Go to favorite activity", Toast.LENGTH_SHORT).show() }
     }
 
     private fun initDoOnFavoriteBeerSelected() {

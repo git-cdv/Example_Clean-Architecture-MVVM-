@@ -36,8 +36,6 @@ class BeersRepositoryImpl(
             }
         } while (result?.resultType != Result.error<Error>().resultType && page != -1)
 
-        Log.i("test", "result = ${result?.data?.beers?.size ?: "no data"}")
-
         return result
     }
 
