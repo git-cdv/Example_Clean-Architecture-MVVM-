@@ -12,7 +12,6 @@ import com.example.manuel.baseproject.commons.extensions.loadImage
 import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
 import kotlinx.android.synthetic.main.item_list_beer.view.*
 
-
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun populateViews(beer: BeerAdapterModel) {
