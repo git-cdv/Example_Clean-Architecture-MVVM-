@@ -59,7 +59,11 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun intentToFavoritesBeersActivity() {
-        Intent(this, FavoritesBeersActivity::class.java).run { startActivity(this) }
+        Intent(this, FavoritesBeersActivity::class.java)
+                .run {
+                    startActivity(this)
+                    overridePendingTransition(R.anim.slide_up, R.anim.slide_down)
+                }
     }
 
     private fun observerLiveData() {

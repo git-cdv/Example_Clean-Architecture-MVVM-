@@ -7,14 +7,30 @@ import com.example.manuel.baseproject.R
 
 class FavoritesBeersActivity : AppCompatActivity() {
 
+    private lateinit var toolbar: Toolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites_beers)
 
+        bindViews()
+        initToolbar()
+        setListeners()
+    }
+
+    private fun bindViews() {
+        toolbar = findViewById(R.id.favorites_beers_toolbar)
+    }
+
+    private fun initToolbar() {
         findViewById<Toolbar>(R.id.favorites_beers_toolbar).apply {
             title = ""
-            setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
+            setNavigationIcon(R.drawable.ic_close_white_24dp)
             setSupportActionBar(this)
         }
+    }
+
+    private fun setListeners() {
+        toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 }
