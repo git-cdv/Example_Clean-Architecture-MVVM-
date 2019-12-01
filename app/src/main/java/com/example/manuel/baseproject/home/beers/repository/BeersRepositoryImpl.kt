@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.home.beers.repository
 
+import android.util.Log
 import com.example.manuel.baseproject.commons.datatype.Result
 import com.example.manuel.baseproject.commons.datatype.ResultType
 import com.example.manuel.baseproject.commons.exceptions.NetworkConnectionException
@@ -33,7 +34,9 @@ class BeersRepositoryImpl(
                 addAllBeersUntilLastPage(resultListBeerResponse)
                 result = initResult(resultListBeerResponse)
             }
-        } while (result?.resultType != Result.error<Error>().resultType && beers.size == 0)
+        } while (result?.resultType != Result.error<Error>().resultType && page != -1)
+
+        Log.i("test", "result = ${result?.data?.beers?.size ?: "no data"}")
 
         return result
     }
@@ -71,7 +74,11 @@ class BeersRepositoryImpl(
             if (hasNotMoreBeers(beersApiResult.error)) {
                 Result.success(BeersEntity(beers))
             } else {
-                Result.error(NetworkConnectionException())
+                if (beersApiResult.error is BadRequestException && beers.size > 0) {
+                    Result.success(BeersEntity(beers))
+                } else {
+                    Result.error(NetworkConnectionException())
+                }
             }
         }
     }

@@ -22,7 +22,6 @@
         android:id="@+id/recycler_view_beers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:overScrollMode="never"
         android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
