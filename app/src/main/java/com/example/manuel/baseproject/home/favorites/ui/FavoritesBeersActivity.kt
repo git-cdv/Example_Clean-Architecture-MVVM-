@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.manuel.baseproject.R
@@ -35,7 +36,13 @@ class FavoritesBeersActivity : AppCompatActivity() {
 
     private fun initToolbar() {
         findViewById<Toolbar>(R.id.favorites_beers_toolbar).apply {
-            title = ""
+            title = getString(R.string.activity_favorites_toolbar_title)
+            setTitleTextColor(
+                    ContextCompat.getColor(
+                            this@FavoritesBeersActivity,
+                            R.color.white
+                    )
+            )
             setNavigationIcon(R.drawable.ic_close_white_24dp)
             setSupportActionBar(this)
         }
