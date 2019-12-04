@@ -30,7 +30,7 @@ object EntityToCacheMapper : BaseMapper<BeerEntity, BeerCacheModel> {
                 tagline = type.tagline,
                 image = type.image,
                 abv = type.abv,
-                isFavorite = type.isFavorite
+                isFavorite = true
         )
     }
 }

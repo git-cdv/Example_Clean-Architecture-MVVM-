@@ -1,33 +1,69 @@
 package com.example.manuel.baseproject.home.favorites.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.home.beers.ui.adapterlist.BeersAdapter
-import com.example.manuel.baseproject.home.beers.ui.mapper.BeerUIToAdapterModelMapper
+import com.example.manuel.baseproject.home.beers.ui.mapper.BeerUIToFavoriteAdapterModelMapper
+import com.example.manuel.baseproject.home.beers.ui.mapper.FavoriteBeerAdapterModelToBeerUIMapper
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
+import com.example.manuel.baseproject.home.favorites.ui.adapterlist.FavoriteBeersAdapter
+import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_favorites_beers.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class FavoritesBeersActivity : AppCompatActivity() {
 
-    private lateinit var toolbar: Toolbar
     private val viewModel: FavoritesBeersViewModel by viewModel()
+    private lateinit var toolbar: Toolbar
+    private val beersAdapter: FavoriteBeersAdapter by inject { parametersOf(doOnFavoriteBeerSelected) }
+    private var doOnFavoriteBeerSelected: ((FavoriteBeerAdapterModel) -> Unit)? = null
+    private var initialBeers: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites_beers)
 
+        initDoOnFavoriteBeerSelectedVar()
         bindViews()
         initToolbar()
+        initRecyclerView()
         setListeners()
         observerLiveData()
+    }
+
+    private fun initDoOnFavoriteBeerSelectedVar() {
+        doOnFavoriteBeerSelected = { beerAdapterModel ->
+            Log.i("test", "Remove beer id = ${beerAdapterModel.id}")
+            viewModel.handleRemoveButton(FavoriteBeerAdapterModelToBeerUIMapper.map(beerAdapterModel))
+            showSnackBar()
+        }
+    }
+
+    private fun showSnackBar() {
+        val view: ConstraintLayout = findViewById(R.id.favorites_beers_main_container)
+        Snackbar
+                .make(view, getString(R.string.activity_favorites_snackbar_title), Snackbar.LENGTH_SHORT)
+                .setAction(getString(R.string.activity_favorites_snackbar_action)) {
+                    viewModel.handleUndoButton()
+                }
+                .addCallback(object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        super.onDismissed(transientBottomBar, event)
+                        viewModel.handleOnSnackBarHidden()
+                    }
+                })
+                .show()
     }
 
     private fun bindViews() {
@@ -48,6 +84,13 @@ class FavoritesBeersActivity : AppCompatActivity() {
         }
     }
 
+    private fun initRecyclerView() {
+        favorites_beers_recycler_view.apply {
+            layoutManager = LinearLayoutManager(this@FavoritesBeersActivity)
+            setHasFixedSize(true)
+        }
+    }
+
     private fun setListeners() {
         toolbar.setNavigationOnClickListener { onBackPressed() }
     }
@@ -59,11 +102,11 @@ class FavoritesBeersActivity : AppCompatActivity() {
 
     private fun populateRecyclerView(beersUI: List<BeerUI>) {
         favorites_beers_recycler_view.apply {
-            layoutManager = LinearLayoutManager(this@FavoritesBeersActivity)
-            val beersAdapter = BeersAdapter()
-            val beersAdapterModel = BeerUIToAdapterModelMapper.map(beersUI)
+            if (initialBeers == null) initialBeers = beersUI.size
+
+            val beersAdapterModel = BeerUIToFavoriteAdapterModelMapper.map(beersUI)
             beersAdapter.setData(beersAdapterModel)
-            adapter = beersAdapter.apply { updateAdapter(beersAdapterModel) }
+            adapter = beersAdapter
             setHasFixedSize(true)
         }
     }
@@ -76,5 +119,16 @@ class FavoritesBeersActivity : AppCompatActivity() {
         favorites_beers_spinner.apply {
             visibility = if (isLoading) View.VISIBLE else View.GONE
         }
+    }
+
+    override fun onBackPressed() {
+        val finalBeers = beersAdapter.itemCount
+        initialBeers?.let {
+            Log.i("test", "Refresh previous activity = ${initialBeers != 0 && finalBeers < it}")
+            Log.i("test", "final beers = ${finalBeers}")
+            Log.i("test", "initial beers = ${initialBeers}")
+        }
+
+        super.onBackPressed()
     }
 }

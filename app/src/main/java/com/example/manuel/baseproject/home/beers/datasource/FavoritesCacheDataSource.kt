@@ -31,19 +31,20 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
 
     fun removeBeer(id: Int): Boolean {
         if (favoritesBeersFile.isFile) {
-            val beerToRemove = getBeers().filter { it.id == id }[0]
-            val mutableUpdatedList = getBeers().toMutableList().apply {
-                remove(beerToRemove)
+            val mutableBeers = getBeers().toMutableList()
+            val existBeer = mutableBeers.any { it.id == id }
+            if (existBeer) {
+                val beerToRemove = mutableBeers.filter { it.id == id }[0]
+                mutableBeers.remove(beerToRemove)
+                favoritesBeersFile.writeText(serializeObjectToJSON(mutableBeers.toList()))
             }
-
-            favoritesBeersFile.writeText(serializeObjectToJSON(mutableUpdatedList.toList()))
         }
 
         return isBeerRemoved(id)
     }
 
     private fun isBeerRemoved(beerId: Int): Boolean {
-        return getBeers().any { savedBeer -> savedBeer.id == beerId }
+        return getBeers().any { savedBeer -> savedBeer.id == beerId }.not()
     }
 
     private fun serializeObjectToJSON(beersCacheModel: List<BeerCacheModel>): String {

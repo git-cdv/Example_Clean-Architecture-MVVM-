@@ -7,5 +7,5 @@ class BeerUI(
         val image: String,
         val abv: Double,
         val abvColorType: AbvColorType,
-        val isFavorite: Boolean = false
+        var isFavorite: Boolean = false
 )

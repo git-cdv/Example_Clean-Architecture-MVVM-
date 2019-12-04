@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.home.beers.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,8 +23,8 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
+private const val REQUEST_CODE_LOAD_BEERS = 1000
 
 class HomeActivity : AppCompatActivity() {
 
@@ -61,8 +62,8 @@ class HomeActivity : AppCompatActivity() {
     private fun intentToFavoritesBeersActivity() {
         Intent(this, FavoritesBeersActivity::class.java)
                 .run {
-                    startActivity(this)
-                    overridePendingTransition(R.anim.slide_up, R.anim.slide_down)
+                    startActivityForResult(this, REQUEST_CODE_LOAD_BEERS)
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
                 }
     }
 
@@ -165,5 +166,10 @@ class HomeActivity : AppCompatActivity() {
                 outState.putInt(KEY_LAST_ITEM_POSITION, lastVisibleItemPosition)
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Activity.RESULT_OK && resultCode == REQUEST_CODE_LOAD_BEERS) viewModel.handleBeersLoad()
     }
 }

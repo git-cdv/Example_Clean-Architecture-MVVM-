@@ -9,4 +9,6 @@
     <string name="network_connection_error_action">Try again!</string>
 
     <string name="activity_favorites_toolbar_title">Favorites</string>
+    <string name="activity_favorites_snackbar_action">Undo</string>
+    <string name="activity_favorites_snackbar_title">Removed</string>
 </resources>
