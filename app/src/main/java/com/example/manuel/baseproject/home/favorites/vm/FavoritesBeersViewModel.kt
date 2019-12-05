@@ -1,6 +1,5 @@
 package com.example.manuel.baseproject.home.favorites.vm
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,19 +22,23 @@ class FavoritesBeersViewModel(
     private var beerUIRemoved: BeerUI? = null
     private var positionBeerUIRemoved = -1
     private val mutableBeersUI: MutableList<BeerUI> = mutableListOf()
-    private var isUndoButtonPressed = false
 
-    private val beersMutableLiveData: MutableLiveData<List<BeerUI>> = MutableLiveData()
+    private val beersMutableLiveData = MutableLiveData<List<BeerUI>>()
     val beersLiveData: LiveData<List<BeerUI>>
         get() = beersMutableLiveData
 
-    private val isErrorMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val isErrorMutableLiveData = MutableLiveData<Boolean>()
     val isErrorLiveData: LiveData<Boolean>
         get() = isErrorMutableLiveData
 
-    private val isLoadingMutableLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val isLoadingMutableLiveData = MutableLiveData<Boolean>()
     val isLoadingLiveData: LiveData<Boolean>
         get() = isLoadingMutableLiveData
+
+    private var counterRemovedBeers = 0
+    private val isSomeBeerRemovedMutableLiveData = MutableLiveData<Boolean>()
+    val isSomeBeerRemovedLiveData: LiveData<Boolean>
+        get() = isSomeBeerRemovedMutableLiveData
 
     init {
         handleBeersLoad()
@@ -57,6 +60,7 @@ class FavoritesBeersViewModel(
 
     fun handleRemoveButton(beerUI: BeerUI) {
         this.beerUIRemoved = beerUI
+        this.counterRemovedBeers++
         removeBeerUITemporalCache()
         beersMutableLiveData.postValue(mutableBeersUI)
         removeBeerUseCase.execute(beerUI.id)
@@ -69,7 +73,7 @@ class FavoritesBeersViewModel(
     }
 
     fun handleUndoButton() {
-        this.isUndoButtonPressed = true
+        this.counterRemovedBeers--
         saveBeerUseCase.execute(BeerAdapterModelToEntityMapper.map(beerUIRemoved))
         restorePreviousState()
         resetBeerRemovedData()
@@ -90,8 +94,7 @@ class FavoritesBeersViewModel(
         beerUIRemoved = null
     }
 
-    fun handleOnSnackBarHidden() {
-        //if (!isUndoButtonPressed) saveBeerUseCase.execute(BeerAdapterModelToEntityMapper.map(beerUIRemoved))
-        isUndoButtonPressed = false
+    fun handleOnBackPressed() {
+        isSomeBeerRemovedMutableLiveData.value = counterRemovedBeers > 0
     }
 }

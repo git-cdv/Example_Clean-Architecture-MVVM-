@@ -170,6 +170,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Activity.RESULT_OK && resultCode == REQUEST_CODE_LOAD_BEERS) viewModel.handleBeersLoad()
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_LOAD_BEERS) viewModel.handleBeersLoad()
     }
 }

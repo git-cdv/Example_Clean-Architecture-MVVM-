@@ -1,5 +1,7 @@
 package com.example.manuel.baseproject.home.favorites.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -52,18 +54,12 @@ class FavoritesBeersActivity : AppCompatActivity() {
 
     private fun showSnackBar() {
         val view: ConstraintLayout = findViewById(R.id.favorites_beers_main_container)
-        Snackbar
-                .make(view, getString(R.string.activity_favorites_snackbar_title), Snackbar.LENGTH_SHORT)
-                .setAction(getString(R.string.activity_favorites_snackbar_action)) {
+        Snackbar.
+                make(view, getString(R.string.activity_favorites_snackbar_title), Snackbar.LENGTH_SHORT).
+                setAction(getString(R.string.activity_favorites_snackbar_action)) {
                     viewModel.handleUndoButton()
-                }
-                .addCallback(object : Snackbar.Callback() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                        super.onDismissed(transientBottomBar, event)
-                        viewModel.handleOnSnackBarHidden()
-                    }
-                })
-                .show()
+                }.
+                show()
     }
 
     private fun bindViews() {
@@ -98,6 +94,7 @@ class FavoritesBeersActivity : AppCompatActivity() {
     private fun observerLiveData() {
         viewModel.beersLiveData.observe(this, Observer(::populateRecyclerView))
         viewModel.isLoadingLiveData.observe(this, Observer(::onLoadingStateReceived))
+        viewModel.isSomeBeerRemovedLiveData.observe(this, Observer(::handleOnBackPressed))
     }
 
     private fun populateRecyclerView(beersUI: List<BeerUI>) {
@@ -122,13 +119,15 @@ class FavoritesBeersActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val finalBeers = beersAdapter.itemCount
-        initialBeers?.let {
-            Log.i("test", "Refresh previous activity = ${initialBeers != 0 && finalBeers < it}")
-            Log.i("test", "final beers = ${finalBeers}")
-            Log.i("test", "initial beers = ${initialBeers}")
-        }
+        viewModel.handleOnBackPressed()
+    }
 
-        super.onBackPressed()
+    private fun handleOnBackPressed(isSomeBeerRemoved: Boolean) {
+        if (!isSomeBeerRemoved) {
+            finish()
+            return
+        }
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 }
