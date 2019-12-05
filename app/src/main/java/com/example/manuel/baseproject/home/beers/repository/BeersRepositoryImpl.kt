@@ -20,9 +20,12 @@ class BeersRepositoryImpl(
         private val favoritesCacheDataSource: FavoritesCacheDataSource
 ) : BeersRepository {
 
-    private val beers = mutableListOf<BeerEntity>()
+    private lateinit var allBeersFromApiToReturn: MutableList<BeerEntity>
+    private lateinit var allBeersFromApiCopy: MutableList<BeerEntity>
 
     override suspend fun getAllBeers(): Result<BeersEntity>? {
+        allBeersFromApiToReturn = mutableListOf()
+
         var page = -1
         var result: Result<BeersEntity>?
 
@@ -50,29 +53,34 @@ class BeersRepositoryImpl(
         return page
     }
 
-    private fun hasBeers() = beers.size > 0
+    private fun hasBeers() = allBeersFromApiToReturn.size > 0
 
     private fun isNecessaryFetchMoreBeers(page: Int): Boolean {
-        return (beers.size / page) == MAX_RESULTS_PER_PAGE
+        return (allBeersFromApiToReturn.size / page) == MAX_RESULTS_PER_PAGE
     }
 
     private fun addAllBeersUntilLastPage(beersApiResult: Result<BeersApi>) {
         ApiToEntityMapper.map(beersApiResult.data).let { beersEntity ->
             beersEntity.beers.forEach { beerEntity ->
-                beers.add(beerEntity)
+                allBeersFromApiToReturn.add(beerEntity)
             }
         }
     }
 
     private fun initResult(beersApiResult: Result<BeersApi>): Result<BeersEntity> {
+        allBeersFromApiCopy = mutableListOf()
+
         return if (beersApiResult.resultType == ResultType.SUCCESS) {
-            Result.success(BeersEntity(beers))
+            allBeersFromApiCopy.addAll(allBeersFromApiToReturn)
+            Result.success(BeersEntity(allBeersFromApiToReturn))
         } else {
             if (hasNotMoreBeers(beersApiResult.error)) {
-                Result.success(BeersEntity(beers))
+                allBeersFromApiCopy.addAll(allBeersFromApiToReturn)
+                Result.success(BeersEntity(allBeersFromApiToReturn))
             } else {
-                if (beersApiResult.error is BadRequestException && beers.size > 0) {
-                    Result.success(BeersEntity(beers))
+                if (beersApiResult.error is BadRequestException && allBeersFromApiToReturn.size > 0) {
+                    allBeersFromApiCopy.addAll(allBeersFromApiToReturn)
+                    Result.success(BeersEntity(allBeersFromApiToReturn))
                 } else {
                     Result.error(NetworkConnectionException())
                 }
@@ -81,7 +89,7 @@ class BeersRepositoryImpl(
     }
 
     private fun hasNotMoreBeers(error: Exception?): Boolean {
-        return beers.isNotEmpty() && error == BadRequestException()
+        return allBeersFromApiToReturn.isNotEmpty() && error == BadRequestException()
     }
 
     override fun saveBeer(beerEntity: BeerEntity): Boolean {

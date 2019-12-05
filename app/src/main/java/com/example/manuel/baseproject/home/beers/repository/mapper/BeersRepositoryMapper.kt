@@ -15,7 +15,8 @@ object ApiToEntityMapper : BaseMapper<BeersApi, BeersEntity> {
                             name = it.name ?: "",
                             tagline = it.tagline ?: "",
                             image = it.image ?: "",
-                            abv = it.abv ?: -1.0
+                            abv = it.abv ?: -1.0,
+                            isFavorite = false
                     )
                 } ?: listOf()
         )

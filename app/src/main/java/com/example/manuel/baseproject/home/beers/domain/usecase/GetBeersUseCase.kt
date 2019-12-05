@@ -18,8 +18,10 @@ class GetBeersUseCase(private val beersRepository: BeersRepository) {
                 beersEntity.data?.let {
                     val allBeersWithFavoritesChecked =
                             getAllBeersWithFavoritesChecked(it.beers.toMutableList()).toList()
+
                     val sortedBeers =
                             getSortedAscendingBeers(BeersEntity(allBeersWithFavoritesChecked))
+
                     beers = Result.success(sortedBeers)
                 }
             } else {
@@ -35,6 +37,7 @@ class GetBeersUseCase(private val beersRepository: BeersRepository) {
         favoritesBeer.map { favoriteBeer ->
             val beerUncheckedAsFavorite =
                     mutableAllBeers.filter { noFavoriteBeer -> noFavoriteBeer.id == favoriteBeer.id }
+
             if (beerUncheckedAsFavorite.isNotEmpty()) {
                 val beerToFavorite = beerUncheckedAsFavorite[0].apply { isFavorite = true }
                 mutableAllBeers.remove(beerUncheckedAsFavorite[0])
