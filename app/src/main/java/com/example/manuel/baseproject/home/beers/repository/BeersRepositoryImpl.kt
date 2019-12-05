@@ -21,7 +21,6 @@ class BeersRepositoryImpl(
 ) : BeersRepository {
 
     private lateinit var allBeersFromApiToReturn: MutableList<BeerEntity>
-    private lateinit var allBeersFromApiCopy: MutableList<BeerEntity>
 
     override suspend fun getAllBeers(): Result<BeersEntity>? {
         allBeersFromApiToReturn = mutableListOf()
@@ -68,18 +67,13 @@ class BeersRepositoryImpl(
     }
 
     private fun initResult(beersApiResult: Result<BeersApi>): Result<BeersEntity> {
-        allBeersFromApiCopy = mutableListOf()
-
         return if (beersApiResult.resultType == ResultType.SUCCESS) {
-            allBeersFromApiCopy.addAll(allBeersFromApiToReturn)
             Result.success(BeersEntity(allBeersFromApiToReturn))
         } else {
             if (hasNotMoreBeers(beersApiResult.error)) {
-                allBeersFromApiCopy.addAll(allBeersFromApiToReturn)
                 Result.success(BeersEntity(allBeersFromApiToReturn))
             } else {
                 if (beersApiResult.error is BadRequestException && allBeersFromApiToReturn.size > 0) {
-                    allBeersFromApiCopy.addAll(allBeersFromApiToReturn)
                     Result.success(BeersEntity(allBeersFromApiToReturn))
                 } else {
                     Result.error(NetworkConnectionException())
