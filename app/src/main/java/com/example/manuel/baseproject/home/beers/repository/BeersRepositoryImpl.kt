@@ -20,11 +20,10 @@ class BeersRepositoryImpl(
         private val favoritesCacheDataSource: FavoritesCacheDataSource
 ) : BeersRepository {
 
-    private lateinit var allBeersFromApiToReturn: MutableList<BeerEntity>
+    private lateinit var mutableBeers: MutableList<BeerEntity>
 
     override suspend fun getAllBeers(): Result<BeersEntity>? {
-        allBeersFromApiToReturn = mutableListOf()
-
+        mutableBeers = mutableListOf()
         var page = -1
         var result: Result<BeersEntity>?
 
@@ -52,40 +51,38 @@ class BeersRepositoryImpl(
         return page
     }
 
-    private fun hasBeers() = allBeersFromApiToReturn.size > 0
+    private fun hasBeers() = mutableBeers.size > 0
 
     private fun isNecessaryFetchMoreBeers(page: Int): Boolean {
-        return (allBeersFromApiToReturn.size / page) == MAX_RESULTS_PER_PAGE
+        return (mutableBeers.size / page) == MAX_RESULTS_PER_PAGE
     }
 
     private fun addAllBeersUntilLastPage(beersApiResult: Result<BeersApi>) {
         ApiToEntityMapper.map(beersApiResult.data).let { beersEntity ->
             beersEntity.beers.forEach { beerEntity ->
-                allBeersFromApiToReturn.add(beerEntity)
+                mutableBeers.add(beerEntity)
             }
         }
     }
 
     private fun initResult(beersApiResult: Result<BeersApi>): Result<BeersEntity> {
-        return if (beersApiResult.resultType == ResultType.SUCCESS) {
-            Result.success(BeersEntity(allBeersFromApiToReturn))
+        return if ((
+                        beersApiResult.resultType == ResultType.SUCCESS).or(
+                        beersApiResult.error is BadRequestException && mutableBeers.size > 0
+                )
+        ) {
+            Result.success(BeersEntity(mutableBeers))
         } else {
-            if (hasNotMoreBeers(beersApiResult.error)) {
-                Result.success(BeersEntity(allBeersFromApiToReturn))
-            } else {
-                if (beersApiResult.error is BadRequestException && allBeersFromApiToReturn.size > 0) {
-                    Result.success(BeersEntity(allBeersFromApiToReturn))
-                } else {
-                    Result.error(NetworkConnectionException())
-                }
-            }
+            Result.error(NetworkConnectionException())
         }
     }
 
     private fun hasNotMoreBeers(error: Exception?): Boolean {
-        return allBeersFromApiToReturn.isNotEmpty() && error == BadRequestException()
+        return mutableBeers.isNotEmpty() && error == BadRequestException()
     }
 
+
+    // ESTOS TRES MÉTODOS ESTÁN PERFECTOS, DEVUELVEN LO QUE TIENEN QUE DEVOLVER
     override fun saveBeer(beerEntity: BeerEntity): Boolean {
         val beerCache = EntityToCacheMapper.map(beerEntity)
         return favoritesCacheDataSource.saveBeer(beerCache)

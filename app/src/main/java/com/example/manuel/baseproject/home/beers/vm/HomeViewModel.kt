@@ -16,6 +16,7 @@ import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeViewModel(
         private val getMealsByBeersUseCase: GetBeersUseCase,
@@ -45,8 +46,10 @@ class HomeViewModel(
 
     fun handleBeersLoad() {
         isLoadingLiveData(true)
-        viewModelScope.launch {
-            updateAppropriateLiveData(getMealsByBeersUseCase.execute())
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                updateAppropriateLiveData(getMealsByBeersUseCase.execute())
+            }
         }
     }
 
@@ -66,9 +69,9 @@ class HomeViewModel(
         val beers = BeersEntityToUIMapper.map(beersEntity?.beers)
 
         if (beers.isEmpty()) {
-            areEmptyBeersMutableLiveData.postValue(true)
+            areEmptyBeersMutableLiveData.value = true
         } else {
-            beersMutableLiveData.postValue(beers)
+            beersMutableLiveData.value = beers
         }
 
         isLoadingLiveData(false)
@@ -82,12 +85,12 @@ class HomeViewModel(
             delay(300)
             isLoadingLiveData(false)
         }.invokeOnCompletion {
-            isErrorMutableLiveData.postValue(true)
+            isErrorMutableLiveData.value = true
         }
     }
 
     private fun isLoadingLiveData(isLoading: Boolean) {
-        this.isLoadingMutableLiveData.postValue(isLoading)
+        this.isLoadingMutableLiveData.value = isLoading
     }
 
     fun handleFavoriteButton(beerUI: BeerUI) {

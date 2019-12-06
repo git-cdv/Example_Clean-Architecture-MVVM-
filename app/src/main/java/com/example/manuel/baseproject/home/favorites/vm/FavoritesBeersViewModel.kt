@@ -12,6 +12,7 @@ import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
 import com.example.manuel.baseproject.home.favorites.domain.GetFavoritesBeersUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FavoritesBeersViewModel(
         private val getFavoritesBeersUseCase: GetFavoritesBeersUseCase,
@@ -48,21 +49,23 @@ class FavoritesBeersViewModel(
         isLoadingLiveData(true)
         viewModelScope.launch(Dispatchers.IO) {
             val beersUI = BeersEntityToUIMapper.map(getFavoritesBeersUseCase.execute().beers)
-            beersMutableLiveData.postValue(beersUI)
-            isLoadingLiveData(false)
-            mutableBeersUI.addAll(beersUI)
+            withContext(Dispatchers.Main) {
+                beersMutableLiveData.value = beersUI
+                isLoadingLiveData(false)
+                mutableBeersUI.addAll(beersUI)
+            }
         }
     }
 
     private fun isLoadingLiveData(isLoading: Boolean) {
-        this.isLoadingMutableLiveData.postValue(isLoading)
+        this.isLoadingMutableLiveData.value = isLoading
     }
 
     fun handleRemoveButton(beerUI: BeerUI) {
         this.beerUIRemoved = beerUI
         this.counterRemovedBeers++
         removeBeerUITemporalCache()
-        beersMutableLiveData.postValue(mutableBeersUI)
+        beersMutableLiveData.value = mutableBeersUI.toList()
         removeBeerUseCase.execute(beerUI.id)
     }
 
@@ -85,7 +88,7 @@ class FavoritesBeersViewModel(
                 add(positionBeerUIRemoved, beerUIRemoved.apply { isFavorite = true })
                 sortedBy { it.abv }
             }
-            beersMutableLiveData.postValue(mutableBeersUI)
+            beersMutableLiveData.value = mutableBeersUI.toList()
         }
     }
 
