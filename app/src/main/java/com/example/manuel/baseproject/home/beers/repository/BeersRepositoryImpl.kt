@@ -66,21 +66,15 @@ class BeersRepositoryImpl(
     }
 
     private fun initResult(beersApiResult: Result<BeersApi>): Result<BeersEntity> {
-        return if ((
-                        beersApiResult.resultType == ResultType.SUCCESS).or(
-                        beersApiResult.error is BadRequestException && mutableBeers.size > 0
-                )
+        return if (
+                beersApiResult.resultType == ResultType.SUCCESS ||
+                beersApiResult.error is BadRequestException && mutableBeers.size > 0
         ) {
             Result.success(BeersEntity(mutableBeers))
         } else {
             Result.error(NetworkConnectionException())
         }
     }
-
-    private fun hasNotMoreBeers(error: Exception?): Boolean {
-        return mutableBeers.isNotEmpty() && error == BadRequestException()
-    }
-
 
     // ESTOS TRES MÉTODOS ESTÁN PERFECTOS, DEVUELVEN LO QUE TIENEN QUE DEVOLVER
     override fun saveBeer(beerEntity: BeerEntity): Boolean {
