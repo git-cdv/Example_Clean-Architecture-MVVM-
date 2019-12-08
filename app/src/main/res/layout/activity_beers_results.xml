@@ -5,33 +5,9 @@
     android:id="@+id/activity_beers_view_group"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingEnd="8dp"
     android:paddingStart="8dp"
+    android:paddingEnd="8dp"
     tools:context=".home.beers.ui.HomeActivity">
-    <!--
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/main_activity_guideline_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="8dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/main_activity_guideline_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="8dp" />
-            -->
-
-    <include
-        android:id="@+id/main_activity_spinner"
-        layout="@layout/spinner"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_beers"
@@ -41,7 +17,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_list_beer" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/favorite_floating_button"
@@ -49,10 +26,20 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/blue900"
+        android:backgroundTint="@color/orange500"
         android:src="@drawable/ic_star_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <include
+        android:id="@+id/main_activity_spinner"
+        layout="@layout/spinner"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

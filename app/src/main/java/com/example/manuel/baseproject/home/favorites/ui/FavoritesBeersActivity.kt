@@ -51,12 +51,9 @@ class FavoritesBeersActivity : AppCompatActivity() {
 
     private fun showSnackBar() {
         val view: ConstraintLayout = findViewById(R.id.favorites_beers_main_container)
-        Snackbar.
-                make(view, getString(R.string.activity_favorites_snackbar_title), Snackbar.LENGTH_SHORT).
-                setAction(getString(R.string.activity_favorites_snackbar_action)) {
-                    viewModel.handleUndoButton()
-                }.
-                show()
+        Snackbar.make(view, getString(R.string.activity_favorites_snackbar_title), Snackbar.LENGTH_SHORT).setAction(getString(R.string.activity_favorites_snackbar_action)) {
+            viewModel.handleUndoButton()
+        }.show()
     }
 
     private fun bindViews() {
