@@ -54,6 +54,8 @@ class FileCacheDataSource<T>(private val file: File) {
     }
 
     // TODO Se puede crear una capa de datasource que se le pase por parámetro el typo -> object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
+    // De esta manera al pasar el type, no importa si el objeto es una lista o un objeto, cada feature usará lo que necesite
+    // Otra opción es pasar un type adapter por constructor, mucho mejor
 
     var typeClass: Type =  object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
     private fun deserializeFromJsonToObject(json: String): T? {
