@@ -17,6 +17,7 @@ import com.example.manuel.baseproject.home.favorites.ui.adapterlist.FavoriteBeer
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_beers_results.*
 import kotlinx.android.synthetic.main.activity_favorites_beers.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,7 +52,7 @@ class FavoritesBeersActivity : AppCompatActivity() {
 
     private fun showSnackBar() {
         val view: ConstraintLayout = findViewById(R.id.favorites_beers_main_container)
-        Snackbar.make(view, getString(R.string.activity_favorites_snackbar_title), Snackbar.LENGTH_SHORT).setAction(getString(R.string.activity_favorites_snackbar_action)) {
+        Snackbar.make(view, getString(R.string.activity_favorites_snack_bar_title), Snackbar.LENGTH_SHORT).setAction(getString(R.string.activity_favorites_snack_bar_action)) {
             viewModel.handleUndoButton()
         }.show()
     }
@@ -91,14 +92,24 @@ class FavoritesBeersActivity : AppCompatActivity() {
         viewModel.isSomeBeerRemovedLiveData.observe(this, Observer(::handleOnBackPressed))
     }
 
-    private fun populateRecyclerView(beersUI: List<BeerUI>) {
-        favorites_beers_recycler_view.apply {
-            if (initialBeers == null) initialBeers = beersUI.size
+    private fun populateRecyclerView(beersUI: List<BeerUI>?) {
+        beersUI?.let {
+            if (it.isEmpty()) {
+                favorites_beers_recycler_view.visibility = View.GONE
+                favorites_beers_empty_view.visibility = View.VISIBLE
+            } else {
+                favorites_beers_recycler_view.apply {
+                    if (initialBeers == null) initialBeers = beersUI.size
 
-            val beersAdapterModel = BeerUIToFavoriteAdapterModelMapper.map(beersUI)
-            beersAdapter.setData(beersAdapterModel)
-            adapter = beersAdapter
-            setHasFixedSize(true)
+                    val beersAdapterModel = BeerUIToFavoriteAdapterModelMapper.map(beersUI)
+                    beersAdapter.setData(beersAdapterModel)
+                    adapter = beersAdapter
+                    setHasFixedSize(true)
+                }
+
+                favorites_beers_recycler_view.visibility = View.VISIBLE
+                favorites_beers_empty_view.visibility = View.GONE
+            }
         }
     }
 
