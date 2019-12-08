@@ -1,12 +1,12 @@
-package com.example.manuel.baseproject.network.data.datasource
+package com.example.manuel.baseproject.network.data.datasource.api
 
 import com.example.manuel.baseproject.network.handleNetworkExceptions
-import com.example.manuel.baseproject.network.data.datasource.retrofit.BeersApiService
+import com.example.manuel.baseproject.network.data.datasource.api.retrofit.BeersApiService
 import java.lang.Exception
 
 import com.example.manuel.baseproject.core.datatype.Result
-import com.example.manuel.baseproject.network.data.datasource.mapper.ResponseToApiMapper
-import com.example.manuel.baseproject.network.data.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.network.data.datasource.api.mapper.ResponseToApiMapper
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeersApi
 
 const val MAX_RESULTS_PER_PAGE: Int = 80
 

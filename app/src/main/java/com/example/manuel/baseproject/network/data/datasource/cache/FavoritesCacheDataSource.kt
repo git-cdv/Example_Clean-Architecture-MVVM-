@@ -1,6 +1,6 @@
-package com.example.manuel.baseproject.network.data.datasource
+package com.example.manuel.baseproject.network.data.datasource.cache
 
-import com.example.manuel.baseproject.network.data.datasource.model.cache.BeerCacheModel
+import com.example.manuel.baseproject.network.data.datasource.cache.model.BeerCacheModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File

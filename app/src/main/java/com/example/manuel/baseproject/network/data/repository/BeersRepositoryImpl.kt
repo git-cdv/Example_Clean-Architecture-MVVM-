@@ -3,11 +3,11 @@ package com.example.manuel.baseproject.network.data.repository
 import com.example.manuel.baseproject.core.datatype.Result
 import com.example.manuel.baseproject.core.datatype.ResultType
 import com.example.manuel.baseproject.network.exceptions.BadRequestException
-import com.example.manuel.baseproject.network.data.datasource.BeersNetworkDataSource
-import com.example.manuel.baseproject.network.data.datasource.FavoritesCacheDataSource
-import com.example.manuel.baseproject.network.data.datasource.MAX_RESULTS_PER_PAGE
-import com.example.manuel.baseproject.network.data.datasource.model.api.BeerApi
-import com.example.manuel.baseproject.network.data.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.network.data.datasource.api.BeersNetworkDataSource
+import com.example.manuel.baseproject.network.data.datasource.cache.FavoritesCacheDataSource
+import com.example.manuel.baseproject.network.data.datasource.api.MAX_RESULTS_PER_PAGE
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeerApi
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeersApi
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity

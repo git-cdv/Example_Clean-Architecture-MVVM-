@@ -1,9 +1,9 @@
-package com.example.manuel.baseproject.network.data.datasource.mapper
+package com.example.manuel.baseproject.network.data.datasource.api.mapper
 
 import com.example.manuel.baseproject.core.BaseMapper
-import com.example.manuel.baseproject.network.data.datasource.model.api.BeerApi
-import com.example.manuel.baseproject.network.data.datasource.model.response.BeerResponse
-import com.example.manuel.baseproject.network.data.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeerApi
+import com.example.manuel.baseproject.network.data.datasource.api.model.response.BeerResponse
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeersApi
 
 object ResponseToApiMapper : BaseMapper<List<BeerResponse>, BeersApi> {
     override fun map(type: List<BeerResponse>?): BeersApi {

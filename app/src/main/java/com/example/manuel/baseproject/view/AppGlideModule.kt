@@ -1,4 +1,4 @@
-package com.example.manuel.baseproject.view.ui
+package com.example.manuel.baseproject.view
 
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule

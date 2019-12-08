@@ -1,4 +1,4 @@
-package com.example.manuel.baseproject.network.data.datasource.model.cache
+package com.example.manuel.baseproject.network.data.datasource.cache.model
 
 data class BeerCacheModel(
         val id: Int,

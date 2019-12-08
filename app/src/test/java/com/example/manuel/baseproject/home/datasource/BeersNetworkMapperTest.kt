@@ -4,8 +4,8 @@ import com.example.manuel.baseproject.network.handleNetworkExceptions
 import com.example.manuel.baseproject.network.exceptions.BadRequestException
 import com.example.manuel.baseproject.network.exceptions.GenericNetworkException
 import com.example.manuel.baseproject.network.exceptions.NetworkConnectionException
-import com.example.manuel.baseproject.network.data.datasource.mapper.ResponseToApiMapper
-import com.example.manuel.baseproject.network.data.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.network.data.datasource.api.mapper.ResponseToApiMapper
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeersApi
 import com.example.manuel.baseproject.home.datasource.utils.DataSourceBeersGenerator
 import com.nhaarman.mockitokotlin2.mock
 import okhttp3.ResponseBody

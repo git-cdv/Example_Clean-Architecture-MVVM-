@@ -1,4 +1,4 @@
-package com.example.manuel.baseproject.network.data.datasource.model.api
+package com.example.manuel.baseproject.network.data.datasource.api.model.api
 
 data class BeerApi(
         val id: Int? = null,

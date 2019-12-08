@@ -1,6 +1,6 @@
-package com.example.manuel.baseproject.network.data.datasource.retrofit
+package com.example.manuel.baseproject.network.data.datasource.api.retrofit
 
-import com.example.manuel.baseproject.network.data.datasource.model.response.BeerResponse
+import com.example.manuel.baseproject.network.data.datasource.api.model.response.BeerResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

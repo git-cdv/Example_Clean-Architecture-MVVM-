@@ -1,8 +1,8 @@
 package com.example.manuel.baseproject.network.data.repository.mapper
 
 import com.example.manuel.baseproject.core.BaseMapper
-import com.example.manuel.baseproject.network.data.datasource.model.api.BeersApi
-import com.example.manuel.baseproject.network.data.datasource.model.cache.BeerCacheModel
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeersApi
+import com.example.manuel.baseproject.network.data.datasource.cache.model.BeerCacheModel
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 

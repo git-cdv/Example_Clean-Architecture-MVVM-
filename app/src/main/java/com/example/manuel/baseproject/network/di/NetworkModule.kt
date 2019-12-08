@@ -2,9 +2,9 @@ package com.example.manuel.baseproject.network.di
 
 import android.content.Context
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
-import com.example.manuel.baseproject.network.data.datasource.BeersNetworkDataSource
-import com.example.manuel.baseproject.network.data.datasource.FavoritesCacheDataSource
-import com.example.manuel.baseproject.network.data.datasource.retrofit.BeersApiService
+import com.example.manuel.baseproject.network.data.datasource.api.BeersNetworkDataSource
+import com.example.manuel.baseproject.network.data.datasource.cache.FavoritesCacheDataSource
+import com.example.manuel.baseproject.network.data.datasource.api.retrofit.BeersApiService
 import com.example.manuel.baseproject.network.data.repository.BeersRepositoryImpl
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
