@@ -3,10 +3,10 @@ package com.example.manuel.baseproject.network.di
 import android.content.Context
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 import com.example.manuel.baseproject.network.data.datasource.api.BeersNetworkDataSource
-import com.example.manuel.baseproject.network.data.datasource.cache.FavoritesCacheDataSource
 import com.example.manuel.baseproject.network.data.datasource.api.retrofit.BeersApiService
+import com.example.manuel.baseproject.network.data.datasource.cache.FileCacheDataSource
+import com.example.manuel.baseproject.network.data.datasource.cache.model.BeerCacheModel
 import com.example.manuel.baseproject.network.data.repository.BeersRepositoryImpl
-import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -43,8 +43,16 @@ private fun provideBeersApiService(retrofit: Retrofit): BeersApiService {
 
 val favoritesCacheModule = module {
     factory { provideFavoritesBeersFile(context = get()) }
-    factory { GsonBuilder().setPrettyPrinting().create() }
-    factory { FavoritesCacheDataSource(gson = get(), favoritesBeersFile = get()) }
+    /*
+    factory {
+        GsonBuilder().
+                registerTypeAdapter(Cacheable::class.java, InterfaceAdapter()).
+                setPrettyPrinting().
+                create()
+    }
+
+     */
+    factory { FileCacheDataSource<List<BeerCacheModel>>(file = get()) }
 }
 
 private fun provideFavoritesBeersFile(context: Context): File {
