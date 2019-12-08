@@ -3,10 +3,10 @@ package com.example.manuel.baseproject.home.beers.repository
 import com.example.manuel.baseproject.commons.datatype.Result
 import com.example.manuel.baseproject.commons.datatype.ResultType
 import com.example.manuel.baseproject.commons.exceptions.BadRequestException
-import com.example.manuel.baseproject.commons.exceptions.NetworkConnectionException
 import com.example.manuel.baseproject.home.beers.datasource.BeersNetworkDataSource
 import com.example.manuel.baseproject.home.beers.datasource.FavoritesCacheDataSource
 import com.example.manuel.baseproject.home.beers.datasource.MAX_RESULTS_PER_PAGE
+import com.example.manuel.baseproject.home.beers.datasource.model.api.BeerApi
 import com.example.manuel.baseproject.home.beers.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
@@ -20,30 +20,39 @@ class BeersRepositoryImpl(
         private val favoritesCacheDataSource: FavoritesCacheDataSource
 ) : BeersRepository {
 
-    private lateinit var mutableBeers: MutableList<BeerEntity>
-
     override suspend fun getAllBeers(): Result<BeersEntity>? {
-        mutableBeers = mutableListOf()
         var page = -1
         var result: Result<BeersEntity>?
+        val mutableBeers: MutableList<BeerApi> = mutableListOf()
 
         do {
-            page = getPageToCheckBeers(page)
+            page = getPageToCheckBeers(page, mutableBeers.isNotEmpty(), mutableBeers.size)
 
             beersNetworkDataSource.getAllBeers(page.toString()).let { resultListBeerResponse ->
-                addAllBeersUntilLastPage(resultListBeerResponse)
-                result = initResult(resultListBeerResponse)
+                if (resultListBeerResponse.resultType == ResultType.SUCCESS) {
+                    resultListBeerResponse.data?.let {
+                        mutableBeers.addAll(resultListBeerResponse.data.beers)
+                    }
+                }
+
+                result = if (resultListBeerResponse.resultType == ResultType.SUCCESS ||
+                        (resultListBeerResponse.error is BadRequestException && mutableBeers.isNotEmpty())) {
+                    Result.success(ApiToEntityMapper.map(BeersApi(mutableBeers.toList())))
+                } else {
+                    Result.error(resultListBeerResponse.error)
+                }
             }
         } while (result?.resultType != Result.error<Error>().resultType && page != -1)
+
 
         return result
     }
 
-    private fun getPageToCheckBeers(currentPage: Int): Int {
+    private fun getPageToCheckBeers(currentPage: Int, isMutableBeersNotEmpty: Boolean, beersSize: Int): Int {
         var page: Int = currentPage
 
-        if (hasBeers()) {
-            if (isNecessaryFetchMoreBeers(currentPage)) page++ else page = -1
+        if (isMutableBeersNotEmpty) {
+            if (isNecessaryFetchMoreBeers(currentPage, beersSize)) page++ else page = -1
         } else {
             page = 1
         }
@@ -51,32 +60,10 @@ class BeersRepositoryImpl(
         return page
     }
 
-    private fun hasBeers() = mutableBeers.size > 0
-
-    private fun isNecessaryFetchMoreBeers(page: Int): Boolean {
-        return (mutableBeers.size / page) == MAX_RESULTS_PER_PAGE
+    private fun isNecessaryFetchMoreBeers(page: Int, beersSize: Int): Boolean {
+        return (beersSize / page) == MAX_RESULTS_PER_PAGE
     }
 
-    private fun addAllBeersUntilLastPage(beersApiResult: Result<BeersApi>) {
-        ApiToEntityMapper.map(beersApiResult.data).let { beersEntity ->
-            beersEntity.beers.forEach { beerEntity ->
-                mutableBeers.add(beerEntity)
-            }
-        }
-    }
-
-    private fun initResult(beersApiResult: Result<BeersApi>): Result<BeersEntity> {
-        return if (
-                beersApiResult.resultType == ResultType.SUCCESS ||
-                beersApiResult.error is BadRequestException && mutableBeers.size > 0
-        ) {
-            Result.success(BeersEntity(mutableBeers))
-        } else {
-            Result.error(NetworkConnectionException())
-        }
-    }
-
-    // ESTOS TRES MÉTODOS ESTÁN PERFECTOS, DEVUELVEN LO QUE TIENEN QUE DEVOLVER
     override fun saveBeer(beerEntity: BeerEntity): Boolean {
         val beerCache = EntityToCacheMapper.map(beerEntity)
         return favoritesCacheDataSource.saveBeer(beerCache)
