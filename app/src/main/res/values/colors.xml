@@ -11,7 +11,6 @@
     <color name="lightBlue800">#0277BD</color>
     <color name="white">#FFFFFF</color>
     <color name="orange500">#FF9800</color>
-    <color name="orange900">#E65100</color>
 
     <color name="white_alpha_80">#CCFFFFFF</color>
 </resources>
