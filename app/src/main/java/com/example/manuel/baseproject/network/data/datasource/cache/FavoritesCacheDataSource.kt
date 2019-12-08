@@ -7,8 +7,6 @@ import java.io.File
 
 class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeersFile: File) {
 
-    // TODO Handle the permissions to read and write in storage and redirect to settings if is necessary
-    // TODO Refactor the class to reutilize the way to read and update a file
     fun saveBeer(beerCacheModel: BeerCacheModel): Boolean {
         val listToSave = if (favoritesBeersFile.isFile) {
             val mutableFavoriteBeers = getBeers().toMutableList()
@@ -24,7 +22,6 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
         return isBeerSaved(beerCacheModel.id)
     }
 
-    // TODO Use generics
     private fun isBeerSaved(beerId: Int): Boolean {
         return getBeers().any { savedBeer -> savedBeer.id == beerId }
     }

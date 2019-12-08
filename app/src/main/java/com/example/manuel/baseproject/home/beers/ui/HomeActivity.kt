@@ -26,6 +26,7 @@ import org.koin.core.parameter.parametersOf
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
 private const val REQUEST_CODE_LOAD_BEERS = 1000
 
+// TODO Change the way to refresh the beers when the user remove some one, avoid a new api call
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()

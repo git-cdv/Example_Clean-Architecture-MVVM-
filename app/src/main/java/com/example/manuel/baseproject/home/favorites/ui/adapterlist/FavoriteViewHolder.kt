@@ -45,7 +45,6 @@ class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                         super.onAnimationEnd(animation)
                         populateFavoriteIconView(isFavoriteBeer)
                         restartFavoriteIconSize(viewPropertyAnimator)
-                        // TODO Cuando acabe la animación, entonces avisar a la activity y borrar
                     }
 
                     override fun onAnimationStart(animation: Animator?) {
