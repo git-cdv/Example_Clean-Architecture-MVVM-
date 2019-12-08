@@ -1,7 +1,7 @@
 package com.example.manuel.baseproject.home.repository
 
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
-import com.example.manuel.baseproject.home.beers.repository.mapper.ApiToEntityMapper
+import com.example.manuel.baseproject.network.data.repository.mapper.ApiToEntityMapper
 import com.example.manuel.baseproject.home.repository.utils.RepositoryBeersGenerator
 import org.junit.Assert
 import org.junit.Test

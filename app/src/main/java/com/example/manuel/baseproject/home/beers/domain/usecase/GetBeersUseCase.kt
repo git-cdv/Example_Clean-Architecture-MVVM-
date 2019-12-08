@@ -1,7 +1,7 @@
 package com.example.manuel.baseproject.home.beers.domain.usecase
 
-import com.example.manuel.baseproject.commons.datatype.Result
-import com.example.manuel.baseproject.commons.datatype.ResultType
+import com.example.manuel.baseproject.core.datatype.Result
+import com.example.manuel.baseproject.core.datatype.ResultType
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity

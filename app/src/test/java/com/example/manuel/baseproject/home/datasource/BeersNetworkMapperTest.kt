@@ -1,11 +1,11 @@
 package com.example.manuel.baseproject.home.datasource
 
-import com.example.manuel.baseproject.commons.datasource.handleNetworkExceptions
-import com.example.manuel.baseproject.commons.exceptions.BadRequestException
-import com.example.manuel.baseproject.commons.exceptions.GenericNetworkException
-import com.example.manuel.baseproject.commons.exceptions.NetworkConnectionException
-import com.example.manuel.baseproject.home.beers.datasource.mapper.ResponseToApiMapper
-import com.example.manuel.baseproject.home.beers.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.network.handleNetworkExceptions
+import com.example.manuel.baseproject.network.exceptions.BadRequestException
+import com.example.manuel.baseproject.network.exceptions.GenericNetworkException
+import com.example.manuel.baseproject.network.exceptions.NetworkConnectionException
+import com.example.manuel.baseproject.network.data.datasource.mapper.ResponseToApiMapper
+import com.example.manuel.baseproject.network.data.datasource.model.api.BeersApi
 import com.example.manuel.baseproject.home.datasource.utils.DataSourceBeersGenerator
 import com.nhaarman.mockitokotlin2.mock
 import okhttp3.ResponseBody

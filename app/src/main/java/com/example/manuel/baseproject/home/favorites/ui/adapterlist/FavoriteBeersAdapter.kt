@@ -3,7 +3,7 @@ package com.example.manuel.baseproject.home.favorites.ui.adapterlist
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.commons.extensions.inflate
+import com.example.manuel.baseproject.view.extensions.inflate
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 
 class FavoriteBeersAdapter(

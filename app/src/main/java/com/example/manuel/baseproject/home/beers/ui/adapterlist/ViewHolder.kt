@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewPropertyAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.commons.extensions.applyBackgroundColor
-import com.example.manuel.baseproject.commons.extensions.loadImage
+import com.example.manuel.baseproject.view.extensions.applyBackgroundColor
+import com.example.manuel.baseproject.view.extensions.loadImage
 import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
-import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import kotlinx.android.synthetic.main.item_list_beer.view.*
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

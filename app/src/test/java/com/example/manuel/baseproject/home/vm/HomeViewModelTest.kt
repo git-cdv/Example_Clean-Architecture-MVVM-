@@ -1,7 +1,7 @@
 package com.example.manuel.baseproject.home.vm
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.manuel.baseproject.commons.datatype.Result
+import com.example.manuel.baseproject.core.datatype.Result
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.vm.HomeViewModel

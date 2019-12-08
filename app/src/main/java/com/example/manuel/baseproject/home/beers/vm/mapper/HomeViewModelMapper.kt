@@ -1,6 +1,6 @@
 package com.example.manuel.baseproject.home.beers.vm.mapper
 
-import com.example.manuel.baseproject.commons.BaseMapper
+import com.example.manuel.baseproject.core.BaseMapper
 import com.example.manuel.baseproject.home.beers.vm.model.AbvColorType
 import com.example.manuel.baseproject.home.beers.domain.model.AbvRangeType
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity

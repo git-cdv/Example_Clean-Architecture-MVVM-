@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.commons.extensions.inflate
+import com.example.manuel.baseproject.view.extensions.inflate
 import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
 
 class BeersAdapter(
