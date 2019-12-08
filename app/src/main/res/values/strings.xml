@@ -8,4 +8,8 @@
     <string name="network_connection_error_cancel">Cancel</string>
     <string name="network_connection_error_action">Try again!</string>
 
+    <string name="activity_favorites_toolbar_title">Favorites</string>
+    <string name="activity_favorites_snack_bar_action">Undo</string>
+    <string name="activity_favorites_snack_bar_title">Removed</string>
+    <string name="activity_favorites_empty_view_title">No favorites beers</string>
 </resources>

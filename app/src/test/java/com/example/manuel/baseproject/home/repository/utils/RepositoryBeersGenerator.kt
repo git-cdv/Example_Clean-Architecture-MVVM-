@@ -1,7 +1,7 @@
 package com.example.manuel.baseproject.home.repository.utils
 
-import com.example.manuel.baseproject.home.beers.datasource.model.api.BeerApi
-import com.example.manuel.baseproject.home.beers.datasource.model.api.BeersApi
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeerApi
+import com.example.manuel.baseproject.network.data.datasource.api.model.api.BeersApi
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 

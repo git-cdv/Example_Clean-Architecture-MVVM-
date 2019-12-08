@@ -1,7 +1,8 @@
 package com.example.manuel.baseproject.home.beers.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
@@ -16,14 +17,16 @@ import com.example.manuel.baseproject.home.beers.ui.mapper.BeerAdapterModelToBee
 import com.example.manuel.baseproject.home.beers.ui.mapper.BeerUIToAdapterModelMapper
 import com.example.manuel.baseproject.home.beers.vm.HomeViewModel
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
+import com.example.manuel.baseproject.home.favorites.ui.FavoritesBeersActivity
 import kotlinx.android.synthetic.main.activity_beers_results.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
+private const val REQUEST_CODE_LOAD_BEERS = 1000
 
-// TODO Create a new activity to show the favorites beers
+// TODO Change the way to refresh the beers when the user remove some one, avoid a new api call
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
@@ -39,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
         this.savedInstanceState = savedInstanceState
         initDoOnFavoriteBeerSelected()
         bindViews()
+        setListeners()
         observerLiveData()
     }
 
@@ -50,6 +54,18 @@ class HomeActivity : AppCompatActivity() {
 
     private fun bindViews() {
         recyclerView = findViewById(R.id.recycler_view_beers)
+    }
+
+    private fun setListeners() {
+        favorite_floating_button.setOnClickListener { intentToFavoritesBeersActivity() }
+    }
+
+    private fun intentToFavoritesBeersActivity() {
+        Intent(this, FavoritesBeersActivity::class.java)
+                .run {
+                    startActivityForResult(this, REQUEST_CODE_LOAD_BEERS)
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                }
     }
 
     private fun observerLiveData() {
@@ -151,5 +167,10 @@ class HomeActivity : AppCompatActivity() {
                 outState.putInt(KEY_LAST_ITEM_POSITION, lastVisibleItemPosition)
             }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_LOAD_BEERS) viewModel.handleBeersLoad()
     }
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.manuel.baseproject.commons.datatype.Result
-import com.example.manuel.baseproject.commons.datatype.ResultType
+import com.example.manuel.baseproject.core.datatype.Result
+import com.example.manuel.baseproject.core.datatype.ResultType
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
@@ -16,6 +16,7 @@ import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeViewModel(
         private val getMealsByBeersUseCase: GetBeersUseCase,
@@ -45,8 +46,10 @@ class HomeViewModel(
 
     fun handleBeersLoad() {
         isLoadingLiveData(true)
-        viewModelScope.launch {
-            updateAppropriateLiveData(getMealsByBeersUseCase.execute())
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                updateAppropriateLiveData(getMealsByBeersUseCase.execute())
+            }
         }
     }
 
@@ -66,9 +69,9 @@ class HomeViewModel(
         val beers = BeersEntityToUIMapper.map(beersEntity?.beers)
 
         if (beers.isEmpty()) {
-            areEmptyBeersMutableLiveData.postValue(true)
+            areEmptyBeersMutableLiveData.value = true
         } else {
-            beersMutableLiveData.postValue(beers)
+            beersMutableLiveData.value = beers
         }
 
         isLoadingLiveData(false)
@@ -82,12 +85,12 @@ class HomeViewModel(
             delay(300)
             isLoadingLiveData(false)
         }.invokeOnCompletion {
-            isErrorMutableLiveData.postValue(true)
+            isErrorMutableLiveData.value = true
         }
     }
 
     private fun isLoadingLiveData(isLoading: Boolean) {
-        this.isLoadingMutableLiveData.postValue(isLoading)
+        this.isLoadingMutableLiveData.value = isLoading
     }
 
     fun handleFavoriteButton(beerUI: BeerUI) {
@@ -95,12 +98,12 @@ class HomeViewModel(
             BeerAdapterModelToEntityMapper.map(beerUI).let {
                 if (it.isFavorite) saveBeerUseCase.execute(it).let { isBeerSaved ->
                     if (!isBeerSaved) {
-                        // TODO Si ocurre un error, modificar el beerUI con isFavorite al estado anterior y actualizar el livedata
+                        // TODO Handle the error, modify the beerUI with isfavorite to previous state and update the livedata
                     }
                 }
                 else removeBeerUseCase.execute(it.id).let { isBeerRemoved ->
                     if (!isBeerRemoved) {
-                        // TODO Si ocurre un error, modificar el beerUI con isFavorite al estado anterior y actualizar el livedata
+                        // TODO Handle the error, modify the beerUI with isfavorite to previous state and update the livedata
                     }
                 }
             }

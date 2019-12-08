@@ -4,12 +4,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <!-- Abv shape circle background -->
     <color name="red">#E57373</color>
     <color name="orange">#FFB74D</color>
     <color name="green">#81C784</color>
-
     <color name="blue900">#0D46A1</color>
     <color name="lightBlue800">#0277BD</color>
+    <color name="white">#FFFFFF</color>
+    <color name="orange500">#FF9800</color>
 
+    <color name="white_alpha_80">#CCFFFFFF</color>
 </resources>
