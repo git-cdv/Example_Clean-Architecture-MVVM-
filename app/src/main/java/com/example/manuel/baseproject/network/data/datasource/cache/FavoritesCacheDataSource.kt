@@ -1,65 +1,71 @@
 package com.example.manuel.baseproject.network.data.datasource.cache
 
-import com.example.manuel.baseproject.network.data.datasource.cache.model.BeerCacheModel
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.google.gson.GsonBuilder
 import java.io.File
+import java.lang.reflect.Type
 
-class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeersFile: File) {
+/**
+ * This class is a basic generic cache example
+ *
+ * @property file the txt file to save and fetch the data
+ * @property typeData the object class or typeToken list to deserialize with Gson
+ * */
+class FileCacheDataSource<T>(private val file: File, private val typeData: Type) {
 
-    fun saveBeer(beerCacheModel: BeerCacheModel): Boolean {
-        val listToSave = if (favoritesBeersFile.isFile) {
-            val mutableFavoriteBeers = getBeers().toMutableList()
-            mutableFavoriteBeers.add(beerCacheModel)
-            mutableFavoriteBeers
-        } else {
-            val firstBeerWhenFileIsEmpty = listOf(beerCacheModel)
-            firstBeerWhenFileIsEmpty
-        }
+    val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
-        favoritesBeersFile.writeText(serializeObjectToJSON(listToSave))
-
-        return isBeerSaved(beerCacheModel.id)
-    }
-
-    private fun isBeerSaved(beerId: Int): Boolean {
-        return getBeers().any { savedBeer -> savedBeer.id == beerId }
-    }
-
-    fun removeBeer(id: Int): Boolean {
-        if (favoritesBeersFile.isFile) {
-            val mutableBeers = getBeers().toMutableList()
-            val existBeer = mutableBeers.any { it.id == id }
-            if (existBeer) {
-                val beerToRemove = mutableBeers.filter { it.id == id }[0]
-                mutableBeers.remove(beerToRemove)
-                favoritesBeersFile.writeText(serializeObjectToJSON(mutableBeers.toList()))
-            }
-        }
-
-        return isBeerRemoved(id)
-    }
-
-    private fun isBeerRemoved(beerId: Int): Boolean {
-        return getBeers().any { savedBeer -> savedBeer.id == beerId }.not()
-    }
-
-    private fun serializeObjectToJSON(beersCacheModel: List<BeerCacheModel>): String {
-        return gson.toJson(beersCacheModel)
-    }
-
-    fun getBeers(): List<BeerCacheModel> {
-        val json = if (favoritesBeersFile.isFile) {
-            favoritesBeersFile.readText(Charsets.UTF_8)
+    fun getItems(): T? {
+        val json = if (file.isFile) {
+            file.readText(Charsets.UTF_8)
         } else {
             ""
         }
 
-        return deserializeJsonToObject(json)
+        return deserializeFromJsonToObject(json)
     }
 
-    private fun deserializeJsonToObject(beerJson: String): List<BeerCacheModel> {
-        val listType = object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
-        return gson.fromJson(beerJson, listType) ?: mutableListOf()
+    private fun deserializeFromJsonToObject(json: String): T? = gson.fromJson(json, typeData)
+
+    fun saveItem(objectToSave: Cacheable): Boolean {
+        val listToSave = if (file.isFile) {
+            val mutableItems: MutableList<Cacheable> = getItems() as MutableList<Cacheable>
+            mutableItems.add(objectToSave)
+            mutableItems
+        } else {
+            val firstItemWhenFileIsEmpty = listOf(objectToSave)
+            firstItemWhenFileIsEmpty
+        }
+
+        file.writeText(serializeFromObjectToJson(listToSave))
+
+        return isObjectSaved(objectToSave)
+    }
+
+    private fun serializeFromObjectToJson(objectToSave: List<Cacheable>): String {
+        return gson.toJson(objectToSave)
+    }
+
+    private fun isObjectSaved(objectA: Cacheable): Boolean {
+        return (getItems() as MutableList<Cacheable>).any { cacheable -> cacheable.id == objectA.id }
+    }
+
+    fun removeItem(itemId: Int): Boolean {
+        if (file.isFile) {
+            val mutableItems: MutableList<Cacheable> = getItems() as MutableList<Cacheable>
+            val existItem = mutableItems.any { it.id == itemId }
+            if (existItem) {
+                val itemToRemove = mutableItems.filter { it.id == itemId }[0]
+                mutableItems.remove(itemToRemove)
+                file.writeText(serializeFromObjectToJson(mutableItems.toList()))
+            }
+        }
+
+        return isItemRemoved(itemId)
+    }
+
+
+    private fun isItemRemoved(itemId: Int): Boolean {
+        return (getItems() as MutableList<Cacheable>).any { cacheable -> cacheable.id == itemId }.not()
     }
 }
