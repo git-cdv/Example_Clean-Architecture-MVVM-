@@ -1,5 +1,7 @@
 package com.example.manuel.baseproject.home.di
 
+import android.content.Context
+import com.example.manuel.baseproject.cache.CacheDataSource
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
@@ -12,6 +14,9 @@ import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.Favori
 import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import java.io.File
+
+private const val FILE_FAVORITES_BEERS = "FavoritesBeers.txt"
 
 val beersModule = module {
     factory { GetBeersUseCase(beersRepository = get()) }
@@ -29,6 +34,7 @@ val beersModule = module {
 }
 
 val favoritesModule = module {
+    factory { CacheDataSource(gson = get(), file = provideFavoritesBeersFile(context = get())) }
     factory { GetFavoritesBeersUseCase(repository = get()) }
     factory {
         FavoritesBeersViewModel(
@@ -37,4 +43,9 @@ val favoritesModule = module {
                 saveBeerUseCase = get()
         )
     }
+}
+
+private fun provideFavoritesBeersFile(context: Context): File {
+    val filePath: String = context.filesDir.path.toString() + "/$FILE_FAVORITES_BEERS"
+    return File(filePath)
 }

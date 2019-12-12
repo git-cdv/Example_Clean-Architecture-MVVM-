@@ -1,14 +1,14 @@
-package com.example.manuel.baseproject.network.data.datasource.cache
+package com.example.manuel.baseproject.cache
 
-import com.example.manuel.baseproject.network.data.datasource.cache.model.BeerCacheModel
+import com.example.manuel.baseproject.cache.model.BeerCacheModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
-class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeersFile: File) {
+class CacheDataSource(private val gson: Gson, private val file: File) {
 
     fun saveBeer(beerCacheModel: BeerCacheModel): Boolean {
-        val listToSave = if (favoritesBeersFile.isFile) {
+        val listToSave = if (file.isFile) {
             val mutableFavoriteBeers = getBeers().toMutableList()
             mutableFavoriteBeers.add(beerCacheModel)
             mutableFavoriteBeers
@@ -17,7 +17,7 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
             firstBeerWhenFileIsEmpty
         }
 
-        favoritesBeersFile.writeText(serializeObjectToJSON(listToSave))
+        file.writeText(serializeObjectToJSON(listToSave))
 
         return isBeerSaved(beerCacheModel.id)
     }
@@ -27,13 +27,13 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
     }
 
     fun removeBeer(id: Int): Boolean {
-        if (favoritesBeersFile.isFile) {
+        if (file.isFile) {
             val mutableBeers = getBeers().toMutableList()
             val existBeer = mutableBeers.any { it.id == id }
             if (existBeer) {
                 val beerToRemove = mutableBeers.filter { it.id == id }[0]
                 mutableBeers.remove(beerToRemove)
-                favoritesBeersFile.writeText(serializeObjectToJSON(mutableBeers.toList()))
+                file.writeText(serializeObjectToJSON(mutableBeers.toList()))
             }
         }
 
@@ -49,8 +49,8 @@ class FavoritesCacheDataSource(private val gson: Gson, private val favoritesBeer
     }
 
     fun getBeers(): List<BeerCacheModel> {
-        val json = if (favoritesBeersFile.isFile) {
-            favoritesBeersFile.readText(Charsets.UTF_8)
+        val json = if (file.isFile) {
+            file.readText(Charsets.UTF_8)
         } else {
             ""
         }
