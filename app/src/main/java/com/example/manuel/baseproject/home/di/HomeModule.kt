@@ -40,6 +40,7 @@ val favoritesModule = module {
     factory {
         CacheDataSource<BeerCacheModel>(
                 file = provideFavoritesBeersFile(context = get()),
+                gson = get(),
                 typeData = provideBeerCacheModelListType()
         )
     }
@@ -55,7 +56,6 @@ val favoritesModule = module {
 
 private fun provideBeerCacheModelListType(): Type =
         object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
-
 
 private fun provideFavoritesBeersFile(context: Context): File {
     val filePath: String = context.filesDir.path.toString() + "/$FILE_FAVORITES_BEERS"

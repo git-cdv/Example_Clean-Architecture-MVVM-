@@ -11,9 +11,7 @@ import java.lang.reflect.Type
  * @property file the txt file to save and fetch the data
  * @property typeData the object class or typeToken list to deserialize with Gson
  * */
-class CacheDataSource<T>(private val file: File, private val typeData: Type) {
-
-    val gson: Gson = GsonBuilder().setPrettyPrinting().create()
+class CacheDataSource<T>(private val file: File, private val gson: Gson, private val typeData: Type) {
 
     fun getItems(): T? {
         val json = if (file.isFile) {
