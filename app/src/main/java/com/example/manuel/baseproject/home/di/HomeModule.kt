@@ -2,6 +2,7 @@ package com.example.manuel.baseproject.home.di
 
 import android.content.Context
 import com.example.manuel.baseproject.cache.CacheDataSource
+import com.example.manuel.baseproject.cache.model.BeerCacheModel
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
@@ -12,9 +13,11 @@ import com.example.manuel.baseproject.home.favorites.domain.GetFavoritesBeersUse
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.FavoriteBeersAdapter
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
+import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.io.File
+import java.lang.reflect.Type
 
 private const val FILE_FAVORITES_BEERS = "FavoritesBeers.txt"
 
@@ -34,7 +37,12 @@ val beersModule = module {
 }
 
 val favoritesModule = module {
-    factory { CacheDataSource(gson = get(), file = provideFavoritesBeersFile(context = get())) }
+    factory {
+        CacheDataSource<BeerCacheModel>(
+                file = provideFavoritesBeersFile(context = get()),
+                typeData = provideBeerCacheModelListType()
+        )
+    }
     factory { GetFavoritesBeersUseCase(repository = get()) }
     factory {
         FavoritesBeersViewModel(
@@ -43,6 +51,11 @@ val favoritesModule = module {
                 saveBeerUseCase = get()
         )
     }
+}
+
+private fun provideBeerCacheModelListType(): Type {
+    val listType = object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
+    return listType
 }
 
 private fun provideFavoritesBeersFile(context: Context): File {

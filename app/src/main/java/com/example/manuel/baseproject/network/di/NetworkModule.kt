@@ -27,7 +27,7 @@ val beersApiModule = module {
     single {
         BeersRepositoryImpl(
                 beersNetworkDataSource = get(),
-                cacheDataSource = get()
+                favoritesCacheDataSource = get()
         ) as BeersRepository
     }
 }
