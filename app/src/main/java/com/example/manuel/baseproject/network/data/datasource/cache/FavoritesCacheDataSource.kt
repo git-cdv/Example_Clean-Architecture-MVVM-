@@ -6,7 +6,7 @@ import java.io.File
 import java.lang.reflect.Type
 
 /**
- * This class is generic cache example
+ * This class is a basic generic cache example
  *
  * @property file the txt file to save and fetch the data
  * @property typeData the object class or typeToken list to deserialize with Gson
