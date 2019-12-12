@@ -1,7 +1,6 @@
 package com.example.manuel.baseproject.data.datasource.cache
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import java.io.File
 import java.lang.reflect.Type
 
@@ -9,6 +8,7 @@ import java.lang.reflect.Type
  * This class is a basic generic cache example
  *
  * @property file the txt file to save and fetch the data
+ * @property gson the object to serialize / deserialize
  * @property typeData the object class or typeToken list to deserialize with Gson
  * */
 class CacheDataSource<T>(private val file: File, private val gson: Gson, private val typeData: Type) {
