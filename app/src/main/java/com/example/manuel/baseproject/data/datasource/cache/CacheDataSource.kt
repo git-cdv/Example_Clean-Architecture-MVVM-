@@ -44,8 +44,8 @@ class CacheDataSource<T>(private val file: File, private val gson: Gson, private
         return gson.toJson(objectToSave)
     }
 
-    private fun isObjectSaved(objectA: Cacheable): Boolean {
-        return (getItems() as MutableList<Cacheable>).any { cacheable -> cacheable.id == objectA.id }
+    private fun isObjectSaved(cacheableObject: Cacheable): Boolean {
+        return (getItems() as MutableList<Cacheable>).any { cacheable -> cacheable.id == cacheableObject.id }
     }
 
     fun removeItem(itemId: Int): Boolean {
