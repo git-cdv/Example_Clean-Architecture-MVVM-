@@ -1,8 +1,8 @@
 package com.example.manuel.baseproject.home.di
 
 import android.content.Context
-import com.example.manuel.baseproject.cache.CacheDataSource
-import com.example.manuel.baseproject.cache.model.BeerCacheModel
+import com.example.manuel.baseproject.data.datasource.cache.CacheDataSource
+import com.example.manuel.baseproject.data.datasource.cache.model.BeerCacheModel
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
@@ -53,10 +53,9 @@ val favoritesModule = module {
     }
 }
 
-private fun provideBeerCacheModelListType(): Type {
-    val listType = object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
-    return listType
-}
+private fun provideBeerCacheModelListType(): Type =
+        object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
+
 
 private fun provideFavoritesBeersFile(context: Context): File {
     val filePath: String = context.filesDir.path.toString() + "/$FILE_FAVORITES_BEERS"

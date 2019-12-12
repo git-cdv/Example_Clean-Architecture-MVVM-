@@ -5,7 +5,7 @@ import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import com.example.manuel.baseproject.core.datatype.Result
-import com.example.manuel.baseproject.network.exceptions.NetworkConnectionException
+import com.example.manuel.baseproject.data.datasource.api.exceptions.NetworkConnectionException
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.domain.utils.DomainBeersGenerator
