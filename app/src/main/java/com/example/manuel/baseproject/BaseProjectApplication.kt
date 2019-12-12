@@ -5,7 +5,7 @@ import com.example.manuel.baseproject.network.di.retrofitModule
 import com.example.manuel.baseproject.home.di.beersModule
 import com.example.manuel.baseproject.home.di.favoritesModule
 import com.example.manuel.baseproject.network.di.beersApiModule
-import com.example.manuel.baseproject.network.di.favoritesCacheModule
+import com.example.manuel.baseproject.network.di.favoritesBeersCacheModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -26,7 +26,7 @@ class BaseProjectApplication : Application() {
                             favoritesModule,
                             retrofitModule,
                             beersApiModule,
-                            favoritesCacheModule
+                            favoritesBeersCacheModule
                     )
             )
         }

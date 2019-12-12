@@ -67,14 +67,14 @@ class BeersRepositoryImpl(
 
     override fun saveBeer(beerEntity: BeerEntity): Boolean {
         val beerCache = EntityToCacheMapper.map(beerEntity)
-        return favoritesCacheDataSource.save(beerCache)
+        return favoritesCacheDataSource.saveItem(beerCache)
     }
 
     override fun removeBeer(id: Int): Boolean {
-        return favoritesCacheDataSource.remove(id)
+        return favoritesCacheDataSource.removeItem(id)
     }
 
     override fun getFavoriteBeers(): BeersEntity {
-        return CacheToEntityMapper.map(favoritesCacheDataSource.get() as List<BeerCacheModel>)
+        return CacheToEntityMapper.map(favoritesCacheDataSource.getItems() as List<BeerCacheModel>)
     }
 }

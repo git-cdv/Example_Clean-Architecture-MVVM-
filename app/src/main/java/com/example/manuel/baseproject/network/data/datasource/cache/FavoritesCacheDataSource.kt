@@ -1,49 +1,21 @@
 package com.example.manuel.baseproject.network.data.datasource.cache
 
-import com.example.manuel.baseproject.network.data.datasource.cache.model.BeerCacheModel
-import com.google.gson.*
-import com.google.gson.reflect.TypeToken
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.io.File
 import java.lang.reflect.Type
 
-private const val CLASSNAME = "CLASSNAME"
-private const val DATA = "DATA"
+/**
+ * This class is generic cache example
+ *
+ * @property file the txt file to save and fetch the data
+ * @property typeData the object class or typeToken list to deserialize with Gson
+ * */
+class FileCacheDataSource<T>(private val file: File, private val typeData: Type) {
 
-class CacheableTypeAdapter : JsonSerializer<Cacheable>, JsonDeserializer<Cacheable> {
+    val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
-    override fun serialize(src: Cacheable?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
-        return JsonObject().apply {
-             addProperty(CLASSNAME, src?.javaClass?.name)
-            add(DATA, context?.serialize(src))
-        }
-    }
-
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Cacheable {
-        val jsonObject = json?.asJsonObject
-        val className = jsonObject?.get(CLASSNAME)?.asString
-        val clazz = getObjectClass(className)
-        return context!!.deserialize(jsonObject?.get(DATA), clazz)
-    }
-
-    private fun getObjectClass(className: String?): Class<*> {
-        try {
-            val classAux: String = className ?: ""
-            return Class.forName(classAux)
-        } catch (e: ClassNotFoundException) {
-            throw JsonParseException(e)
-        }
-    }
-}
-
-
-class FileCacheDataSource<T>(private val file: File) {
-
-    val gson = GsonBuilder().
-            //registerTypeAdapter(Cacheable::class.java, CacheableTypeAdapter()).
-            setPrettyPrinting().
-             create()
-
-    fun get(): T? {
+    fun getItems(): T? {
         val json = if (file.isFile) {
             file.readText(Charsets.UTF_8)
         } else {
@@ -53,25 +25,16 @@ class FileCacheDataSource<T>(private val file: File) {
         return deserializeFromJsonToObject(json)
     }
 
-    // TODO Se puede crear una capa de datasource que se le pase por parámetro el typo -> object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
-    // De esta manera al pasar el type, no importa si el objeto es una lista o un objeto, cada feature usará lo que necesite
-    // Otra opción es pasar un type adapter por constructor, mucho mejor
+    private fun deserializeFromJsonToObject(json: String): T? = gson.fromJson(json, typeData)
 
-    var typeClass: Type =  object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
-    private fun deserializeFromJsonToObject(json: String): T? {
-
-        val listType = object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
-        return gson.fromJson(json, typeClass)
-    }
-
-    fun save(objectToSave: Cacheable): Boolean {
+    fun saveItem(objectToSave: Cacheable): Boolean {
         val listToSave = if (file.isFile) {
-            val mutableFavoriteBeers: MutableList<Cacheable> = get() as MutableList<Cacheable>
-            mutableFavoriteBeers.add(objectToSave)
-            mutableFavoriteBeers
+            val mutableItems: MutableList<Cacheable> = getItems() as MutableList<Cacheable>
+            mutableItems.add(objectToSave)
+            mutableItems
         } else {
-            val firstBeerWhenFileIsEmpty = listOf(objectToSave)
-            firstBeerWhenFileIsEmpty
+            val firstItemWhenFileIsEmpty = listOf(objectToSave)
+            firstItemWhenFileIsEmpty
         }
 
         file.writeText(serializeFromObjectToJson(listToSave))
@@ -84,17 +47,17 @@ class FileCacheDataSource<T>(private val file: File) {
     }
 
     private fun isObjectSaved(objectA: Cacheable): Boolean {
-        return (get() as MutableList<Cacheable>).any { cacheable -> cacheable.id == objectA.id }
+        return (getItems() as MutableList<Cacheable>).any { cacheable -> cacheable.id == objectA.id }
     }
 
-    fun remove(itemId: Int): Boolean {
+    fun removeItem(itemId: Int): Boolean {
         if (file.isFile) {
-            val mutableFavoriteBeers: MutableList<Cacheable> = get() as MutableList<Cacheable>
-            val existBeer = mutableFavoriteBeers.any { it.id == itemId }
-            if (existBeer) {
-                val beerToRemove = mutableFavoriteBeers.filter { it.id == itemId }[0]
-                mutableFavoriteBeers.remove(beerToRemove)
-                file.writeText(serializeFromObjectToJson(mutableFavoriteBeers.toList()))
+            val mutableItems: MutableList<Cacheable> = getItems() as MutableList<Cacheable>
+            val existItem = mutableItems.any { it.id == itemId }
+            if (existItem) {
+                val itemToRemove = mutableItems.filter { it.id == itemId }[0]
+                mutableItems.remove(itemToRemove)
+                file.writeText(serializeFromObjectToJson(mutableItems.toList()))
             }
         }
 
@@ -103,6 +66,6 @@ class FileCacheDataSource<T>(private val file: File) {
 
 
     private fun isItemRemoved(itemId: Int): Boolean {
-        return (get() as MutableList<Cacheable>).any { cacheable -> cacheable.id == itemId }.not()
+        return (getItems() as MutableList<Cacheable>).any { cacheable -> cacheable.id == itemId }.not()
     }
 }
