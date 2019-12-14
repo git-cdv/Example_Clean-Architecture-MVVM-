@@ -5,13 +5,17 @@ import java.io.File
 import java.lang.reflect.Type
 
 /**
- * This class is a basic generic cache example
+ * This class is a basic generic example cache to save objects in a list that implements
+ * Cacheable interface
  *
+ * @see com.example.manuel.baseproject.data.datasource.cache.Cacheable
+ *
+ * @param T the type of a member in this groups
  * @property file the txt file to save and fetch the data
  * @property gson the object to serialize / deserialize
  * @property typeData the object class or typeToken list to deserialize with Gson
  * */
-class CacheDataSource<T>(private val file: File, private val gson: Gson, private val typeData: Type) {
+class ListCacheDataSource<T>(private val file: File, private val gson: Gson, private val typeData: Type) {
 
     fun getItems(): T? {
         val json = if (file.isFile) {

@@ -1,6 +1,6 @@
 package com.example.manuel.baseproject.data.repository
 
-import com.example.manuel.baseproject.data.datasource.cache.CacheDataSource
+import com.example.manuel.baseproject.data.datasource.cache.ListCacheDataSource
 import com.example.manuel.baseproject.data.datasource.cache.model.BeerCacheModel
 import com.example.manuel.baseproject.core.datatype.Result
 import com.example.manuel.baseproject.core.datatype.ResultType
@@ -18,7 +18,7 @@ import com.example.manuel.baseproject.data.datasource.api.exceptions.BadRequestE
 
 class BeersRepositoryImpl(
         private val beersNetworkDataSource: BeersNetworkDataSource,
-        private val favoritesCacheDataSource: CacheDataSource<List<BeerCacheModel>>
+        private val favoritesCacheDataSource: ListCacheDataSource<List<BeerCacheModel>>
 ) : BeersRepository {
 
     override suspend fun getAllBeers(): Result<BeersEntity>? {
