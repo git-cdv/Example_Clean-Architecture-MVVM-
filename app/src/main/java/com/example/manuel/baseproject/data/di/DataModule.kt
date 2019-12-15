@@ -1,10 +1,9 @@
 package com.example.manuel.baseproject.data.di
 
-import com.example.manuel.baseproject.home.beers.domain.BeersRepository
-import com.example.manuel.baseproject.data.repository.BeersRepositoryImpl
 import com.example.manuel.baseproject.data.datasource.api.BeersNetworkDataSource
 import com.example.manuel.baseproject.data.datasource.api.retrofit.BeersApiService
-import com.google.gson.GsonBuilder
+import com.example.manuel.baseproject.data.repository.BeersRepositoryImpl
+import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -35,7 +34,3 @@ val beersApiModule = module {
 
 private fun provideBeersApiService(retrofit: Retrofit): BeersApiService =
         retrofit.create(BeersApiService::class.java)
-
-val cacheModule = module {
-    factory { GsonBuilder().setPrettyPrinting().create() }
-}
