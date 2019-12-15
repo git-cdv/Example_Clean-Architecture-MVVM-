@@ -1,6 +1,7 @@
 package com.example.manuel.baseproject.home.di
 
 import android.content.Context
+import com.example.manuel.baseproject.data.datasource.cache.JsonConverter
 import com.example.manuel.baseproject.data.datasource.cache.ListCacheDataSource
 import com.example.manuel.baseproject.data.datasource.cache.model.BeerCacheModel
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
@@ -37,11 +38,11 @@ val beersModule = module {
 }
 
 val favoritesModule = module {
+    factory { JsonConverter<BeerCacheModel>(typeData = provideBeerCacheModelListType()) }
     factory {
         ListCacheDataSource<BeerCacheModel>(
                 file = provideFavoritesBeersFile(context = get()),
-                gson = get(),
-                typeData = provideBeerCacheModelListType()
+                jsonConverter = get()
         )
     }
     factory { GetFavoritesBeersUseCase(repository = get()) }
