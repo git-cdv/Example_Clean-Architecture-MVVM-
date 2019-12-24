@@ -1,24 +1,23 @@
 package com.example.manuel.baseproject.data.repository
 
-import com.example.manuel.baseproject.data.datasource.cache.ListCacheDataSource
-import com.example.manuel.baseproject.data.datasource.cache.model.BeerCacheModel
 import com.example.manuel.baseproject.core.datatype.Result
 import com.example.manuel.baseproject.core.datatype.ResultType
-import com.example.manuel.baseproject.home.beers.domain.BeersRepository
-import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
-import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
+import com.example.manuel.baseproject.data.datasource.api.BeersNetworkDataSource
+import com.example.manuel.baseproject.data.datasource.api.MAX_RESULTS_PER_PAGE
+import com.example.manuel.baseproject.data.datasource.api.exceptions.BadRequestException
+import com.example.manuel.baseproject.data.datasource.api.model.api.BeerApi
+import com.example.manuel.baseproject.data.datasource.api.model.api.BeersApi
+import com.example.manuel.baseproject.data.datasource.local.LocalDataSource
 import com.example.manuel.baseproject.data.repository.mapper.ApiToEntityMapper
 import com.example.manuel.baseproject.data.repository.mapper.CacheToEntityMapper
 import com.example.manuel.baseproject.data.repository.mapper.EntityToCacheMapper
-import com.example.manuel.baseproject.data.datasource.api.BeersNetworkDataSource
-import com.example.manuel.baseproject.data.datasource.api.MAX_RESULTS_PER_PAGE
-import com.example.manuel.baseproject.data.datasource.api.model.api.BeerApi
-import com.example.manuel.baseproject.data.datasource.api.model.api.BeersApi
-import com.example.manuel.baseproject.data.datasource.api.exceptions.BadRequestException
+import com.example.manuel.baseproject.home.beers.domain.BeersRepository
+import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
+import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 
 class BeersRepositoryImpl(
         private val beersNetworkDataSource: BeersNetworkDataSource,
-        private val favoritesCacheDataSource: ListCacheDataSource<List<BeerCacheModel>>
+        private val favoritesCacheDataSource: LocalDataSource
 ) : BeersRepository {
 
     override suspend fun getAllBeers(): Result<BeersEntity>? {

@@ -1,9 +1,7 @@
 package com.example.manuel.baseproject.home.di
 
 import android.content.Context
-import com.example.manuel.baseproject.data.datasource.cache.JsonConverter
-import com.example.manuel.baseproject.data.datasource.cache.ListCacheDataSource
-import com.example.manuel.baseproject.data.datasource.cache.model.BeerCacheModel
+import com.example.manuel.baseproject.data.datasource.local.LocalDataSource
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
@@ -14,11 +12,11 @@ import com.example.manuel.baseproject.home.favorites.domain.GetFavoritesBeersUse
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.FavoriteBeersAdapter
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
-import com.google.gson.reflect.TypeToken
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.io.File
-import java.lang.reflect.Type
 
 private const val FILE_FAVORITES_BEERS = "FavoritesBeers.txt"
 
@@ -38,11 +36,10 @@ val beersModule = module {
 }
 
 val favoritesModule = module {
-    factory { JsonConverter<BeerCacheModel>(typeData = provideBeerCacheModelListType()) }
     factory {
-        ListCacheDataSource<BeerCacheModel>(
+        LocalDataSource(
                 file = provideFavoritesBeersFile(context = get()),
-                jsonConverter = get()
+                gson = provideGson()
         )
     }
     factory { GetFavoritesBeersUseCase(repository = get()) }
@@ -55,8 +52,7 @@ val favoritesModule = module {
     }
 }
 
-private fun provideBeerCacheModelListType(): Type =
-        object : TypeToken<ArrayList<BeerCacheModel?>?>() {}.type
+private fun provideGson(): Gson = GsonBuilder().setPrettyPrinting().create()
 
 private fun provideFavoritesBeersFile(context: Context): File {
     val filePath: String = context.filesDir.path.toString() + "/$FILE_FAVORITES_BEERS"

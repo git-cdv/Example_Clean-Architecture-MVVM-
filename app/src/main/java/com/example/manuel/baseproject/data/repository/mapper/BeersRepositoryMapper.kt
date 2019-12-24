@@ -2,7 +2,7 @@ package com.example.manuel.baseproject.data.repository.mapper
 
 import com.example.manuel.baseproject.core.BaseMapper
 import com.example.manuel.baseproject.data.datasource.api.model.api.BeersApi
-import com.example.manuel.baseproject.data.datasource.cache.model.BeerCacheModel
+import com.example.manuel.baseproject.data.datasource.local.model.BeerLocalModel
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 
@@ -23,9 +23,9 @@ object ApiToEntityMapper : BaseMapper<BeersApi, BeersEntity> {
     }
 }
 
-object EntityToCacheMapper : BaseMapper<BeerEntity, BeerCacheModel> {
-    override fun map(type: BeerEntity?): BeerCacheModel {
-        return BeerCacheModel(
+object EntityToCacheMapper : BaseMapper<BeerEntity, BeerLocalModel> {
+    override fun map(type: BeerEntity?): BeerLocalModel {
+        return BeerLocalModel(
                 id = type!!.id,
                 name = type.name,
                 tagline = type.tagline,
@@ -36,8 +36,8 @@ object EntityToCacheMapper : BaseMapper<BeerEntity, BeerCacheModel> {
     }
 }
 
-object CacheToEntityMapper : BaseMapper<List<BeerCacheModel>, BeersEntity> {
-    override fun map(type: List<BeerCacheModel>?): BeersEntity {
+object CacheToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
+    override fun map(type: List<BeerLocalModel>?): BeersEntity {
         return BeersEntity(
                 beers = type?.map {
                     BeerEntity(
