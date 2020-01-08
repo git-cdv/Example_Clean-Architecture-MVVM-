@@ -10,7 +10,7 @@ class LocalDataSource(private val file: File, private val gson: Gson) {
     fun getItems(): List<BeerLocalModel> {
         val json = if (file.isFile) file.readText(Charsets.UTF_8) else ""
 
-        return gson.fromJson(json, object : TypeToken<ArrayList<BeerLocalModel?>?>() {}.type)
+        return gson.fromJson(json, object : TypeToken<ArrayList<BeerLocalModel?>?>() {}.type) ?: emptyList()
     }
 
     fun saveItem(objectToSave: BeerLocalModel): Boolean {

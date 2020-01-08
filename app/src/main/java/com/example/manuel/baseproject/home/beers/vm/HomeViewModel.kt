@@ -47,8 +47,10 @@ class HomeViewModel(
     fun handleBeersLoad() {
         isLoadingLiveData(true)
         viewModelScope.launch(Dispatchers.IO) {
+            val beersEntityResult: Result<BeersEntity> = getMealsByBeersUseCase.execute()
+
             withContext(Dispatchers.Main) {
-                updateAppropriateLiveData(getMealsByBeersUseCase.execute())
+                updateAppropriateLiveData(beersEntityResult)
             }
         }
     }
