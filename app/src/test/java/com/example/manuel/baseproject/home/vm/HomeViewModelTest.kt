@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.manuel.baseproject.core.datatype.Result
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
+import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
+import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
 import com.example.manuel.baseproject.home.beers.vm.HomeViewModel
 import com.example.manuel.baseproject.home.domain.utils.DomainBeersGenerator
 import com.nhaarman.mockitokotlin2.given
@@ -21,6 +23,7 @@ private const val EXPECTED_IS_LOADING_FALSE = false
 /**
  *  https://codelabs.developers.google.com/codelabs/android-testing/#7
  * */
+// TODO Check the tests because project has been changed
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
 class HomeViewModelTest {
@@ -34,6 +37,8 @@ class HomeViewModelTest {
     val mainCoroutineRule = MainCoroutineRule()
 
     private var mockGetBeersUseCase: GetBeersUseCase = mock()
+    private var mockSaveBeersUseCase: SaveBeerUseCase = mock()
+    private var mockRemoveBeerUseCase: RemoveBeerUseCase = mock()
     private lateinit var viewModel: HomeViewModel
 
     @Test
@@ -89,7 +94,11 @@ class HomeViewModelTest {
     }
 
     private fun whenViewModelHandleLoadBeers() {
-        viewModel = HomeViewModel(mockGetBeersUseCase)
+        viewModel = HomeViewModel(
+                getMealsByBeersUseCase = mockGetBeersUseCase,
+                saveBeerUseCase = mockSaveBeersUseCase,
+                removeBeerUseCase = mockRemoveBeerUseCase
+        )
     }
 
     private fun thenAssertLiveData(
