@@ -6,7 +6,8 @@ class BeerEntity(
         val tagline: String,
         val image: String,
         val abv: Double,
-        var isFavorite: Boolean = false
+        var isFavorite: Boolean = false,
+        val foodPairing: List<String>
 ) {
     fun getAbvRange(abv: Double): AbvRangeType {
         return when {

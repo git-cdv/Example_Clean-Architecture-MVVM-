@@ -1,42 +1,41 @@
 package com.example.manuel.baseproject.home.datasource.utils
 
-import com.example.manuel.baseproject.data.datasource.api.model.api.BeerApi
+import com.example.manuel.baseproject.data.datasource.api.model.BeerApi
 import com.example.manuel.baseproject.data.datasource.api.model.api.BeersApi
-import com.example.manuel.baseproject.data.datasource.api.model.response.BeerResponse
 
 object DataSourceBeersGenerator {
 
-    fun getBeersResponse(): List<BeerResponse> {
+    fun getBeersResponse(): List<BeerApi> {
         return listOf(
-                BeerResponse(
+                BeerApi(
                         id = 1,
                         name = "BeerNameOne",
                         tagline = "BeerTaglineOne",
                         image = "urlImageOne",
                         abv = 87.0
                 ),
-                BeerResponse(
+                BeerApi(
                         id = 2,
                         name = "BeerNameTwo",
                         tagline = "BeerTaglineTwo",
                         image = "urlImageTwo",
                         abv = 5.0
                 ),
-                BeerResponse(
+                BeerApi(
                         id = 3,
                         name = "BeerNameThree",
                         tagline = "BeerTaglineThree",
                         image = "urlImageThree",
                         abv = 2.0
                 ),
-                BeerResponse(
+                BeerApi(
                         id = 4,
                         name = "BeerNameFour",
                         tagline = "BeerTaglineFour",
                         image = "urlImageFour",
                         abv = 63.0
                 ),
-                BeerResponse(
+                BeerApi(
                         id = null,
                         name = null,
                         tagline = null,
@@ -46,8 +45,8 @@ object DataSourceBeersGenerator {
         )
     }
 
-    fun getBeersApi(): BeersApi {
-        return BeersApi(
+    fun getBeersApi(): BeerApi {
+        return BeerApi(
                 listOf(
                         BeerApi(
                                 id = 1,

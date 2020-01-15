@@ -18,7 +18,8 @@ object BeerUIToAdapterModelMapper : BaseMapper<List<BeerUI>, List<BeerAdapterMod
                     image = it.image,
                     abv = it.abv,
                     abvColor = getColor(it.abvColorType),
-                    isFavorite = it.isFavorite
+                    isFavorite = it.isFavorite,
+                    foodPairing = it.foodPairing
             )
         } ?: listOf()
     }
@@ -41,7 +42,8 @@ object BeerAdapterModelToBeerUIMapper : BaseMapper<BeerAdapterModel, BeerUI> {
                 image = type.image,
                 abv = type.abv,
                 abvColorType = getColorType(type.abvColor),
-                isFavorite = type.isFavorite
+                isFavorite = type.isFavorite,
+                foodPairing = type.foodPairing
         )
     }
 }
@@ -57,7 +59,8 @@ object BeerUIToFavoriteAdapterModelMapper : BaseMapper<List<BeerUI>, List<Favori
                     image = it.image,
                     abv = it.abv,
                     abvColor = getColor(it.abvColorType),
-                    isFavorite = it.isFavorite
+                    isFavorite = it.isFavorite,
+                    foodPairing = it.foodPairing
             )
         } ?: listOf()
     }
@@ -80,7 +83,8 @@ object FavoriteBeerAdapterModelToBeerUIMapper : BaseMapper<FavoriteBeerAdapterMo
                 image = type.image,
                 abv = type.abv,
                 abvColorType = getColorType(type.abvColor),
-                isFavorite = type.isFavorite
+                isFavorite = type.isFavorite,
+                foodPairing = type.foodPairing
         )
     }
 }

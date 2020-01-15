@@ -6,5 +6,6 @@ data class BeerLocalModel(
         val tagline: String,
         val image: String,
         val abv: Double,
-        var isFavorite: Boolean = false
+        var isFavorite: Boolean = false,
+        val foodPairing: List<String>
 )

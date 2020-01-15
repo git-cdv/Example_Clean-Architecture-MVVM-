@@ -5,8 +5,7 @@ import com.example.manuel.baseproject.core.datatype.ResultType
 import com.example.manuel.baseproject.data.datasource.api.BeersNetworkDataSource
 import com.example.manuel.baseproject.data.datasource.api.MAX_RESULTS_PER_PAGE
 import com.example.manuel.baseproject.data.datasource.api.exceptions.BadRequestException
-import com.example.manuel.baseproject.data.datasource.api.model.api.BeerApi
-import com.example.manuel.baseproject.data.datasource.api.model.api.BeersApi
+import com.example.manuel.baseproject.data.datasource.api.model.BeerApi
 import com.example.manuel.baseproject.data.datasource.local.LocalDataSource
 import com.example.manuel.baseproject.data.repository.mapper.ApiToEntityMapper
 import com.example.manuel.baseproject.data.repository.mapper.CacheToEntityMapper
@@ -31,13 +30,13 @@ class BeersRepositoryImpl(
             beersNetworkDataSource.getAllBeers(page.toString()).let { resultListBeerResponse ->
                 if (resultListBeerResponse.resultType == ResultType.SUCCESS) {
                     resultListBeerResponse.data?.let {
-                        mutableBeers.addAll(resultListBeerResponse.data.beers)
+                        mutableBeers.addAll(resultListBeerResponse.data)
                     }
                 }
 
                 result = if (resultListBeerResponse.resultType == ResultType.SUCCESS ||
                         (resultListBeerResponse.error is BadRequestException && mutableBeers.isNotEmpty())) {
-                    Result.success(ApiToEntityMapper.map(BeersApi(mutableBeers.toList())))
+                    Result.success(ApiToEntityMapper.map(mutableBeers.toList()))
                 } else {
                     Result.error(resultListBeerResponse.error)
                 }
