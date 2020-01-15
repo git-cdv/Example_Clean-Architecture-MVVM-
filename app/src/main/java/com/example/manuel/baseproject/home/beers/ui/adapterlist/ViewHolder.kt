@@ -25,10 +25,10 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun getAbv(abvId: String) = itemView.context.getString(R.string.abv, abvId)
 
-    fun setOnClickListener(doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)?, beer: BeerAdapterModel) {
+    fun setOnClickListener(doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit), beer: BeerAdapterModel) {
         itemView.setOnClickListener {
             beer.isFavorite = !beer.isFavorite
-            doOnFavoriteBeerSelected?.invoke(beer)
+            doOnFavoriteBeerSelected.invoke(beer)
             animateFavoriteIcon(beer.isFavorite)
         }
     }

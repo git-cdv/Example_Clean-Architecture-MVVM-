@@ -8,31 +8,27 @@ import com.example.manuel.baseproject.view.extensions.inflate
 import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
 
 class BeersAdapter(
-        private val doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)? = null
+        private val doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)
 ) : RecyclerView.Adapter<ViewHolder>() {
 
-    private var beers: List<BeerAdapterModel>? = null
+    private lateinit var beers: List<BeerAdapterModel>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(parent.inflate(R.layout.item_list_beer))
 
-    override fun getItemCount(): Int = beers?.size ?: 0
+    override fun getItemCount(): Int = beers.size
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        beers?.let {
-            viewHolder.apply {
-                populateViews(it[position])
-                setOnClickListener(doOnFavoriteBeerSelected, it[position])
-            }
+        viewHolder.apply {
+            populateViews(beers[position])
+            setOnClickListener(doOnFavoriteBeerSelected, beers[position])
         }
     }
 
     fun updateAdapter(updatedList: List<BeerAdapterModel>) {
-        beers?.let {
-            val result = DiffUtil.calculateDiff(BeersDiffCallback(it, updatedList))
-            this.beers = updatedList.toMutableList()
-            result.dispatchUpdatesTo(this)
-        }
+        val result = DiffUtil.calculateDiff(BeersDiffCallback(beers, updatedList))
+        this.beers = updatedList.toMutableList()
+        result.dispatchUpdatesTo(this)
     }
 
     fun setData(beers: List<BeerAdapterModel>) {

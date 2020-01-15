@@ -32,6 +32,6 @@ val homeModule = module {
                 saveBeerUseCase = get()
         )
     }
-    factory { (lambda: ((BeerAdapterModel) -> Unit)?) -> BeersAdapter(doOnFavoriteBeerSelected = lambda) }
+    factory { (lambda: (BeerAdapterModel) -> Unit) -> BeersAdapter(doOnFavoriteBeerSelected = lambda) }
     factory { (lambda: ((FavoriteBeerAdapterModel) -> Unit)?) -> FavoriteBeersAdapter(doOnFavoriteBeerSelected = lambda) }
 }

@@ -30,7 +30,10 @@ private const val REQUEST_CODE_LOAD_BEERS = 1000
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
-    private var doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)? = null
+    private var doOnFavoriteBeerSelected: (BeerAdapterModel) -> Unit = {
+        viewModel.handleFavoriteButton(BeerAdapterModelToBeerUIMapper.map(it))
+    }
+
     private val beersAdapter: BeersAdapter by inject { parametersOf(doOnFavoriteBeerSelected) }
     private var recyclerView: RecyclerView? = null
     private var savedInstanceState: Bundle? = null
@@ -40,16 +43,9 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_beers_results)
 
         this.savedInstanceState = savedInstanceState
-        initDoOnFavoriteBeerSelected()
         bindViews()
         setListeners()
         observerLiveData()
-    }
-
-    private fun initDoOnFavoriteBeerSelected() {
-        doOnFavoriteBeerSelected = {
-            viewModel.handleFavoriteButton(BeerAdapterModelToBeerUIMapper.map(it))
-        }
     }
 
     private fun bindViews() {
