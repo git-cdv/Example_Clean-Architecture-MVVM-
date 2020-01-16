@@ -17,7 +17,9 @@ object BeersEntityToUIMapper : BaseMapper<List<BeerEntity>, List<BeerUI>> {
                     abv = it.abv,
                     abvColorType = mapAbvType(it.getAbvRange(it.abv)),
                     isFavorite = it.isFavorite,
-                    foodPairing = it.foodPairing
+                    foodPairing = it.foodPairing.map { foodPairing ->
+                        "- $foodPairing \n"
+                    }
             )
         } ?: listOf()
     }

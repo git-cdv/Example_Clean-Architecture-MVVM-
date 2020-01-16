@@ -12,4 +12,6 @@
     <string name="activity_favorites_snack_bar_action">Undo</string>
     <string name="activity_favorites_snack_bar_title">Removed</string>
     <string name="activity_favorites_empty_view_title">No favorites beers</string>
+
+    <string name="activity_detail_food_pairing_title">Food pairing</string>
 </resources>

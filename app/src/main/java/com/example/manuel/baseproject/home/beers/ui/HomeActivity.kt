@@ -17,6 +17,9 @@ import com.example.manuel.baseproject.home.beers.ui.mapper.BeerAdapterModelToBee
 import com.example.manuel.baseproject.home.beers.ui.mapper.BeerUIToAdapterModelMapper
 import com.example.manuel.baseproject.home.beers.vm.HomeViewModel
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
+import com.example.manuel.baseproject.home.detail.BUNDLE_BEER_DETAIL
+import com.example.manuel.baseproject.home.detail.BeerDetailActivity
+import com.example.manuel.baseproject.home.detail.model.BeerDetailUI
 import com.example.manuel.baseproject.home.favorites.ui.FavoritesBeersActivity
 import kotlinx.android.synthetic.main.activity_beers_results.*
 import org.koin.android.ext.android.inject
@@ -30,11 +33,18 @@ private const val REQUEST_CODE_LOAD_BEERS = 1000
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel: HomeViewModel by viewModel()
-    private var doOnFavoriteBeerSelected: (BeerAdapterModel) -> Unit = {
+    private var favoriteBeerListener: (BeerAdapterModel) -> Unit = {
         viewModel.handleFavoriteButton(BeerAdapterModelToBeerUIMapper.map(it))
     }
+    private val beerDetailListener: (BeerAdapterModel) -> Unit = {
+        val intent = Intent(this, BeerDetailActivity::class.java).apply {
+        }
+        intent.putExtra(BUNDLE_BEER_DETAIL, BeerDetailUI(image = it.image, foodPairing = it.foodPairing))
 
-    private val beersAdapter: BeersAdapter by inject { parametersOf(doOnFavoriteBeerSelected) }
+        startActivity(intent)
+    }
+
+    private val beersAdapter: BeersAdapter by inject { parametersOf(favoriteBeerListener, beerDetailListener) }
     private var recyclerView: RecyclerView? = null
     private var savedInstanceState: Bundle? = null
 
