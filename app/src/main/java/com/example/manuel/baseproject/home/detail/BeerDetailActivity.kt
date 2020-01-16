@@ -1,7 +1,6 @@
 package com.example.manuel.baseproject.home.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -21,10 +20,18 @@ class BeerDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beers_detail)
 
+
         beerDetailUI = intent!!.extras!!.getSerializable(BUNDLE_BEER_DETAIL) as BeerDetailUI
+        populateViews()
+        setCloseButtonListener()
+    }
 
-        Log.i("test", "${beerDetailUI.foodPairing}")
+    private fun populateViews() {
+        populateProgrammaticallyTextViews()
+        beers_detail_image_view.loadImage(beerDetailUI.image)
+    }
 
+    private fun populateProgrammaticallyTextViews() {
         val textViews: MutableList<AppCompatTextView> = mutableListOf()
         beerDetailUI.foodPairing.forEachIndexed { _, s ->
             val textView = AppCompatTextView(this).apply {
@@ -42,7 +49,9 @@ class BeerDetailActivity : AppCompatActivity() {
         textViews.forEach {
             beers_detail_food_pairing_container.addView(it)
         }
+    }
 
-        beers_detail_image_view.loadImage(beerDetailUI.image)
+    private fun setCloseButtonListener() {
+        beers_detail_close_image_view.setOnClickListener { finish() }
     }
 }
