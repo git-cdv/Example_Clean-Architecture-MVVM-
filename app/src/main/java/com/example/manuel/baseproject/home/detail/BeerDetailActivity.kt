@@ -10,7 +10,9 @@ import com.example.manuel.baseproject.home.detail.model.BeerDetailUI
 import com.example.manuel.baseproject.view.extensions.loadImage
 import kotlinx.android.synthetic.main.activity_beers_detail.*
 
+
 const val BUNDLE_BEER_DETAIL = "BUNDLE_BEER_DETAIL"
+const val BUNDLE_TRANSITION_OPTIONS = "BUNDLE_TRANSITION_OPTIONS"
 
 class BeerDetailActivity : AppCompatActivity() {
 
@@ -24,6 +26,10 @@ class BeerDetailActivity : AppCompatActivity() {
         beerDetailUI = intent!!.extras!!.getSerializable(BUNDLE_BEER_DETAIL) as BeerDetailUI
         populateViews()
         setCloseButtonListener()
+
+
+        val imageTransitionName: String = intent!!.extras!!.getString("test") ?: ""
+        beers_detail_image_view.transitionName = imageTransitionName
     }
 
     private fun populateViews() {
@@ -52,6 +58,6 @@ class BeerDetailActivity : AppCompatActivity() {
     }
 
     private fun setCloseButtonListener() {
-        beers_detail_close_image_view.setOnClickListener { finish() }
+        beers_detail_close_image_view.setOnClickListener { onBackPressed() }
     }
 }

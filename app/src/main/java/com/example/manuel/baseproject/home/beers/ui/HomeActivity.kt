@@ -7,6 +7,9 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +21,7 @@ import com.example.manuel.baseproject.home.beers.ui.mapper.BeerUIToAdapterModelM
 import com.example.manuel.baseproject.home.beers.vm.HomeViewModel
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
 import com.example.manuel.baseproject.home.detail.BUNDLE_BEER_DETAIL
+import com.example.manuel.baseproject.home.detail.BUNDLE_TRANSITION_OPTIONS
 import com.example.manuel.baseproject.home.detail.BeerDetailActivity
 import com.example.manuel.baseproject.home.detail.model.BeerDetailUI
 import com.example.manuel.baseproject.home.favorites.ui.FavoritesBeersActivity
@@ -25,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_beers_results.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+
 
 private const val KEY_LAST_ITEM_POSITION = "KEY_LAST_ITEM_POSITION"
 private const val REQUEST_CODE_LOAD_BEERS = 1000
@@ -36,12 +41,18 @@ class HomeActivity : AppCompatActivity() {
     private var favoriteBeerListener: (BeerAdapterModel) -> Unit = {
         viewModel.handleFavoriteButton(BeerAdapterModelToBeerUIMapper.map(it))
     }
-    private val beerDetailListener: (BeerAdapterModel) -> Unit = {
+    private val beerDetailListener: (BeerAdapterModel, beerImageView: AppCompatImageView) -> Unit = { beer, imageView ->
         val intent = Intent(this, BeerDetailActivity::class.java).apply {
+            putExtra(BUNDLE_BEER_DETAIL, BeerDetailUI(image = beer.image, foodPairing = beer.foodPairing))
+            putExtra(BUNDLE_TRANSITION_OPTIONS, ViewCompat.getTransitionName(imageView))
         }
-        intent.putExtra(BUNDLE_BEER_DETAIL, BeerDetailUI(image = it.image, foodPairing = it.foodPairing))
 
-        startActivity(intent)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                imageView,
+                ViewCompat.getTransitionName(imageView) ?: "")
+
+        startActivity(intent, options.toBundle())
     }
 
     private val beersAdapter: BeersAdapter by inject { parametersOf(favoriteBeerListener, beerDetailListener) }

@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.home.di
 
+import androidx.appcompat.widget.AppCompatImageView
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
@@ -32,7 +33,7 @@ val homeModule = module {
                 saveBeerUseCase = get()
         )
     }
-    factory { (favoriteBeerListener: (BeerAdapterModel) -> Unit, beerDetailListener: (BeerAdapterModel) -> Unit) ->
+    factory { (favoriteBeerListener: (BeerAdapterModel) -> Unit, beerDetailListener: (BeerAdapterModel, AppCompatImageView) -> Unit) ->
         BeersAdapter(favoriteBeerListener = favoriteBeerListener, beerDetailListener = beerDetailListener)
     }
     factory { (lambda: ((FavoriteBeerAdapterModel) -> Unit)?) -> FavoriteBeersAdapter(doOnFavoriteBeerSelected = lambda) }
