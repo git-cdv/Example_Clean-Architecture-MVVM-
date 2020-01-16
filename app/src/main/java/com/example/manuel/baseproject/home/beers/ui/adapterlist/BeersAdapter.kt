@@ -1,13 +1,15 @@
 package com.example.manuel.baseproject.home.beers.ui.adapterlist
 
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.view.extensions.inflate
 import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
+import com.example.manuel.baseproject.view.extensions.inflate
 
 class BeersAdapter(
         private val favoriteBeerListener: (BeerAdapterModel) -> Unit,
@@ -19,7 +21,9 @@ class BeersAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = parent.inflate(R.layout.item_list_beer)
         val viewHolder = ViewHolder(view)
+
         setBeerItemListener(view, viewHolder)
+        avoidMultipleClicks(view)
 
         return viewHolder
     }
@@ -31,6 +35,14 @@ class BeersAdapter(
                 beerDetailListener.invoke(beers[position], viewHolder.beerImageView)
             }
         }
+    }
+
+    private fun avoidMultipleClicks(view: View) {
+        view.isClickable = false
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            view.isClickable = true
+        }, 1000)
     }
 
     override fun getItemCount(): Int = beers.size
