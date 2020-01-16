@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewPropertyAnimator
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.view.extensions.applyBackgroundColor
@@ -13,6 +14,9 @@ import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapte
 import kotlinx.android.synthetic.main.item_list_beer.view.*
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+    val beerImageView: AppCompatImageView
+        get() = itemView.item_list_beer_image
 
     fun populateViews(beer: BeerAdapterModel) {
         itemView.item_list_beer_abv.text = getAbv(beer.abv.toString())
@@ -25,10 +29,10 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun getAbv(abvId: String) = itemView.context.getString(R.string.abv, abvId)
 
-    fun setOnClickListener(doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit)?, beer: BeerAdapterModel) {
-        itemView.setOnClickListener {
+    fun setOnClickListener(doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit), beer: BeerAdapterModel) {
+        itemView.item_list_beer_favorite_button.setOnClickListener {
             beer.isFavorite = !beer.isFavorite
-            doOnFavoriteBeerSelected?.invoke(beer)
+            doOnFavoriteBeerSelected.invoke(beer)
             animateFavoriteIcon(beer.isFavorite)
         }
     }

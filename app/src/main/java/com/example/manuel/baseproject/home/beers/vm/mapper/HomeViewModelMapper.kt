@@ -16,7 +16,10 @@ object BeersEntityToUIMapper : BaseMapper<List<BeerEntity>, List<BeerUI>> {
                     image = it.image,
                     abv = it.abv,
                     abvColorType = mapAbvType(it.getAbvRange(it.abv)),
-                    isFavorite = it.isFavorite
+                    isFavorite = it.isFavorite,
+                    foodPairing = it.foodPairing.map { foodPairing ->
+                        "- $foodPairing \n"
+                    }
             )
         } ?: listOf()
     }
@@ -38,7 +41,8 @@ object BeerAdapterModelToEntityMapper : BaseMapper<BeerUI, BeerEntity> {
                 tagline = type.tagline,
                 image = type.image,
                 abv = type.abv,
-                isFavorite = type.isFavorite
+                isFavorite = type.isFavorite,
+                foodPairing = type.foodPairing
         )
     }
 }

@@ -7,5 +7,6 @@ data class BeerAdapterModel(
         val image: String,
         val abv: Double,
         val abvColor: Int,
-        var isFavorite: Boolean = false
+        var isFavorite: Boolean = false,
+        val foodPairing: List<String>
 )

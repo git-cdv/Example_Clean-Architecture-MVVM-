@@ -1,22 +1,23 @@
 package com.example.manuel.baseproject.data.repository.mapper
 
 import com.example.manuel.baseproject.core.BaseMapper
-import com.example.manuel.baseproject.data.datasource.api.model.api.BeersApi
+import com.example.manuel.baseproject.data.datasource.api.model.BeerApi
 import com.example.manuel.baseproject.data.datasource.local.model.BeerLocalModel
 import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 
-object ApiToEntityMapper : BaseMapper<BeersApi, BeersEntity> {
-    override fun map(type: BeersApi?): BeersEntity {
+object ApiToEntityMapper : BaseMapper<List<BeerApi>, BeersEntity> {
+    override fun map(type: List<BeerApi>?): BeersEntity {
         return BeersEntity(
-                type?.beers?.map {
+                type?.map {
                     BeerEntity(
                             id = it.id ?: -1,
                             name = it.name ?: "",
                             tagline = it.tagline ?: "",
                             image = it.image ?: "",
                             abv = it.abv ?: -1.0,
-                            isFavorite = false
+                            isFavorite = false,
+                            foodPairing = it.foodPairing ?: emptyList()
                     )
                 } ?: listOf()
         )
@@ -31,7 +32,8 @@ object EntityToCacheMapper : BaseMapper<BeerEntity, BeerLocalModel> {
                 tagline = type.tagline,
                 image = type.image,
                 abv = type.abv,
-                isFavorite = true
+                isFavorite = true,
+                foodPairing = type.foodPairing
         )
     }
 }
@@ -46,7 +48,8 @@ object CacheToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
                             tagline = it.tagline,
                             image = it.image,
                             abv = it.abv,
-                            isFavorite = it.isFavorite
+                            isFavorite = it.isFavorite,
+                            foodPairing = it.foodPairing
                     )
                 } ?: listOf()
         )

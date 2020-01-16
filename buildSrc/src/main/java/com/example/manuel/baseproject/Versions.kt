@@ -1,3 +1,5 @@
+package com.example.manuel.baseproject
+
 object Versions {
 
     object Android {
