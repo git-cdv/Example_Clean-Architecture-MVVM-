@@ -1,3 +1,4 @@
+import com.example.manuel.baseproject.BuildConfig
 import com.example.manuel.baseproject.Libs
 
 apply plugin: 'com.android.application'

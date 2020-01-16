@@ -1,3 +1,5 @@
+package com.example.manuel.baseproject
+
 object BuildConfig {
     val APPLICATION_ID = "com.example.manuel.baseproject"
     val COMPILE_SDK_VERSION = 29
