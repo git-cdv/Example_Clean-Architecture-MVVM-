@@ -22,17 +22,31 @@ class BeersAdapter(
         val view = parent.inflate(R.layout.item_list_beer)
         val viewHolder = ViewHolder(view)
 
-        setBeerItemListener(view, viewHolder)
+        setFavoriteBeerListener(viewHolder)
+        setBeerItemListener(viewHolder)
         avoidMultipleClicks(view)
 
         return viewHolder
     }
 
-    private fun setBeerItemListener(view: View, viewHolder: ViewHolder) {
-        view.setOnClickListener {
+    private fun setBeerItemListener(viewHolder: ViewHolder) {
+        viewHolder.itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 beerDetailListener.invoke(beers[position], viewHolder.beerImageView)
+            }
+        }
+    }
+
+    private fun setFavoriteBeerListener(viewHolder: ViewHolder) {
+        viewHolder.favoriteImageView.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val beer = beers[position].apply {
+                    isFavorite = !isFavorite
+                }
+                viewHolder.animateFavoriteIcon(beer.isFavorite)
+                favoriteBeerListener.invoke(beer)
             }
         }
     }
@@ -50,7 +64,6 @@ class BeersAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.apply {
             populateViews(beers[position])
-            setOnClickListener(favoriteBeerListener, beers[position])
         }
     }
 

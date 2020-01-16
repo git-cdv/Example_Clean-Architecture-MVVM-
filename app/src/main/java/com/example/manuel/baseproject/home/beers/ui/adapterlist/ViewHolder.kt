@@ -18,6 +18,9 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val beerImageView: AppCompatImageView
         get() = itemView.item_list_beer_image
 
+    val favoriteImageView: AppCompatImageView
+        get() = itemView.item_list_beer_favorite_button
+
     fun populateViews(beer: BeerAdapterModel) {
         itemView.item_list_beer_abv.text = getAbv(beer.abv.toString())
         itemView.item_list_beer_name.text = beer.name
@@ -29,15 +32,7 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun getAbv(abvId: String) = itemView.context.getString(R.string.abv, abvId)
 
-    fun setOnClickListener(doOnFavoriteBeerSelected: ((BeerAdapterModel) -> Unit), beer: BeerAdapterModel) {
-        itemView.item_list_beer_favorite_button.setOnClickListener {
-            beer.isFavorite = !beer.isFavorite
-            doOnFavoriteBeerSelected.invoke(beer)
-            animateFavoriteIcon(beer.isFavorite)
-        }
-    }
-
-    private fun animateFavoriteIcon(isFavoriteBeer: Boolean) {
+    fun animateFavoriteIcon(isFavoriteBeer: Boolean) {
         val viewPropertyAnimator = itemView.item_list_beer_favorite_button.animate()
 
         viewPropertyAnimator
@@ -58,20 +53,6 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 })
     }
 
-    private fun restartFavoriteIconSize(viewPropertyAnimator: ViewPropertyAnimator) {
-        viewPropertyAnimator
-                .scaleX(1f)
-                .scaleY(1f)
-                .setDuration(250)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        super.onAnimationEnd(animation)
-                        viewPropertyAnimator.cancel()
-                        itemView.isClickable = true
-                    }
-                })
-    }
-
     private fun populateFavoriteIconView(isFavorite: Boolean) {
         getFavoriteIcon(isFavorite)?.let {
             itemView.item_list_beer_favorite_button.background = it
@@ -84,5 +65,19 @@ class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         } else {
             itemView.context.getDrawable(R.drawable.ic_star_border_white_24dp)
         }
+    }
+
+    private fun restartFavoriteIconSize(viewPropertyAnimator: ViewPropertyAnimator) {
+        viewPropertyAnimator
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(250)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        super.onAnimationEnd(animation)
+                        viewPropertyAnimator.cancel()
+                        itemView.isClickable = true
+                    }
+                })
     }
 }
