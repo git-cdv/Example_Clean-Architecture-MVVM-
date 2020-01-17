@@ -14,7 +14,6 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
 import com.example.manuel.baseproject.home.beers.ui.mapper.BeerUIToFavoriteAdapterModelMapper
 import com.example.manuel.baseproject.home.beers.ui.mapper.FavoriteBeerAdapterModelToBeerUIMapper
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
