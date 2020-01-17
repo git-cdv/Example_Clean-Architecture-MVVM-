@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.home.favorites.ui.adapterlist
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
@@ -7,23 +8,33 @@ import com.example.manuel.baseproject.view.extensions.inflate
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 
 class FavoriteBeersAdapter(
-        private val doOnFavoriteBeerSelected: ((FavoriteBeerAdapterModel) -> Unit)? = null
+        private val favoriteBeerListener: ((FavoriteBeerAdapterModel) -> Unit)
 ) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
-    private var beers: List<FavoriteBeerAdapterModel>? = null
+    private lateinit var beers: List<FavoriteBeerAdapterModel>
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder =
-            FavoriteViewHolder(parent.inflate(R.layout.item_list_beer))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
+        val view = parent.inflate(R.layout.item_list_beer)
+        val viewHolder = FavoriteViewHolder(view)
 
-    override fun getItemCount(): Int = beers?.size ?: 0
+        setItemViewListener(viewHolder)
 
-    override fun onBindViewHolder(viewHolder: FavoriteViewHolder, position: Int) {
-        beers?.let {
-            viewHolder.apply {
-                populateViews(it[position])
-                setOnClickListener(doOnFavoriteBeerSelected, it[position])
+        return viewHolder
+    }
+
+    private fun setItemViewListener(viewHolder: FavoriteViewHolder) {
+        viewHolder.itemView.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                favoriteBeerListener.invoke(beers[position])
             }
         }
+    }
+
+    override fun getItemCount(): Int = beers.size
+
+    override fun onBindViewHolder(viewHolder: FavoriteViewHolder, position: Int) {
+        viewHolder.populateViews(beers[position])
     }
 
     fun setData(beers: List<FavoriteBeerAdapterModel>) {

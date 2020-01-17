@@ -17,7 +17,6 @@ import com.example.manuel.baseproject.home.favorites.ui.adapterlist.FavoriteBeer
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_beers_results.*
 import kotlinx.android.synthetic.main.activity_favorites_beers.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,27 +26,23 @@ class FavoritesBeersActivity : AppCompatActivity() {
 
     private val viewModel: FavoritesBeersViewModel by viewModel()
     private lateinit var toolbar: Toolbar
-    private val beersAdapter: FavoriteBeersAdapter by inject { parametersOf(doOnFavoriteBeerSelected) }
-    private var doOnFavoriteBeerSelected: ((FavoriteBeerAdapterModel) -> Unit)? = null
+    private val beersAdapter: FavoriteBeersAdapter by inject { parametersOf(favoriteBeerListener) }
+    private var favoriteBeerListener: ((FavoriteBeerAdapterModel) -> Unit) = { beerAdapterModel ->
+        viewModel.handleRemoveButton(FavoriteBeerAdapterModelToBeerUIMapper.map(beerAdapterModel))
+        showSnackBar()
+    }
+
     private var initialBeers: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites_beers)
 
-        initDoOnFavoriteBeerSelectedVar()
         bindViews()
         initToolbar()
         initRecyclerView()
         setListeners()
         observerLiveData()
-    }
-
-    private fun initDoOnFavoriteBeerSelectedVar() {
-        doOnFavoriteBeerSelected = { beerAdapterModel ->
-            viewModel.handleRemoveButton(FavoriteBeerAdapterModelToBeerUIMapper.map(beerAdapterModel))
-            showSnackBar()
-        }
     }
 
     private fun showSnackBar() {
