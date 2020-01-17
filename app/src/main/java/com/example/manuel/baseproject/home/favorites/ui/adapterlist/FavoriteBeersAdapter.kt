@@ -1,14 +1,17 @@
 package com.example.manuel.baseproject.home.favorites.ui.adapterlist
 
-import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.view.extensions.inflate
+import com.example.manuel.baseproject.home.beers.ui.mapper.FavoriteBeerAdapterModelToBeerUIMapper
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
+import com.example.manuel.baseproject.view.extensions.inflate
+import kotlinx.android.synthetic.main.item_list_beer.view.*
 
 class FavoriteBeersAdapter(
-        private val favoriteBeerListener: ((FavoriteBeerAdapterModel) -> Unit)
+        private val beerDetailListener: (FavoriteBeerAdapterModel, AppCompatImageView) -> Unit,
+        private val favoriteBeerItemListener: (FavoriteBeerAdapterModel) -> Unit
 ) : RecyclerView.Adapter<FavoriteViewHolder>() {
 
     private lateinit var beers: List<FavoriteBeerAdapterModel>
@@ -18,6 +21,7 @@ class FavoriteBeersAdapter(
         val viewHolder = FavoriteViewHolder(view)
 
         setItemViewListener(viewHolder)
+        setFavoriteIconListener(viewHolder)
 
         return viewHolder
     }
@@ -26,7 +30,17 @@ class FavoriteBeersAdapter(
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                favoriteBeerListener.invoke(beers[position])
+                val beerImage = viewHolder.itemView.item_list_beer_image
+                beerDetailListener.invoke(beers[position], beerImage)
+            }
+        }
+    }
+
+    private fun setFavoriteIconListener(viewHolder: FavoriteViewHolder) {
+        viewHolder.itemView.item_list_beer_favorite_button.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                favoriteBeerItemListener.invoke(beers[position])
             }
         }
     }

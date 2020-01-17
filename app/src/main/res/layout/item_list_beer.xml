@@ -51,6 +51,7 @@
             android:id="@+id/item_list_beer_image"
             android:layout_width="48dp"
             android:layout_height="100dp"
+            android:transitionName="@string/activity_detail_food_pairing_transition_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

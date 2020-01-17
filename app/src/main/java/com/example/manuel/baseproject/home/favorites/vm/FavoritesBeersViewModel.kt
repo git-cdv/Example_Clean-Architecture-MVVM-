@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
-import com.example.manuel.baseproject.home.beers.vm.mapper.BeerAdapterModelToEntityMapper
+import com.example.manuel.baseproject.home.beers.vm.mapper.BeerUIToEntityMapper
 import com.example.manuel.baseproject.home.beers.vm.mapper.BeersEntityToUIMapper
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
 import com.example.manuel.baseproject.home.favorites.domain.GetFavoritesBeersUseCase
@@ -77,7 +77,7 @@ class FavoritesBeersViewModel(
 
     fun handleUndoButton() {
         this.counterRemovedBeers--
-        saveBeerUseCase.execute(BeerAdapterModelToEntityMapper.map(beerUIRemoved))
+        saveBeerUseCase.execute(BeerUIToEntityMapper.map(beerUIRemoved))
         restorePreviousState()
         resetBeerRemovedData()
     }

@@ -1,18 +1,27 @@
 package com.example.manuel.baseproject.home.favorites.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.manuel.baseproject.R
+import com.example.manuel.baseproject.home.beers.ui.adapterlist.model.BeerAdapterModel
 import com.example.manuel.baseproject.home.beers.ui.mapper.BeerUIToFavoriteAdapterModelMapper
 import com.example.manuel.baseproject.home.beers.ui.mapper.FavoriteBeerAdapterModelToBeerUIMapper
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
+import com.example.manuel.baseproject.home.detail.BUNDLE_BEER_DETAIL
+import com.example.manuel.baseproject.home.detail.BUNDLE_TRANSITION_OPTIONS
+import com.example.manuel.baseproject.home.detail.BeerDetailActivity
+import com.example.manuel.baseproject.home.detail.model.BeerDetailUI
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.FavoriteBeersAdapter
 import com.example.manuel.baseproject.home.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import com.example.manuel.baseproject.home.favorites.vm.FavoritesBeersViewModel
@@ -26,9 +35,25 @@ class FavoritesBeersActivity : AppCompatActivity() {
 
     private val viewModel: FavoritesBeersViewModel by viewModel()
     private lateinit var toolbar: Toolbar
-    private val beersAdapter: FavoriteBeersAdapter by inject { parametersOf(favoriteBeerListener) }
-    private var favoriteBeerListener: ((FavoriteBeerAdapterModel) -> Unit) = { beerAdapterModel ->
-        viewModel.handleRemoveButton(FavoriteBeerAdapterModelToBeerUIMapper.map(beerAdapterModel))
+    private val beersAdapter: FavoriteBeersAdapter by inject { parametersOf(beerDetailListener, favoriteBeerIconListener) }
+    private val beerDetailListener: (FavoriteBeerAdapterModel, AppCompatImageView) -> Unit = { beer, imageView ->
+        val intent = Intent(this, BeerDetailActivity::class.java).apply {
+            putExtra(BUNDLE_BEER_DETAIL, BeerDetailUI(image = beer.image, foodPairing = beer.foodPairing))
+            putExtra(BUNDLE_TRANSITION_OPTIONS, ViewCompat.getTransitionName(imageView))
+        }
+
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                imageView,
+                ViewCompat.getTransitionName(imageView) ?: "")
+
+        startActivity(intent, options.toBundle())
+    }
+
+    private var favoriteBeerIconListener: (FavoriteBeerAdapterModel) -> Unit = {
+        viewModel.handleRemoveButton(FavoriteBeerAdapterModelToBeerUIMapper.map(it))
+
+        // TODO Create a livedata to receive this action when the user remove a beer from favorites
         showSnackBar()
     }
 

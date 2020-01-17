@@ -10,7 +10,7 @@ import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.home.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.home.beers.domain.usecase.SaveBeerUseCase
-import com.example.manuel.baseproject.home.beers.vm.mapper.BeerAdapterModelToEntityMapper
+import com.example.manuel.baseproject.home.beers.vm.mapper.BeerUIToEntityMapper
 import com.example.manuel.baseproject.home.beers.vm.mapper.BeersEntityToUIMapper
 import com.example.manuel.baseproject.home.beers.vm.model.BeerUI
 import kotlinx.coroutines.Dispatchers
@@ -97,7 +97,7 @@ class HomeViewModel(
 
     fun handleFavoriteButton(beerUI: BeerUI) {
         viewModelScope.launch(Dispatchers.IO) {
-            BeerAdapterModelToEntityMapper.map(beerUI).let {
+            BeerUIToEntityMapper.map(beerUI).let {
                 if (it.isFavorite) saveBeerUseCase.execute(it).let { isBeerSaved ->
                     if (!isBeerSaved) {
                         // TODO Handle the error, modify the beerUI with isfavorite to previous state and update the livedata

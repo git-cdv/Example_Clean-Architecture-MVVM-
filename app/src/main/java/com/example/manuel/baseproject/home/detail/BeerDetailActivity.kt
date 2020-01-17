@@ -28,7 +28,7 @@ class BeerDetailActivity : AppCompatActivity() {
         setCloseButtonListener()
 
 
-        val imageTransitionName: String = intent!!.extras!!.getString("test") ?: ""
+        val imageTransitionName: String = getString(R.string.activity_detail_food_pairing_transition_name)
         beers_detail_image_view.transitionName = imageTransitionName
     }
 
@@ -48,6 +48,7 @@ class BeerDetailActivity : AppCompatActivity() {
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         )
                 textSize = 16f
+                setPadding(0,8,0,16)
             }
             textViews.add(textView)
         }

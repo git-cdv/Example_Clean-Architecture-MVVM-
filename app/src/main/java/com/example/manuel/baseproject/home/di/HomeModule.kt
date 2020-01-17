@@ -36,5 +36,7 @@ val homeModule = module {
     factory { (favoriteBeerListener: (BeerAdapterModel) -> Unit, beerDetailListener: (BeerAdapterModel, AppCompatImageView) -> Unit) ->
         BeersAdapter(favoriteBeerListener = favoriteBeerListener, beerDetailListener = beerDetailListener)
     }
-    factory { (favoriteBeerListener: (FavoriteBeerAdapterModel) -> Unit) -> FavoriteBeersAdapter(favoriteBeerListener = favoriteBeerListener) }
+    factory { (beerDetailListener: (FavoriteBeerAdapterModel, AppCompatImageView) -> Unit, favoriteBeerItemListener: (FavoriteBeerAdapterModel) -> Unit) ->
+        FavoriteBeersAdapter(beerDetailListener = beerDetailListener, favoriteBeerItemListener = favoriteBeerItemListener)
+    }
 }
