@@ -1,4 +1,4 @@
-package com.example.manuel.baseproject.features.detail
+package com.example.manuel.baseproject.features.detail.ui
 
 import android.os.Bundle
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.manuel.baseproject.R
-import com.example.manuel.baseproject.features.detail.model.BeerDetailUI
+import com.example.manuel.baseproject.features.detail.ui.model.BeerDetailUI
 import com.example.manuel.baseproject.view.extensions.loadImage
 import kotlinx.android.synthetic.main.activity_beers_detail.*
 

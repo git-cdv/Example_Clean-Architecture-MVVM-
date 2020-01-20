@@ -29,7 +29,7 @@
             android:name=".features.favorites.ui.FavoritesBeersActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".features.detail.BeerDetailActivity"
+            android:name=".features.detail.ui.BeerDetailActivity"
             android:screenOrientation="portrait" />
     </application>
 

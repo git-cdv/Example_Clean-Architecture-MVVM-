@@ -18,12 +18,12 @@ import com.example.manuel.baseproject.features.beers.ui.adapterlist.BeersAdapter
 import com.example.manuel.baseproject.features.beers.ui.adapterlist.model.BeerAdapterModel
 import com.example.manuel.baseproject.features.beers.ui.mapper.BeerAdapterModelToBeerUIMapper
 import com.example.manuel.baseproject.features.beers.ui.mapper.BeerUIToAdapterModelMapper
-import com.example.manuel.baseproject.features.beers.vm.HomeViewModel
+import com.example.manuel.baseproject.features.beers.vm.BeersViewModel
 import com.example.manuel.baseproject.features.beers.vm.model.BeerUI
-import com.example.manuel.baseproject.features.detail.BUNDLE_BEER_DETAIL
-import com.example.manuel.baseproject.features.detail.BUNDLE_TRANSITION_OPTIONS
-import com.example.manuel.baseproject.features.detail.BeerDetailActivity
-import com.example.manuel.baseproject.features.detail.model.BeerDetailUI
+import com.example.manuel.baseproject.features.detail.ui.BUNDLE_BEER_DETAIL
+import com.example.manuel.baseproject.features.detail.ui.BUNDLE_TRANSITION_OPTIONS
+import com.example.manuel.baseproject.features.detail.ui.BeerDetailActivity
+import com.example.manuel.baseproject.features.detail.ui.model.BeerDetailUI
 import com.example.manuel.baseproject.features.favorites.ui.FavoritesBeersActivity
 import kotlinx.android.synthetic.main.activity_beers_results.*
 import org.koin.android.ext.android.inject
@@ -37,7 +37,7 @@ private const val REQUEST_CODE_LOAD_BEERS = 1000
 // TODO Change the way to refresh the beers when the user remove some one, avoid a new api call
 class HomeActivity : AppCompatActivity() {
 
-    private val viewModel: HomeViewModel by viewModel()
+    private val viewModel: BeersViewModel by viewModel()
     private var favoriteBeerListener: (BeerAdapterModel) -> Unit = {
         viewModel.handleFavoriteButton(BeerAdapterModelToBeerUIMapper.map(it))
     }

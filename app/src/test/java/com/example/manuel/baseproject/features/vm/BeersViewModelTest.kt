@@ -6,7 +6,7 @@ import com.example.manuel.baseproject.features.beers.domain.model.BeersEntity
 import com.example.manuel.baseproject.features.beers.domain.usecase.GetBeersUseCase
 import com.example.manuel.baseproject.features.beers.domain.usecase.RemoveBeerUseCase
 import com.example.manuel.baseproject.features.beers.domain.usecase.SaveBeerUseCase
-import com.example.manuel.baseproject.features.beers.vm.HomeViewModel
+import com.example.manuel.baseproject.features.beers.vm.BeersViewModel
 import com.example.manuel.baseproject.features.domain.utils.DomainBeersGenerator
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
@@ -26,7 +26,7 @@ private const val EXPECTED_IS_LOADING_FALSE = false
 // TODO Check the tests because project has been changed
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
-class HomeViewModelTest {
+class BeersViewModelTest {
 
     @Rule
     @JvmField
@@ -39,7 +39,7 @@ class HomeViewModelTest {
     private var mockGetBeersUseCase: GetBeersUseCase = mock()
     private var mockSaveBeersUseCase: SaveBeerUseCase = mock()
     private var mockRemoveBeerUseCase: RemoveBeerUseCase = mock()
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: BeersViewModel
 
     @Test
     fun verifyBeersLiveDataIsNotEmptyWhenResultIsSuccess() {
@@ -94,7 +94,7 @@ class HomeViewModelTest {
     }
 
     private fun whenViewModelHandleLoadBeers() {
-        viewModel = HomeViewModel(
+        viewModel = BeersViewModel(
                 getMealsByBeersUseCase = mockGetBeersUseCase,
                 saveBeerUseCase = mockSaveBeersUseCase,
                 removeBeerUseCase = mockRemoveBeerUseCase

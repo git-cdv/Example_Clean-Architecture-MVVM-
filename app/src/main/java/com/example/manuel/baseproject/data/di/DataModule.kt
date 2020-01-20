@@ -35,7 +35,7 @@ val beersApiModule = module {
     single {
         BeersRepositoryImpl(
                 beersNetworkDataSource = get(),
-                favoritesCacheDataSourceFavorites = get(),
+                favoritesLocalDataSource = get(),
                 beersCacheDataSource = get()
         ) as BeersRepository
     }

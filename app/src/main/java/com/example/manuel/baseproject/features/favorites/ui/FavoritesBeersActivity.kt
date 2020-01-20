@@ -17,10 +17,10 @@ import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.features.beers.ui.mapper.BeerUIToFavoriteAdapterModelMapper
 import com.example.manuel.baseproject.features.beers.ui.mapper.FavoriteBeerAdapterModelToBeerUIMapper
 import com.example.manuel.baseproject.features.beers.vm.model.BeerUI
-import com.example.manuel.baseproject.features.detail.BUNDLE_BEER_DETAIL
-import com.example.manuel.baseproject.features.detail.BUNDLE_TRANSITION_OPTIONS
-import com.example.manuel.baseproject.features.detail.BeerDetailActivity
-import com.example.manuel.baseproject.features.detail.model.BeerDetailUI
+import com.example.manuel.baseproject.features.detail.ui.BUNDLE_BEER_DETAIL
+import com.example.manuel.baseproject.features.detail.ui.BUNDLE_TRANSITION_OPTIONS
+import com.example.manuel.baseproject.features.detail.ui.BeerDetailActivity
+import com.example.manuel.baseproject.features.detail.ui.model.BeerDetailUI
 import com.example.manuel.baseproject.features.favorites.ui.adapterlist.FavoriteBeersAdapter
 import com.example.manuel.baseproject.features.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
 import com.example.manuel.baseproject.features.favorites.vm.FavoritesBeersViewModel

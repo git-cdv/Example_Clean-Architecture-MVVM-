@@ -1,4 +1,4 @@
-package com.example.manuel.baseproject.features.detail.model
+package com.example.manuel.baseproject.features.detail.ui.model
 
 import java.io.Serializable
 

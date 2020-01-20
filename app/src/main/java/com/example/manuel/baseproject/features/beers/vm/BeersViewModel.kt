@@ -18,7 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel(
+class BeersViewModel(
         private val getMealsByBeersUseCase: GetBeersUseCase,
         private val saveBeerUseCase: SaveBeerUseCase,
         private val removeBeerUseCase: RemoveBeerUseCase

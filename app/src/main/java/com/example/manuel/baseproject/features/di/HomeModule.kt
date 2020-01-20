@@ -6,7 +6,7 @@ import com.example.manuel.baseproject.features.beers.domain.usecase.RemoveBeerUs
 import com.example.manuel.baseproject.features.beers.domain.usecase.SaveBeerUseCase
 import com.example.manuel.baseproject.features.beers.ui.adapterlist.BeersAdapter
 import com.example.manuel.baseproject.features.beers.ui.adapterlist.model.BeerAdapterModel
-import com.example.manuel.baseproject.features.beers.vm.HomeViewModel
+import com.example.manuel.baseproject.features.beers.vm.BeersViewModel
 import com.example.manuel.baseproject.features.favorites.domain.GetFavoritesBeersUseCase
 import com.example.manuel.baseproject.features.favorites.ui.adapterlist.FavoriteBeersAdapter
 import com.example.manuel.baseproject.features.favorites.ui.adapterlist.model.FavoriteBeerAdapterModel
@@ -20,7 +20,7 @@ val homeModule = module {
     factory { SaveBeerUseCase(beersRepository = get()) }
     factory { RemoveBeerUseCase(beersRepository = get()) }
     viewModel {
-        HomeViewModel(
+        BeersViewModel(
                 getMealsByBeersUseCase = get(),
                 saveBeerUseCase = get(),
                 removeBeerUseCase = get()
