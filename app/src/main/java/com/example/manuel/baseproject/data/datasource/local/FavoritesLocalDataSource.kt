@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
-class LocalDataSource(private val file: File, private val gson: Gson) {
+class FavoritesLocalDataSource(private val file: File, private val gson: Gson) {
 
     fun getItems(): List<BeerLocalModel> {
         val json = if (file.isFile) file.readText(Charsets.UTF_8) else ""

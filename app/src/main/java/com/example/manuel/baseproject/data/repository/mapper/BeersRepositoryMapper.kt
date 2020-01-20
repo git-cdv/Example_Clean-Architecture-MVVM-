@@ -55,3 +55,19 @@ object CacheToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
         )
     }
 }
+
+object ApiToLocalModelMapper : BaseMapper<List<BeerApi>, List<BeerLocalModel>> {
+    override fun map(type: List<BeerApi>?): List<BeerLocalModel> {
+        return type?.map {
+            BeerLocalModel(
+                    id = it.id ?: -1,
+                    name = it.name ?: "",
+                    tagline = it.tagline ?: "",
+                    image = it.image ?: "",
+                    abv = it.abv ?: 0.0,
+                    isFavorite = false,
+                    foodPairing = it.foodPairing ?: emptyList()
+            )
+        } ?: emptyList()
+    }
+}

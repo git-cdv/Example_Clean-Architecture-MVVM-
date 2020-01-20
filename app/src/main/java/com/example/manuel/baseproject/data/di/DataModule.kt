@@ -3,7 +3,8 @@ package com.example.manuel.baseproject.data.di
 import android.content.Context
 import com.example.manuel.baseproject.data.datasource.api.BeersNetworkDataSource
 import com.example.manuel.baseproject.data.datasource.api.retrofit.BeersApiService
-import com.example.manuel.baseproject.data.datasource.local.LocalDataSource
+import com.example.manuel.baseproject.data.datasource.cache.BeersCacheDataSource
+import com.example.manuel.baseproject.data.datasource.local.FavoritesLocalDataSource
 import com.example.manuel.baseproject.data.repository.BeersRepositoryImpl
 import com.example.manuel.baseproject.home.beers.domain.BeersRepository
 import com.google.gson.Gson
@@ -30,10 +31,12 @@ private fun provideRetrofitInstance(): Retrofit = Retrofit.Builder()
 val beersApiModule = module {
     factory { provideBeersApiService(retrofit = get()) }
     factory { BeersNetworkDataSource(beersApiService = get()) }
+    factory { BeersCacheDataSource() }
     single {
         BeersRepositoryImpl(
                 beersNetworkDataSource = get(),
-                favoritesCacheDataSource = get()
+                favoritesCacheDataSourceFavorites = get(),
+                beersCacheDataSource = get()
         ) as BeersRepository
     }
 }
@@ -43,7 +46,7 @@ private fun provideBeersApiService(retrofit: Retrofit): BeersApiService =
 
 val localDataSourceModule = module {
     factory {
-        LocalDataSource(
+        FavoritesLocalDataSource(
                 file = provideFavoritesBeersFile(context = get()),
                 gson = provideGson()
         )
