@@ -3,8 +3,8 @@ package com.example.manuel.baseproject.data.repository.mapper
 import com.example.manuel.baseproject.core.BaseMapper
 import com.example.manuel.baseproject.data.datasource.api.model.BeerApi
 import com.example.manuel.baseproject.data.datasource.local.model.BeerLocalModel
-import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
-import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
+import com.example.manuel.baseproject.features.beers.domain.model.BeerEntity
+import com.example.manuel.baseproject.features.beers.domain.model.BeersEntity
 
 object ApiToEntityMapper : BaseMapper<List<BeerApi>, BeersEntity> {
     override fun map(type: List<BeerApi>?): BeersEntity {
@@ -24,7 +24,7 @@ object ApiToEntityMapper : BaseMapper<List<BeerApi>, BeersEntity> {
     }
 }
 
-object EntityToCacheMapper : BaseMapper<BeerEntity, BeerLocalModel> {
+object EntityToLocalMapper : BaseMapper<BeerEntity, BeerLocalModel> {
     override fun map(type: BeerEntity?): BeerLocalModel {
         return BeerLocalModel(
                 id = type!!.id,
@@ -38,7 +38,7 @@ object EntityToCacheMapper : BaseMapper<BeerEntity, BeerLocalModel> {
     }
 }
 
-object CacheToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
+object LocalToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
     override fun map(type: List<BeerLocalModel>?): BeersEntity {
         return BeersEntity(
                 beers = type?.map {
@@ -53,5 +53,21 @@ object CacheToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
                     )
                 } ?: listOf()
         )
+    }
+}
+
+object ApiToLocalModelMapper : BaseMapper<List<BeerApi>, List<BeerLocalModel>> {
+    override fun map(type: List<BeerApi>?): List<BeerLocalModel> {
+        return type?.map {
+            BeerLocalModel(
+                    id = it.id ?: -1,
+                    name = it.name ?: "",
+                    tagline = it.tagline ?: "",
+                    image = it.image ?: "",
+                    abv = it.abv ?: 0.0,
+                    isFavorite = false,
+                    foodPairing = it.foodPairing ?: emptyList()
+            )
+        } ?: emptyList()
     }
 }

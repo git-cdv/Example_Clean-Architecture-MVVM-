@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.manuel.baseproject.data.di.retrofitModule
 import com.example.manuel.baseproject.data.di.beersApiModule
 import com.example.manuel.baseproject.data.di.localDataSourceModule
-import com.example.manuel.baseproject.home.di.homeModule
+import com.example.manuel.baseproject.features.di.homeModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

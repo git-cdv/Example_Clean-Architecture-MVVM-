@@ -6,23 +6,30 @@ import com.example.manuel.baseproject.data.datasource.api.BeersNetworkDataSource
 import com.example.manuel.baseproject.data.datasource.api.MAX_RESULTS_PER_PAGE
 import com.example.manuel.baseproject.data.datasource.api.exceptions.BadRequestException
 import com.example.manuel.baseproject.data.datasource.api.model.BeerApi
-import com.example.manuel.baseproject.data.datasource.local.LocalDataSource
+import com.example.manuel.baseproject.data.datasource.cache.BeersCacheDataSource
+import com.example.manuel.baseproject.data.datasource.local.FavoritesLocalDataSource
+import com.example.manuel.baseproject.data.datasource.local.model.BeerLocalModel
 import com.example.manuel.baseproject.data.repository.mapper.ApiToEntityMapper
-import com.example.manuel.baseproject.data.repository.mapper.CacheToEntityMapper
-import com.example.manuel.baseproject.data.repository.mapper.EntityToCacheMapper
-import com.example.manuel.baseproject.home.beers.domain.BeersRepository
-import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
-import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
+import com.example.manuel.baseproject.data.repository.mapper.ApiToLocalModelMapper
+import com.example.manuel.baseproject.data.repository.mapper.LocalToEntityMapper
+import com.example.manuel.baseproject.data.repository.mapper.EntityToLocalMapper
+import com.example.manuel.baseproject.features.beers.domain.BeersRepository
+import com.example.manuel.baseproject.features.beers.domain.model.BeerEntity
+import com.example.manuel.baseproject.features.beers.domain.model.BeersEntity
 
 class BeersRepositoryImpl(
         private val beersNetworkDataSource: BeersNetworkDataSource,
-        private val favoritesCacheDataSource: LocalDataSource
+        private val favoritesLocalDataSource: FavoritesLocalDataSource,
+        private val beersCacheDataSource: BeersCacheDataSource
 ) : BeersRepository {
 
     override suspend fun getAllBeers(): Result<BeersEntity>? {
         var page = -1
         var result: Result<BeersEntity>?
         val mutableBeers: MutableList<BeerApi> = mutableListOf()
+
+        val allBeers: List<BeerLocalModel> = beersCacheDataSource.beers
+        if (allBeers.isNotEmpty()) return Result.success(LocalToEntityMapper.map(allBeers))
 
         do {
             page = getPageToCheckBeers(page, mutableBeers.isNotEmpty(), mutableBeers.size)
@@ -43,6 +50,7 @@ class BeersRepositoryImpl(
             }
         } while (result?.resultType != Result.error<Error>().resultType && page != -1)
 
+        if (result?.resultType == ResultType.SUCCESS) beersCacheDataSource.beers = ApiToLocalModelMapper.map(mutableBeers.toList())
 
         return result
     }
@@ -64,15 +72,15 @@ class BeersRepositoryImpl(
     }
 
     override fun saveBeer(beerEntity: BeerEntity): Boolean {
-        val beerCache = EntityToCacheMapper.map(beerEntity)
-        return favoritesCacheDataSource.saveItem(beerCache)
+        val beerCache = EntityToLocalMapper.map(beerEntity)
+        return favoritesLocalDataSource.saveItem(beerCache)
     }
 
     override fun removeBeer(id: Int): Boolean {
-        return favoritesCacheDataSource.removeItem(id)
+        return favoritesLocalDataSource.removeItem(id)
     }
 
     override fun getFavoriteBeers(): BeersEntity {
-        return CacheToEntityMapper.map(favoritesCacheDataSource.getItems())
+        return LocalToEntityMapper.map(favoritesLocalDataSource.getItems())
     }
 }
