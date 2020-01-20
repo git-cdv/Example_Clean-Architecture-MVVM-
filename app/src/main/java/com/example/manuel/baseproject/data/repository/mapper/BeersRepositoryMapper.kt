@@ -24,7 +24,7 @@ object ApiToEntityMapper : BaseMapper<List<BeerApi>, BeersEntity> {
     }
 }
 
-object EntityToCacheMapper : BaseMapper<BeerEntity, BeerLocalModel> {
+object EntityToLocalMapper : BaseMapper<BeerEntity, BeerLocalModel> {
     override fun map(type: BeerEntity?): BeerLocalModel {
         return BeerLocalModel(
                 id = type!!.id,
@@ -38,7 +38,7 @@ object EntityToCacheMapper : BaseMapper<BeerEntity, BeerLocalModel> {
     }
 }
 
-object CacheToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
+object LocalToEntityMapper : BaseMapper<List<BeerLocalModel>, BeersEntity> {
     override fun map(type: List<BeerLocalModel>?): BeersEntity {
         return BeersEntity(
                 beers = type?.map {
