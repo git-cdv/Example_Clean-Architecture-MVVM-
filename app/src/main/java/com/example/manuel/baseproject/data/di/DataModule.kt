@@ -6,7 +6,7 @@ import com.example.manuel.baseproject.data.datasource.api.retrofit.BeersApiServi
 import com.example.manuel.baseproject.data.datasource.cache.BeersCacheDataSource
 import com.example.manuel.baseproject.data.datasource.local.FavoritesLocalDataSource
 import com.example.manuel.baseproject.data.repository.BeersRepositoryImpl
-import com.example.manuel.baseproject.home.beers.domain.BeersRepository
+import com.example.manuel.baseproject.features.beers.domain.BeersRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

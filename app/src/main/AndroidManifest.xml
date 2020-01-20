@@ -17,7 +17,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".home.beers.ui.HomeActivity"
+            android:name=".features.beers.ui.HomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +26,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home.favorites.ui.FavoritesBeersActivity"
+            android:name=".features.favorites.ui.FavoritesBeersActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.detail.BeerDetailActivity"
+            android:name=".features.detail.BeerDetailActivity"
             android:screenOrientation="portrait" />
     </application>
 

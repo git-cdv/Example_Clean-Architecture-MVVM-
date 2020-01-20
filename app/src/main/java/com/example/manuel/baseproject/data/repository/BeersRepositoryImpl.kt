@@ -13,9 +13,9 @@ import com.example.manuel.baseproject.data.repository.mapper.ApiToEntityMapper
 import com.example.manuel.baseproject.data.repository.mapper.ApiToLocalModelMapper
 import com.example.manuel.baseproject.data.repository.mapper.CacheToEntityMapper
 import com.example.manuel.baseproject.data.repository.mapper.EntityToCacheMapper
-import com.example.manuel.baseproject.home.beers.domain.BeersRepository
-import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
-import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
+import com.example.manuel.baseproject.features.beers.domain.BeersRepository
+import com.example.manuel.baseproject.features.beers.domain.model.BeerEntity
+import com.example.manuel.baseproject.features.beers.domain.model.BeersEntity
 
 class BeersRepositoryImpl(
         private val beersNetworkDataSource: BeersNetworkDataSource,

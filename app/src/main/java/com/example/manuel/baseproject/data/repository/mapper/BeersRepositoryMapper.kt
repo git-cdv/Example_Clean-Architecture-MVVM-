@@ -3,8 +3,8 @@ package com.example.manuel.baseproject.data.repository.mapper
 import com.example.manuel.baseproject.core.BaseMapper
 import com.example.manuel.baseproject.data.datasource.api.model.BeerApi
 import com.example.manuel.baseproject.data.datasource.local.model.BeerLocalModel
-import com.example.manuel.baseproject.home.beers.domain.model.BeerEntity
-import com.example.manuel.baseproject.home.beers.domain.model.BeersEntity
+import com.example.manuel.baseproject.features.beers.domain.model.BeerEntity
+import com.example.manuel.baseproject.features.beers.domain.model.BeersEntity
 
 object ApiToEntityMapper : BaseMapper<List<BeerApi>, BeersEntity> {
     override fun map(type: List<BeerApi>?): BeersEntity {

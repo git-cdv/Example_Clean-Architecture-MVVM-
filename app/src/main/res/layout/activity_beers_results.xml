@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    tools:context=".home.beers.ui.HomeActivity">
+    tools:context=".features.beers.ui.HomeActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_beers"
