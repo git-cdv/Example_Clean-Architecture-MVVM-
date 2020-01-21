@@ -36,7 +36,7 @@ class FavoriteBeersAdapter(
     }
 
     private fun setFavoriteIconListener(viewHolder: FavoriteViewHolder) {
-        viewHolder.itemView.item_list_beer_favorite_button.setOnClickListener {
+        viewHolder.itemView.item_list_beer_favorite_layer.setOnClickListener {
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 favoriteBeerItemListener.invoke(beers[position])

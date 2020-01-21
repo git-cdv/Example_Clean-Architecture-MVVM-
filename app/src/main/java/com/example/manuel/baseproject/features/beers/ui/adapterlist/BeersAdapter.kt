@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.features.beers.ui.adapterlist.model.BeerAdapterModel
 import com.example.manuel.baseproject.view.extensions.inflate
+import kotlinx.android.synthetic.main.item_list_beer.view.*
 
 class BeersAdapter(
         private val favoriteBeerListener: (BeerAdapterModel) -> Unit,
@@ -33,13 +34,13 @@ class BeersAdapter(
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                beerDetailListener.invoke(beers[position], viewHolder.beerImageView)
+                beerDetailListener.invoke(beers[position], viewHolder.itemView.item_list_beer_image)
             }
         }
     }
 
     private fun setFavoriteBeerListener(viewHolder: ViewHolder) {
-        viewHolder.favoriteImageView.setOnClickListener {
+        viewHolder.itemView.item_list_beer_favorite_layer.setOnClickListener {
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 val beer = beers[position].apply {
