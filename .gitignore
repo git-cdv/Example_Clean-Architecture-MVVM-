@@ -9,3 +9,4 @@
 /captures
 .externalNativeBuild
 /.idea/codeStyles/Project.xml
+/.buildSrc.jar
