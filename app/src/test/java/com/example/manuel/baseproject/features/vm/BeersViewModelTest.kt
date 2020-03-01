@@ -8,24 +8,20 @@ import com.example.manuel.baseproject.features.beers.domain.usecase.RemoveBeerUs
 import com.example.manuel.baseproject.features.beers.domain.usecase.SaveBeerUseCase
 import com.example.manuel.baseproject.features.beers.vm.BeersViewModel
 import com.example.manuel.baseproject.features.domain.utils.DomainBeersGenerator
-import com.nhaarman.mockitokotlin2.given
-import com.nhaarman.mockitokotlin2.mock
-import kotlinx.coroutines.*
+import io.mockk.coEvery
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.*
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
-import java.lang.Exception
-
-private const val EXPECTED_IS_LOADING_TRUE = true
-private const val EXPECTED_IS_LOADING_FALSE = false
+import org.junit.Assert
+import org.junit.Rule
+import org.junit.Test
 
 /**
  *  https://codelabs.developers.google.com/codelabs/android-testing/#7
  * */
-// TODO Check the tests because project has been changed
+
+// TODO Refactor checking the list values and specifying the expectedResult and realResult
 @ExperimentalCoroutinesApi
-@RunWith(JUnit4::class)
 class BeersViewModelTest {
 
     @Rule
@@ -36,60 +32,87 @@ class BeersViewModelTest {
     @JvmField
     val mainCoroutineRule = MainCoroutineRule()
 
-    private var mockGetBeersUseCase: GetBeersUseCase = mock()
-    private var mockSaveBeersUseCase: SaveBeerUseCase = mock()
-    private var mockRemoveBeerUseCase: RemoveBeerUseCase = mock()
+    private var mockGetBeersUseCase: GetBeersUseCase = mockk()
+    private var mockSaveBeersUseCase: SaveBeerUseCase = mockk()
+    private var mockRemoveBeerUseCase: RemoveBeerUseCase = mockk()
     private lateinit var viewModel: BeersViewModel
 
     @Test
     fun verifyBeersLiveDataIsNotEmptyWhenResultIsSuccess() {
         mainCoroutineRule.runBlockingTest {
-            givenSuccessResult()
-            whenViewModelHandleLoadBeers()
-            thenAssertLiveData(beersExpected = true)
+            // given
+            coEvery { mockGetBeersUseCase.execute() } returns Result.success(DomainBeersGenerator.getSortedBeers())
+
+            // when
+            viewModel = BeersViewModel(
+                    getMealsByBeersUseCase = mockGetBeersUseCase,
+                    saveBeerUseCase = mockSaveBeersUseCase,
+                    removeBeerUseCase = mockRemoveBeerUseCase
+            )
+            // then
+            Assert.assertEquals(true, viewModel.beersLiveData.getOrAwaitValue().isNotEmpty())
         }
     }
 
     @Test
     fun verifyAreEmptyBeersLiveDataIsTrueWhenResultIsSuccess() {
         mainCoroutineRule.runBlockingTest {
-            givenSuccessResult(areNecessaryEmptyBeers = true)
-            whenViewModelHandleLoadBeers()
-            thenAssertLiveData(areEmptyBeersExpected = true)
+            // given
+            coEvery { mockGetBeersUseCase.execute() } returns Result.success(BeersEntity(listOf()))
+
+            // when
+            viewModel = BeersViewModel(
+                    getMealsByBeersUseCase = mockGetBeersUseCase,
+                    saveBeerUseCase = mockSaveBeersUseCase,
+                    removeBeerUseCase = mockRemoveBeerUseCase
+            )
+
+            // then
+            Assert.assertEquals(true, viewModel.areEmptyBeersLiveData.getOrAwaitValue())
         }
     }
 
     @Test
     fun verifyIsErrorLiveDataIsTrueWhenResultIsError() {
         mainCoroutineRule.runBlockingTest {
-            givenErrorResult()
+            // given
+            coEvery { mockGetBeersUseCase.execute() } returns Result.error(Exception())
 
+            // when
             mainCoroutineRule.pauseDispatcher()
-            whenViewModelHandleLoadBeers()
+            viewModel = BeersViewModel(
+                    getMealsByBeersUseCase = mockGetBeersUseCase,
+                    saveBeerUseCase = mockSaveBeersUseCase,
+                    removeBeerUseCase = mockRemoveBeerUseCase
+            )
             mainCoroutineRule.resumeDispatcher()
 
-            thenAssertLiveData(isErrorExpected = true)
+            // then
+            Assert.assertEquals(true, viewModel.isErrorLiveData.getOrAwaitValue())
         }
     }
 
     @Test
     fun verifyIsLoadingLiveDataWhenResultIsSuccess() {
         mainCoroutineRule.runBlockingTest {
-            givenSuccessResult()
-            assertIsLoadingLiveDataTrueWhenViewModelFetchData()
-            assertIsLoadingLiveData(EXPECTED_IS_LOADING_FALSE)
-        }
-    }
+            // given
+            coEvery { mockGetBeersUseCase.execute() } returns Result.success(DomainBeersGenerator.getSortedBeers())
 
-    private fun givenSuccessResult(areNecessaryEmptyBeers: Boolean = false) {
-        runBlockingTest {
-            val result: Result<BeersEntity> = if (areNecessaryEmptyBeers) {
-                Result.success(BeersEntity(listOf()))
-            } else {
-                Result.success(DomainBeersGenerator.getSortedBeers())
-            }
+            // when
+            mainCoroutineRule.pauseDispatcher()
 
-            given(mockGetBeersUseCase.execute()).willReturn(result)
+            viewModel = BeersViewModel(
+                    getMealsByBeersUseCase = mockGetBeersUseCase,
+                    saveBeerUseCase = mockSaveBeersUseCase,
+                    removeBeerUseCase = mockRemoveBeerUseCase
+            )
+
+            Assert.assertEquals(true, viewModel.isLoadingLiveData.getOrAwaitValue())
+
+            mainCoroutineRule.resumeDispatcher()
+
+            // then
+            Assert.assertEquals(false, viewModel.isLoadingLiveData.getOrAwaitValue())
         }
     }
 
@@ -101,42 +124,20 @@ class BeersViewModelTest {
         )
     }
 
-    private fun thenAssertLiveData(
-            beersExpected: Boolean? = null,
-            isErrorExpected: Boolean? = null,
-            areEmptyBeersExpected: Boolean? = null
-    ) {
-        Assert.assertEquals(beersExpected, viewModel.beersLiveData.value?.isNotEmpty())
-        Assert.assertEquals(isErrorExpected, viewModel.isErrorLiveData.value)
-        Assert.assertEquals(areEmptyBeersExpected, viewModel.areEmptyBeersLiveData.value)
-        Assert.assertEquals(EXPECTED_IS_LOADING_FALSE, viewModel.isLoadingLiveData.value)
-    }
-
     @Test
     fun verifyIsLoadingLiveDataWhenResultIsError() {
         mainCoroutineRule.runBlockingTest {
-            givenErrorResult()
-            assertIsLoadingLiveDataTrueWhenViewModelFetchData()
-            assertIsLoadingLiveData(EXPECTED_IS_LOADING_FALSE)
+            // given
+            coEvery { mockGetBeersUseCase.execute() } returns Result.error(Exception())
+
+            // when
+            mainCoroutineRule.pauseDispatcher()
+            whenViewModelHandleLoadBeers()
+            Assert.assertEquals(true, viewModel.isLoadingLiveData.getOrAwaitValue())
+            mainCoroutineRule.resumeDispatcher()
+
+            // then
+            Assert.assertEquals(false, viewModel.isLoadingLiveData.getOrAwaitValue())
         }
-    }
-
-    private fun givenErrorResult() {
-        runBlockingTest {
-            val result: Result<BeersEntity> = Result.error(Exception())
-            given(mockGetBeersUseCase.execute()).willReturn(result)
-        }
-    }
-
-    private fun assertIsLoadingLiveDataTrueWhenViewModelFetchData() {
-        mainCoroutineRule.pauseDispatcher()
-        whenViewModelHandleLoadBeers()
-        assertIsLoadingLiveData(EXPECTED_IS_LOADING_TRUE)
-        mainCoroutineRule.resumeDispatcher()
-    }
-
-    private fun assertIsLoadingLiveData(expectedResult: Boolean) {
-        val realResult = viewModel.isLoadingLiveData.value
-        Assert.assertEquals(expectedResult, realResult)
     }
 }

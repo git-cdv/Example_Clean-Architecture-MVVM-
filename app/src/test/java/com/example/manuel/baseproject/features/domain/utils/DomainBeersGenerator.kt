@@ -2,6 +2,8 @@ package com.example.manuel.baseproject.features.domain.utils
 
 import com.example.manuel.baseproject.features.beers.domain.model.BeerEntity
 import com.example.manuel.baseproject.features.beers.domain.model.BeersEntity
+import com.example.manuel.baseproject.features.beers.vm.model.AbvColorType
+import com.example.manuel.baseproject.features.beers.vm.model.BeerUI
 
 object DomainBeersGenerator {
 
