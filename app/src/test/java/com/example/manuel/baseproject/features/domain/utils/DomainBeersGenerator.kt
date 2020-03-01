@@ -13,35 +13,40 @@ object DomainBeersGenerator {
                                 "BeerNameOne",
                                 "BeerTaglineOne",
                                 "urlImageOne",
-                                87.0
+                                87.0,
+                                foodPairing = listOf("pork, beef")
                         ),
                         BeerEntity(
                                 2,
                                 "BeerNameTwo",
                                 "BeerTaglineTwo",
                                 "urlImageTwo",
-                                5.0
+                                5.0,
+                                foodPairing = emptyList()
                         ),
                         BeerEntity(
                                 3,
                                 "BeerNameThree",
                                 "BeerTaglineThree",
                                 "urlImageThree",
-                                2.0
+                                2.0,
+                                foodPairing = listOf("chicken")
                         ),
                         BeerEntity(
                                 4,
                                 "BeerNameFour",
                                 "BeerTaglineFour",
                                 "urlImageFour",
-                                63.0
+                                63.0,
+                                foodPairing = listOf("pork, beef, chicken")
                         ),
                         BeerEntity(
                                 5,
                                 "BeerNameFive",
                                 "BeerTaglineFive",
                                 "urlImageFive",
-                                18.0
+                                18.0,
+                                foodPairing = listOf("pork")
                         )
                 )
         )
@@ -55,35 +60,41 @@ object DomainBeersGenerator {
                                 "BeerNameThree",
                                 "BeerTaglineThree",
                                 "urlImageThree",
-                                2.0
+                                2.0,
+                                foodPairing = listOf("chicken")
                         ),
                         BeerEntity(
                                 2,
                                 "BeerNameTwo",
                                 "BeerTaglineTwo",
                                 "urlImageTwo",
-                                5.0
+                                5.0,
+                                foodPairing = emptyList()
                         ),
                         BeerEntity(
                                 5,
                                 "BeerNameFive",
                                 "BeerTaglineFive",
                                 "urlImageFive",
-                                18.0
+                                18.0,
+                                foodPairing = listOf("pork")
                         ),
                         BeerEntity(
                                 4,
                                 "BeerNameFour",
                                 "BeerTaglineFour",
                                 "urlImageFour",
-                                63.0
+                                63.0,
+                                foodPairing = listOf("pork, beef, chicken")
+
                         ),
                         BeerEntity(
                                 1,
                                 "BeerNameOne",
                                 "BeerTaglineOne",
                                 "urlImageOne",
-                                87.0
+                                87.0,
+                                foodPairing = listOf("pork, beef")
                         )
                 )
         )

@@ -38,6 +38,7 @@ class GetBeersUseCaseTest {
         runBlocking {
             val result = Result.success(BeersEntity(listOf()))
             given(mockBeersRepository.getAllBeers()).willReturn(result)
+            given(mockBeersRepository.getFavoriteBeers()).willReturn(BeersEntity(emptyList()))
 
             val expectedResult = Result.success(BeersEntity(listOf()))
             val realResult = getBeersUseCase.execute()
@@ -51,6 +52,7 @@ class GetBeersUseCaseTest {
         runBlocking {
             val result = Result.success(DomainBeersGenerator.getUnsortedBeers())
             given(mockBeersRepository.getAllBeers()).willReturn(result)
+            given(mockBeersRepository.getFavoriteBeers()).willReturn(BeersEntity(emptyList()))
 
             val expectedResultBeers = Result.success(DomainBeersGenerator.getSortedBeers()).data
             val realResultBeers = getBeersUseCase.execute().data
@@ -69,6 +71,8 @@ class GetBeersUseCaseTest {
         runBlocking {
             given(mockBeersRepository.getAllBeers())
                     .willReturn(Result.success(BeersEntity(listOf())))
+
+            given(mockBeersRepository.getFavoriteBeers()).willReturn(BeersEntity(emptyList()))
 
             getBeersUseCase.execute()
 

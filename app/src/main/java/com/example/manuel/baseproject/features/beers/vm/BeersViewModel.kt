@@ -13,10 +13,8 @@ import com.example.manuel.baseproject.features.beers.domain.usecase.SaveBeerUseC
 import com.example.manuel.baseproject.features.beers.vm.mapper.BeerUIToEntityMapper
 import com.example.manuel.baseproject.features.beers.vm.mapper.BeersEntityToUIMapper
 import com.example.manuel.baseproject.features.beers.vm.model.BeerUI
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class BeersViewModel(
         private val getMealsByBeersUseCase: GetBeersUseCase,
@@ -46,12 +44,10 @@ class BeersViewModel(
 
     fun handleBeersLoad() {
         isLoadingLiveData(true)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val beersEntityResult: Result<BeersEntity> = getMealsByBeersUseCase.execute()
 
-            withContext(Dispatchers.Main) {
-                updateAppropriateLiveData(beersEntityResult)
-            }
+            updateAppropriateLiveData(beersEntityResult)
         }
     }
 
@@ -96,7 +92,7 @@ class BeersViewModel(
     }
 
     fun handleFavoriteButton(beerUI: BeerUI) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             BeerUIToEntityMapper.map(beerUI).let {
                 if (it.isFavorite) saveBeerUseCase.execute(it).let { isBeerSaved ->
                     if (!isBeerSaved) {
