@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.features.detail.ui.model.BeerDetailUI
+import com.example.manuel.baseproject.view.extensions.dp
 import com.example.manuel.baseproject.view.extensions.loadImage
 import kotlinx.android.synthetic.main.activity_beers_detail.*
 
@@ -16,12 +17,17 @@ const val BUNDLE_TRANSITION_OPTIONS = "BUNDLE_TRANSITION_OPTIONS"
 
 class BeerDetailActivity : AppCompatActivity() {
 
+    companion object {
+        private const val ZERO_PX = 0
+        private const val EIGHT_PX = 8
+        private const val SIXTEEN_PX = 16
+    }
+
     private lateinit var beerDetailUI: BeerDetailUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beers_detail)
-
 
         beerDetailUI = intent!!.extras!!.getSerializable(BUNDLE_BEER_DETAIL) as BeerDetailUI
         populateViews()
@@ -47,8 +53,8 @@ class BeerDetailActivity : AppCompatActivity() {
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         )
-                textSize = 16f
-                setPadding(0,8,0,16)
+                textSize = EIGHT_PX.toFloat()
+                setPadding(ZERO_PX.dp, EIGHT_PX.dp, ZERO_PX, SIXTEEN_PX.dp)
             }
             textViews.add(textView)
         }

@@ -1,5 +1,6 @@
 package com.example.manuel.baseproject.view.extensions
 
+import android.content.res.Resources
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -32,3 +33,6 @@ fun View.applyBackgroundColor(color: Int) {
 fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(this.context).inflate(layoutId, this, attachToRoot)
 }
+
+val Int.dp: Int
+    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
