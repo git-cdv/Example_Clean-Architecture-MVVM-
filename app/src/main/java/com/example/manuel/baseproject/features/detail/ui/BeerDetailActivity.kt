@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_beers_detail.*
 const val BUNDLE_BEER_DETAIL = "BUNDLE_BEER_DETAIL"
 const val BUNDLE_TRANSITION_OPTIONS = "BUNDLE_TRANSITION_OPTIONS"
 
+// TODO Share the viewmodel and avoid the bundle
 class BeerDetailActivity : AppCompatActivity() {
 
     companion object {
