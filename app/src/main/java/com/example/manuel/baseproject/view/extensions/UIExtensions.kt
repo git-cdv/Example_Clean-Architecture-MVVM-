@@ -34,5 +34,5 @@ fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(this.context).inflate(layoutId, this, attachToRoot)
 }
 
-val Int.dp: Int
+val Int.toDp: Int
     get() = (this / Resources.getSystem().displayMetrics.density).toInt()

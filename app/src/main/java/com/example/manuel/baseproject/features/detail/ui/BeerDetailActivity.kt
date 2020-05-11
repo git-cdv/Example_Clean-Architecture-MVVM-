@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.manuel.baseproject.R
 import com.example.manuel.baseproject.features.detail.ui.model.BeerDetailUI
-import com.example.manuel.baseproject.view.extensions.dp
+import com.example.manuel.baseproject.view.extensions.toDp
 import com.example.manuel.baseproject.view.extensions.loadImage
 import kotlinx.android.synthetic.main.activity_beers_detail.*
 
@@ -54,7 +54,7 @@ class BeerDetailActivity : AppCompatActivity() {
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         )
                 textSize = EIGHT_PX.toFloat()
-                setPadding(ZERO_PX.dp, EIGHT_PX.dp, ZERO_PX, SIXTEEN_PX.dp)
+                setPadding(ZERO_PX.toDp, EIGHT_PX.toDp, ZERO_PX, SIXTEEN_PX.toDp)
             }
             textViews.add(textView)
         }
